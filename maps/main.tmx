@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="100" height="30" tilewidth="70" tileheight="35">
+ <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
+  <image source="../../assets/platformerBricks_Kenney/sheet.png" width="1680" height="840"/>
+  <tile id="168">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="169">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="170">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="Camada de Tiles 1" width="100" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt18EJgDAQBED7f6pVqFWohZkGQk6EI4YZ2K+EW7jEaYqZS5ZK1uA3aIvOeSvZKzkSzzu66JzPkquSO/G8ozNn4C+8m/oSuc91lidyn7c601euVmf66svXvsjlH+c9O6Uvdkpf7BQAAAAAAGAUD5JCcDk=
+  </data>
+ </layer>
+ <layer name="Camade de Tiles 2" width="100" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20MH6AAAAAAAAAAAAAAAOBvLuAAAQ==
+  </data>
+ </layer>
+ <objectgroup name="Camada de Objectos 1" width="100" height="30">
+  <object name="spawn" gid="498" x="140" y="70"/>
+ </objectgroup>
+</map>
