@@ -4,7 +4,7 @@ from vector import Vec2d as Vector
 
 class Block(pygame.sprite.Sprite):
 
-	def __init__(self, x, y, objMap, img, *groups):
+	def __init__(self, x, y, objMap, img, layers, *groups):
 		super(Block, self).__init__(*groups)
 
 		self.image = img
@@ -17,7 +17,7 @@ class Block(pygame.sprite.Sprite):
 
 		self.position = self.rect.copy()
 
-		self.prop = objMap.getTileProperties((x, y, 0)) or {}
+		self.prop = objMap.getTileProperties((x, y, len(layers) - 1)) or {}
 
 	def update(self, dt, offset):
 		self.rect.x = self.x + offset.x

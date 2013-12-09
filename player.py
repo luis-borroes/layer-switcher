@@ -16,7 +16,8 @@ class Player(pygame.sprite.Sprite):
 		self.acceleration = Vector(0, 0)
 		self.resting = False
 		self.jumping = False
-		self.layer = 1
+		self.layer = 0
+		self.lastLayer = self.layer
 
 		objects = self.map.getObjects()
 		for obj in objects:
@@ -26,44 +27,46 @@ class Player(pygame.sprite.Sprite):
 
 	def update(self, dt, game):
 		last = self.position.copy()
-
+		
 		keys = pygame.key.get_pressed()
 
 		if keys[pygame.K_a]:
-			self.acceleration.x = self.__approach__(self.acceleration.x, -400, 20)
+			self.acceleration.x = self._approach_(dt, self.acceleration.x, -400, 20)
 		if keys[pygame.K_d]:
-			self.acceleration.x = self.__approach__(self.acceleration.x, 400, 20)
+			self.acceleration.x = self._approach_(dt, self.acceleration.x, 400, 20)
 
 		if keys[pygame.K_SPACE]:
 			if self.resting:
 				self.jumping = True
-				self.acceleration.y = -200
+				self.acceleration.y = -800
 			elif self.jumping:
-				self.acceleration.y = self.__approach__(self.acceleration.y, -400, 20)
-				if self.acceleration.y == -400:
+				self.acceleration.y = self._approach_(dt, self.acceleration.y, -350, 1)
+				if self.acceleration.y == -350:
 					self.jumping = False
 		else:
 			self.jumping = False
 
 		if not self.resting:
-			self.acceleration.y = self.__approach__(self.acceleration.y, 300, 10)
+			self.acceleration.y = self._approach_(dt, self.acceleration.y, 400, 20)
 		else:
-			self.acceleration.x = self.__approach__(self.acceleration.x, 0, 50)
+			self.acceleration.x = self._approach_(dt, self.acceleration.x, 0, 50)
 
 		self.position.x += self.acceleration.x * dt
 		self.position.y += self.acceleration.y * dt
 
 		self.resting = False
 
-		for block in game.map.layers[self.layer - 1]:
+		for block in game.map.layers[self.layer]:
 			if self.position.colliderect(block.position):
 				cell = block.position
 
 				if "l" in block.prop and self.position.right > cell.left and last.right <= cell.left:
 					self.position.right = cell.left
+					self.acceleration.x = 0
 
 				if "r" in block.prop and self.position.left < cell.right and last.left >= cell.right:
 					self.position.left = cell.right
+					self.acceleration.x = 0
 
 				if "u" in block.prop and self.position.bottom > cell.top and last.bottom <= cell.top:
 					self.position.bottom = cell.top
@@ -74,9 +77,11 @@ class Player(pygame.sprite.Sprite):
 					self.position.top = cell.bottom
 					self.acceleration.y = 0
 
-	def __approach__(self, num, target, step):
+		self.lastLayer = self.layer
+
+	def _approach_(self, dt, num, target, step):
 		if num > target:
-			return max(num - step, target)
+			return max(num - step * dt * 100, target)
 		elif num < target:
-			return min(num + step, target)
+			return min(num + step * dt * 100, target)
 		return num
