@@ -19,6 +19,7 @@ class Block(pygame.sprite.Sprite):
 
 		self.prop = objMap.getTileProperties((x, y, len(layers) - 1)) or {}
 
-	def update(self, dt, offset):
+	def update(self, dt, offset, layerOffset):
 		self.rect.x = self.x + offset.x
 		self.rect.y = self.y + offset.y
+		self.position.y = self.y - layerOffset

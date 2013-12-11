@@ -9,14 +9,15 @@ class Game(object):
 
 		self.pSprites = pygame.sprite.Group()
 		self.player = player.Player(self.map, self.pSprites)
-		self.offset = vector.Vec2d(self.player.rect.x - self.player.position.x, self.player.rect.y - self.player.position.y)
+		self.layerOffset = 0
+		self.offset = vector.Vec2d(self.player.screenPos.x - self.player.position.x, self.player.screenPos.y - self.player.position.y - self.layerOffset)
 
 		while self.blnRunning:
 			dt = objClock.tick(fps)
 			pygame.display.set_caption("pyg %.2f FPS" % (objClock.get_fps()), "pyg")
 
-			if dt/1000. > 1/fps:
-				dt = 1/fps * 1000
+			if dt > (1 / fps * 1000) + 10:
+				dt = (1 / fps * 1000) + 10
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -30,19 +31,21 @@ class Game(object):
 
 					elif event.key == pygame.K_w:
 						self.player.layer = max(0, self.player.layer - 1)
+						self.player.layerChanging = True
 
 					elif event.key == pygame.K_s:
-						self.player.layer = min(len(self.map.layers) - 1, self.player.layer + 1)	
+						self.player.layer = min(len(self.map.layers) - 1, self.player.layer + 1)
+						self.player.layerChanging = True
 
 			objScreen.fill((82, 246, 255))
 
 			if not self.paused:
 				self.pSprites.update(dt / 1000., self)
 
-				self.viewport(self.player.position.x, self.player.position.y)
+				self.viewport(dt / 1000., self.player.position.x, self.player.position.y)
 
 				for layer in self.map.layers:
-					layer.update(dt / 1000., self.offset)
+					layer.update(dt / 1000., self.offset, self.layerOffset)
 					layer.draw(objScreen)
 			else:
 				for layer in self.map.layers:
@@ -52,8 +55,14 @@ class Game(object):
 
 			pygame.display.flip()
 
-	def viewport(self, x, y):
-		self.offset = vector.Vec2d(self.player.rect.x - x, self.player.rect.y - y)
+	def viewport(self, dt, x, y):
+		if self.player.layerChanging:
+			oldOff = self.layerOffset
+			self.layerOffset = self.player._approach_(dt, self.layerOffset, 70 * self.player.layer, 10)
+			if self.layerOffset == oldOff:
+				self.player.layerChanging = False
+
+		self.offset = vector.Vec2d(self.player.screenPos.x - x, self.player.screenPos.y - y - self.layerOffset)
 
 	def leave(self):
 		self.blnRunning = False

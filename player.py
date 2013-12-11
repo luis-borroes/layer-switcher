@@ -9,21 +9,26 @@ class Player(pygame.sprite.Sprite):
 
 		self.map = objMap.map
 
+		self.screenPos = Vector(360, 300)
+
 		self.image = pygame.image.load('assets/player.png')
-		self.rect = pygame.rect.Rect((360, 300), self.image.get_size())
+		self.rect = pygame.rect.Rect((self.screenPos.x, self.screenPos.y), self.image.get_size())
 
 		self.position = pygame.rect.Rect((0, 0), self.image.get_size())
 		self.acceleration = Vector(0, 0)
 		self.resting = False
 		self.jumping = False
 		self.layer = 0
-		self.lastLayer = self.layer
+		self.layerChanging = False
 
 		objects = self.map.getObjects()
 		for obj in objects:
 			if obj.name == "spawn":
 				self.position.x = obj.x - 25 + self.map.tilewidth / 2
 				self.position.y = obj.y - 15 - self.map.tileheight
+				if hasattr(obj, "layer"):
+					self.layer = int(obj.layer)
+					self.rect.y = 300 + 70 * self.layer
 
 	def update(self, dt, game):
 		last = self.position.copy()
@@ -56,6 +61,9 @@ class Player(pygame.sprite.Sprite):
 
 		self.resting = False
 
+		if self.layerChanging:
+			self.resting = True
+
 		for block in game.map.layers[self.layer]:
 			if self.position.colliderect(block.position):
 				cell = block.position
@@ -76,8 +84,6 @@ class Player(pygame.sprite.Sprite):
 				if "d" in block.prop and self.position.top < cell.bottom and last.top >= cell.bottom:
 					self.position.top = cell.bottom
 					self.acceleration.y = 0
-
-		self.lastLayer = self.layer
 
 	def _approach_(self, dt, num, target, step):
 		if num > target:

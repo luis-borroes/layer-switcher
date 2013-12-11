@@ -46,6 +46,10 @@
   </data>
  </layer>
  <objectgroup name="Camada de Objectos 1" width="100" height="30">
-  <object name="spawn" gid="498" x="140" y="70"/>
+  <object name="spawn" gid="498" x="140" y="70">
+   <properties>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
