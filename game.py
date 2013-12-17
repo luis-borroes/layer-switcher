@@ -1,23 +1,26 @@
-import pygame, player, mapc, vector
+import pygame, player, mapper, vector, viewport
 
 class Game(object):
-	def __init__(self, objScreen, objClock, fps):
+
+	def __init__(self, objScreen, objClock, fps, font):
 		self.blnRunning = True
 		self.paused = False
+		self.screen = objScreen
+		self.font = font
 
-		self.map = mapc.Map("maps/main.tmx")
+		self.map = mapper.Map("maps/1-1.tmx")
 
-		self.pSprites = pygame.sprite.Group()
-		self.player = player.Player(self.map, self.pSprites)
-		self.layerOffset = 0
-		self.offset = vector.Vec2d(self.player.screenPos.x - self.player.position.x, self.player.screenPos.y - self.player.position.y - self.layerOffset)
+		self.player = player.Player(self.map)
+		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
 
 		while self.blnRunning:
-			dt = objClock.tick(fps)
+			self.dt = objClock.tick(fps)
 			pygame.display.set_caption("pyg %.2f FPS" % (objClock.get_fps()), "pyg")
 
-			if dt > (1 / fps * 1000) + 10:
-				dt = (1 / fps * 1000) + 10
+			if self.dt > (1 / fps * 1000) + 10:
+				self.dt = (1 / fps * 1000) + 10
+		
+			oldLayer = self.player.layer
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -31,38 +34,29 @@ class Game(object):
 
 					elif event.key == pygame.K_w:
 						self.player.layer = max(0, self.player.layer - 1)
-						self.player.layerChanging = True
 
 					elif event.key == pygame.K_s:
 						self.player.layer = min(len(self.map.layers) - 1, self.player.layer + 1)
-						self.player.layerChanging = True
 
-			objScreen.fill((82, 246, 255))
+			if self.player.layer != oldLayer:
+				self.player.layerChanging = True
+				self.player.acceleration.y = 0
+
+			self.screen.fill((82, 246, 255))
 
 			if not self.paused:
-				self.pSprites.update(dt / 1000., self)
+				self.player.sprites.update(self.dt / 1000., self)
+				self.map.updateAll(self)
+				self.viewport.update(self, self.player.position.x + self.player.position.width / 2, self.player.position.y + self.player.position.height / 2)
 
-				self.viewport(dt / 1000., self.player.position.x, self.player.position.y)
-
-				for layer in self.map.layers:
-					layer.update(dt / 1000., self.offset, self.layerOffset)
-					layer.draw(objScreen)
-			else:
-				for layer in self.map.layers:
-					layer.draw(objScreen)
-
-			self.pSprites.draw(objScreen)
+			self.map.drawAll(self)
+			self.player.sprites.draw(self.screen)
 
 			pygame.display.flip()
 
-	def viewport(self, dt, x, y):
-		if self.player.layerChanging:
-			oldOff = self.layerOffset
-			self.layerOffset = self.player._approach_(dt, self.layerOffset, 70 * self.player.layer, 10)
-			if self.layerOffset == oldOff:
-				self.player.layerChanging = False
-
-		self.offset = vector.Vec2d(self.player.screenPos.x - x, self.player.screenPos.y - y - self.layerOffset)
+	def text(self, txt, x, y):
+		render = self.font.render(str(txt), 1, (0, 0, 0))
+		self.screen.blit(render, (x, y))
 
 	def leave(self):
 		self.blnRunning = False

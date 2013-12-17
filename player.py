@@ -1,18 +1,21 @@
 import pygame
 
 from vector import Vec2d as Vector
+from utils import Utils
+util = Utils()
 
 class Player(pygame.sprite.Sprite):
 
-	def __init__(self, objMap, *groups):
-		super(Player, self).__init__(*groups)
+	def __init__(self, objMap):
+		self.sprites = pygame.sprite.Group()
+		super(Player, self).__init__(self.sprites)
 
 		self.map = objMap.map
-
-		self.screenPos = Vector(360, 300)
-
 		self.image = pygame.image.load('assets/player.png')
-		self.rect = pygame.rect.Rect((self.screenPos.x, self.screenPos.y), self.image.get_size())
+		self.spawn()
+
+	def spawn(self):
+		self.rect = pygame.rect.Rect((0, 0), self.image.get_size())
 
 		self.position = pygame.rect.Rect((0, 0), self.image.get_size())
 		self.acceleration = Vector(0, 0)
@@ -20,15 +23,17 @@ class Player(pygame.sprite.Sprite):
 		self.jumping = False
 		self.layer = 0
 		self.layerChanging = False
+		self.oldAccel = 0
 
 		objects = self.map.getObjects()
 		for obj in objects:
 			if obj.name == "spawn":
-				self.position.x = obj.x - 25 + self.map.tilewidth / 2
-				self.position.y = obj.y - 15 - self.map.tileheight
+				self.position.x = obj.x + (self.map.tilewidth / 2 - self.rect.width / 2)
+				self.position.y = obj.y - (self.rect.height - self.map.tileheight)
 				if hasattr(obj, "layer"):
 					self.layer = int(obj.layer)
-					self.rect.y = 300 + 70 * self.layer
+
+		self.layerOffset = 70 * self.layer
 
 	def update(self, dt, game):
 		last = self.position.copy()
@@ -36,33 +41,44 @@ class Player(pygame.sprite.Sprite):
 		keys = pygame.key.get_pressed()
 
 		if keys[pygame.K_a]:
-			self.acceleration.x = self._approach_(dt, self.acceleration.x, -400, 20)
+			self.acceleration.x = util.approach(dt, self.acceleration.x, -400, 20)
 		if keys[pygame.K_d]:
-			self.acceleration.x = self._approach_(dt, self.acceleration.x, 400, 20)
+			self.acceleration.x = util.approach(dt, self.acceleration.x, 400, 20)
 
-		if keys[pygame.K_SPACE]:
+		if keys[pygame.K_SPACE] and not self.layerChanging:
 			if self.resting:
 				self.jumping = True
 				self.acceleration.y = -800
 			elif self.jumping:
-				self.acceleration.y = self._approach_(dt, self.acceleration.y, -350, 1)
+				self.acceleration.y = util.approach(dt, self.acceleration.y, -350, 1)
 				if self.acceleration.y == -350:
 					self.jumping = False
 		else:
 			self.jumping = False
 
 		if not self.resting:
-			self.acceleration.y = self._approach_(dt, self.acceleration.y, 400, 20)
+			self.acceleration.y = util.approach(dt, self.acceleration.y, 400, 20)
 		else:
-			self.acceleration.x = self._approach_(dt, self.acceleration.x, 0, 50)
+			self.acceleration.x = util.approach(dt, self.acceleration.x, 0, 50)
 
 		self.position.x += self.acceleration.x * dt
 		self.position.y += self.acceleration.y * dt
+
+		if self.position.x < 0:
+			self.position.x = 0
+			self.acceleration.x = 0
+		if self.position.y > game.map.height + 200:
+			self.spawn()
 
 		self.resting = False
 
 		if self.layerChanging:
 			self.resting = True
+			self.position.y += self.layerOffset - self.oldOff
+		else:
+			self.oldAccel = self.acceleration.y
+
+		self.oldOff = self.layerOffset
 
 		for block in game.map.layers[self.layer]:
 			if self.position.colliderect(block.position):
@@ -84,10 +100,3 @@ class Player(pygame.sprite.Sprite):
 				if "d" in block.prop and self.position.top < cell.bottom and last.top >= cell.bottom:
 					self.position.top = cell.bottom
 					self.acceleration.y = 0
-
-	def _approach_(self, dt, num, target, step):
-		if num > target:
-			return max(num - step * dt * 100, target)
-		elif num < target:
-			return min(num + step * dt * 100, target)
-		return num

@@ -42,7 +42,7 @@
  </layer>
  <layer name="Camade de Tiles 2" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt17EJgDAUBFD3L9Up1CnUjVzAVIJC0KTQBN+D645PINU1DbVpQ7pI+ox+6j3OhpAxkimjn3qPszlkiWS9dLcH/ZR75Nu+fgAHfwEAdbPvynK37/zXu+72nT1eFnscAAAAAADgv3Y8D1MC
+   eJzt100KQFAYBdC3/yFWgVVgRzbAQES9eJSfnFN3dvtSL4MbwnXVFO6RjckjKaZOldA/co+4Miz/wDb1iX7qPdaaMW0k3abbH+in3OO8/ukPYOYtAODb7Lt32dt33utee/vOHn8XexwAAAAAAOC/BpeHVQM=
   </data>
  </layer>
  <objectgroup name="Camada de Objectos 1" width="100" height="30">
