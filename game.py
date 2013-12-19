@@ -8,7 +8,7 @@ class Game(object):
 		self.screen = objScreen
 		self.font = font
 
-		self.map = mapper.Map("maps/1-1.tmx")
+		self.map = mapper.Mapper("maps/1-1.tmx")
 
 		self.player = player.Player(self.map)
 		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
@@ -19,8 +19,6 @@ class Game(object):
 
 			if self.dt > (1 / fps * 1000) + 10:
 				self.dt = (1 / fps * 1000) + 10
-		
-			oldLayer = self.player.layer
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -32,15 +30,14 @@ class Game(object):
 						self.leave()
 						return
 
-					elif event.key == pygame.K_w:
-						self.player.layer = max(0, self.player.layer - 1)
+					if event.key == pygame.K_w:
+						self.player.key_w = True
 
-					elif event.key == pygame.K_s:
-						self.player.layer = min(len(self.map.layers) - 1, self.player.layer + 1)
+					if event.key == pygame.K_s:
+						self.player.key_s = True
 
-			if self.player.layer != oldLayer:
-				self.player.layerChanging = True
-				self.player.acceleration.y = 0
+					if event.key == pygame.K_SPACE:
+						self.player.spaced = True
 
 			self.screen.fill((82, 246, 255))
 
@@ -54,7 +51,7 @@ class Game(object):
 
 			pygame.display.flip()
 
-	def text(self, txt, x, y):
+	def text(self, txt, x = 0, y = 0):
 		render = self.font.render(str(txt), 1, (0, 0, 0))
 		self.screen.blit(render, (x, y))
 
