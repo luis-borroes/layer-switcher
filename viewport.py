@@ -12,7 +12,7 @@ class Viewport(object):
 	def update(self, game, x, y):
 		vec = Vector(x - self.position.x, y - self.position.y) * 0.05
 		if vec.length < 0.05:
-			vec *= 10
+			vec = Vector(0, 0)
 		self.position += vec
 		self.rect = pygame.rect.Rect(self.position - (640, 360), (1280, 720))
 
