@@ -21,12 +21,15 @@ class Player(pygame.sprite.Sprite):
 		self.acceleration = Vector(0, 0)
 		self.resting = False
 		self.jumping = False
+		self.jumpTimer = 0
+		self.spaced = False
+		self.key_w = False
+		self.key_s = False
 		self.layer = 0
 		self.layerChanging = False
 		self.oldAccel = 0
 
-		objects = self.map.getObjects()
-		for obj in objects:
+		for obj in self.map.getObjects():
 			if obj.name == "spawn":
 				self.position.x = obj.x + (self.map.tilewidth / 2 - self.rect.width / 2)
 				self.position.y = obj.y - (self.rect.height - self.map.tileheight)
@@ -37,6 +40,36 @@ class Player(pygame.sprite.Sprite):
 
 	def update(self, dt, game):
 		last = self.position.copy()
+
+		if self.key_w:
+			self.key_w = False
+			if self.layer > 0:
+				walled = False
+				destination = self.position.copy()
+				destination.y -= 71
+				for block in game.map.layers[self.layer - 1]:
+					if block.collidable and util.collide(destination, block.position):
+						walled = True
+
+				if not walled:
+					self.layer -= 1
+					self.layerChanging = True
+					self.acceleration.y = 0
+
+		if self.key_s:
+			self.key_s = False
+			if self.layer < len(game.map.layers) - 1:
+				walled = False
+				destination = self.position.copy()
+				destination.y += 69
+				for block in game.map.layers[self.layer + 1]:
+					if block.collidable and util.collide(destination, block.position):
+						walled = True
+
+				if not walled:
+					self.layer += 1
+					self.layerChanging = True
+					self.acceleration.y = 0
 		
 		keys = pygame.key.get_pressed()
 
@@ -45,28 +78,39 @@ class Player(pygame.sprite.Sprite):
 		if keys[pygame.K_d]:
 			self.acceleration.x = util.approach(dt, self.acceleration.x, 400, 20)
 
-		if keys[pygame.K_SPACE] and not self.layerChanging:
-			if self.resting:
+		if self.spaced:
+			self.spaced = False
+
+			if not self.layerChanging and not self.jumping and self.resting:
 				self.jumping = True
-				self.acceleration.y = -800
-			elif self.jumping:
-				self.acceleration.y = util.approach(dt, self.acceleration.y, -350, 1)
-				if self.acceleration.y == -350:
-					self.jumping = False
-		else:
+				self.acceleration.y = -600
+				self.resting = False
+				self.spaced = False
+
+		if keys[pygame.K_SPACE] and self.jumping:
+			self.jumpTimer += 1
+			self.acceleration.y = util.approach(dt, self.acceleration.y, -600, 20)
+			if self.jumpTimer == 35:
+				self.jumping = False
+				self.jumpTimer = 0
+		elif self.jumping:
 			self.jumping = False
 
 		if not self.resting:
-			self.acceleration.y = util.approach(dt, self.acceleration.y, 400, 20)
-		else:
-			self.acceleration.x = util.approach(dt, self.acceleration.x, 0, 50)
+			self.acceleration.y = util.approach(dt, self.acceleration.y, 500, 20)
+		elif not self.layerChanging:
+			self.acceleration.x = util.approach(dt, self.acceleration.x, 0, 10)
 
-		self.position.x += self.acceleration.x * dt
-		self.position.y += self.acceleration.y * dt
+		self.position.x += int(round(self.acceleration.x * dt))
+		self.position.y += int(round(self.acceleration.y * dt))
 
 		if self.position.x < 0:
 			self.position.x = 0
 			self.acceleration.x = 0
+
+		if self.position.right > game.map.width:
+			self.position.right = game.map.width
+
 		if self.position.y > game.map.height + 200:
 			self.spawn()
 
@@ -74,6 +118,14 @@ class Player(pygame.sprite.Sprite):
 
 		if self.layerChanging:
 			self.resting = True
+			oldOff = self.layerOffset
+			self.layerOffset = util.approach(dt, self.layerOffset, 70 * self.layer, 5)
+
+			if self.layerOffset == oldOff:
+				self.layerChanging = False
+				self.resting = False
+				self.acceleration.y = self.oldAccel
+
 			self.position.y += self.layerOffset - self.oldOff
 		else:
 			self.oldAccel = self.acceleration.y
@@ -81,22 +133,30 @@ class Player(pygame.sprite.Sprite):
 		self.oldOff = self.layerOffset
 
 		for block in game.map.layers[self.layer]:
-			if self.position.colliderect(block.position):
+			if block.collidable and util.collide(self.position, block.position):
 				cell = block.position
 
-				if "l" in block.prop and self.position.right > cell.left and last.right <= cell.left:
+				siding = False
+
+				if "l" in block.prop and self.position.right >= cell.left and last.right <= cell.left:
 					self.position.right = cell.left
-					self.acceleration.x = 0
+					siding = True
+					if self.acceleration.x > 0:
+						self.acceleration.x = 0
 
-				if "r" in block.prop and self.position.left < cell.right and last.left >= cell.right:
+				if "r" in block.prop and self.position.left <= cell.right and last.left >= cell.right:
 					self.position.left = cell.right
-					self.acceleration.x = 0
+					siding = True
+					if self.acceleration.x < 0:
+						self.acceleration.x = 0
 
-				if "u" in block.prop and self.position.bottom > cell.top and last.bottom <= cell.top:
+				if "u" in block.prop and self.position.bottom >= cell.top and last.bottom <= cell.top and not siding:
 					self.position.bottom = cell.top
 					self.resting = True
-					self.acceleration.y = 0
+					if self.acceleration.y > 0:
+						self.acceleration.y = 0
 
-				if "d" in block.prop and self.position.top < cell.bottom and last.top >= cell.bottom:
+				if "d" in block.prop and self.position.top <= cell.bottom and last.top >= cell.bottom and not siding:
 					self.position.top = cell.bottom
-					self.acceleration.y = 0
+					if self.acceleration.y < 0:
+						self.acceleration.y = 0
