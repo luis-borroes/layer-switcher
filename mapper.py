@@ -2,7 +2,7 @@ import pygame, block
 
 from pytmx import tmxloader
 
-class Map(object):
+class Mapper(object):
 
 	def __init__(self, filename):
 		self.layers = []
