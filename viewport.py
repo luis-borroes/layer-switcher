@@ -1,44 +1,42 @@
 import pygame
 
 from vector import Vec2d as Vector
-from utils import Utils
-util = Utils()
 
 class Viewport(object):
 
 	def __init__(self, game, x, y):
-		self.position = Vector(x - 640, y - 360)
+		self.position = Vector(x, y)
+		self.rect = pygame.rect.Rect(self.position - (640, 360), (1280, 720))
 		self.update(game, x, y)
 
 	def update(self, game, x, y):
-		vec = Vector(x - self.position.x, y - self.position.y)
-		self.position = Vector(x - 640, y - 360)
+		vec = Vector(x - self.position.x, y - self.position.y) * 0.05
+		if vec.length < 0.05:
+			vec *= 10
+		self.position += vec
+		self.rect = pygame.rect.Rect(self.position - (640, 360), (1280, 720))
 
-		game.player.rect.x = game.player.position.x - self.position.x
-		game.player.rect.y = game.player.position.y - self.position.y
+		if self.rect.x < 0:
+			self.rect.x = 0
+
+		if self.rect.x > game.map.width - 1280:
+			self.rect.x = game.map.width - 1280
+
+		if self.rect.y < 0:
+			self.rect.y = 0
+
+		if self.rect.y > game.map.height - 720:
+			self.rect.y = game.map.height - 720
+
+		game.player.rect.x = game.player.position.x - self.rect.x
+		game.player.rect.y = game.player.position.y - self.rect.y
 
 		for layer in game.map.layers:
 			for block in layer:
-				block.rect.x = block.x - self.position.x
-				block.rect.y = block.y - self.position.y
+				block.rect.x = block.x - self.rect.x
+				block.rect.y = block.y - self.rect.y
 
 		for deco in game.map.decorations:
 			for block in deco:
-				block.rect.x = block.x - self.position.x
-				block.rect.y = block.y - self.position.y
-
-		"""if x < game.player.screenPos.x:
-			game.player.rect.x = game.player.screenPos.x + (x - game.player.screenPos.x)
-			x = game.player.screenPos.x
-
-		if y > game.map.height - 420 - game.player.layerOffset:
-			game.player.rect.y = y - game.player.screenPos.y - game.player.rect.height / 2 + game.player.layerOffset
-			y = game.map.height - 420 - game.player.layerOffset"""
-
-		if game.player.layerChanging:
-			oldOff = game.player.layerOffset
-			game.player.layerOffset = util.approach(game.dt / 1000., game.player.layerOffset, 70 * game.player.layer, 10)
-			if game.player.layerOffset == oldOff:
-				game.player.layerChanging = False
-				game.player.resting = False
-				game.player.acceleration.y = game.player.oldAccel
+				block.rect.x = block.x - self.rect.x
+				block.rect.y = block.y - self.rect.y
