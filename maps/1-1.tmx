@@ -55,6 +55,13 @@
     <property name="u" value=""/>
    </properties>
   </tile>
+  <tile id="182">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
   <tile id="193">
    <properties>
     <property name="l" value=""/>
@@ -73,6 +80,13 @@
   </tile>
   <tile id="199">
    <properties>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="206">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
     <property name="r" value=""/>
    </properties>
   </tile>
@@ -95,7 +109,7 @@
  </tileset>
  <layer name="bg" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0TESQEAQRUH3Dwm4AAEBdxBwLJtKNppalu6ql8+vaRoAAIAy2lQXUJ9pKLamfnNqCWjNtBVbU789qCPTWWxN/aagiOEf7+If3+MfAAAAAAD83fj0AdxcGMJYyw==
+   eJzt0SESwjAQhtHeX4IAh6KiiOI4QEXreqXGxqRmJyHw3szn/50dBnryaD2AzKf1ADJ76wEAwKlL6hrQrdC92jX9m1KvgOZC72rX9G8Jai20Vbumf2NQxPCP7+Ifv8c/AAAAAAD4d8/WA8gcYVVa8A==
   </data>
  </layer>
  <layer name="mid" width="100" height="30">
