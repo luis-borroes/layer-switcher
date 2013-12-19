@@ -1,4 +1,4 @@
-import pygame, player, mapper, vector, viewport
+import pygame, player, mapper, viewport
 
 class Game(object):
 
