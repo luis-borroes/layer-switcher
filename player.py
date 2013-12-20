@@ -13,6 +13,7 @@ class Player(pygame.sprite.Sprite):
 		self.map = objMap.map
 		self.image = pygame.image.load('assets/player.png')
 		self.spawn()
+		self.cdBar = pygame.rect.Rect((self.rect.left, self.rect.bottom + 2), (0, 10))
 
 	def spawn(self):
 		self.rect = pygame.rect.Rect((0, 0), self.image.get_size())
@@ -27,6 +28,7 @@ class Player(pygame.sprite.Sprite):
 		self.key_s = False
 		self.layer = 0
 		self.layerChanging = False
+		self.layerCooldown = 0
 		self.oldAccel = 0
 
 		for obj in self.map.getObjects():
@@ -38,12 +40,14 @@ class Player(pygame.sprite.Sprite):
 
 		self.layerOffset = 70 * self.layer
 
-	def update(self, dt, game):
+	def update(self, game, dt):
 		last = self.position.copy()
+
+		self.layerCooldown = max(0, self.layerCooldown - dt)
 
 		if self.key_w:
 			self.key_w = False
-			if self.layer > 0:
+			if self.layerCooldown == 0 and self.layer > 0:
 				walled = False
 				destination = self.position.copy()
 				destination.y -= 71
@@ -55,10 +59,11 @@ class Player(pygame.sprite.Sprite):
 					self.layer -= 1
 					self.layerChanging = True
 					self.acceleration.y = 0
+					self.layerCooldown = 0.5
 
 		if self.key_s:
 			self.key_s = False
-			if self.layer < len(game.map.layers) - 1:
+			if self.layerCooldown == 0 and self.layer < len(game.map.layers) - 1:
 				walled = False
 				destination = self.position.copy()
 				destination.y += 69
@@ -70,6 +75,9 @@ class Player(pygame.sprite.Sprite):
 					self.layer += 1
 					self.layerChanging = True
 					self.acceleration.y = 0
+					self.layerCooldown = 0.5
+
+		self.cdBar = pygame.rect.Rect((self.rect.left, self.rect.bottom + 2), (util.remap(self.layerCooldown, 0, 0.5, 0, self.rect.width), 5))
 		
 		keys = pygame.key.get_pressed()
 
@@ -160,3 +168,9 @@ class Player(pygame.sprite.Sprite):
 					self.position.top = cell.bottom
 					if self.acceleration.y < 0:
 						self.acceleration.y = 0
+
+	def draw(self, screen):
+		self.sprites.draw(screen)
+
+		if self.cdBar.width > 0:
+			pygame.draw.rect(screen, (190, 0, 0), self.cdBar)
