@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="100" height="30" tilewidth="70" tileheight="35">
  <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
-  <image source="../assets/sheet.png" width="1680" height="840"/>
+  <image source="../../assets/sheet.png" width="1680" height="840"/>
   <tile id="163">
    <properties>
     <property name="d" value=""/>
@@ -109,7 +109,7 @@
  </tileset>
  <layer name="bg" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0SESwjAQhtHeX4IAh6KiiOI4QEXreqXGxqRmJyHw3szn/50dBnryaD2AzKf1ADJ76wEAwKlL6hrQrdC92jX9m1KvgOZC72rX9G8Jai20Vbumf2NQxPCP7+Ifv8c/AAAAAAD4d8/WA8gcYVVa8A==
+   eJzt0SsOgEAQREHuL0EgUSBAIDkAAsmVWLsKM8nwqUqe76SbhjcZsgdQ2bIHUDmzBwAAt9pSF1CvkObSEtCqkPagDoU0BUUMfzyLP77HHwAAAAAA/N2YPYDKBcYT8q8=
   </data>
  </layer>
  <layer name="mid" width="100" height="30">
