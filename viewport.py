@@ -1,35 +1,44 @@
 import pygame
 
 from vector import Vec2d as Vector
+from utils import Utils
+util = Utils()
 
 class Viewport(object):
 
 	def __init__(self, game, x, y):
 		self.position = Vector(x, y)
-		self.rect = pygame.rect.Rect(self.position - (640, 360), (1280, 720))
+		self.resolution = Vector(game.resolution)
+		self.rect = pygame.rect.Rect(self.position - self.resolution / 2, self.resolution)
 		self.update(game, x, y)
 
 	def update(self, game, x, y):
 		vec = Vector(x - self.position.x, y - self.position.y) * 0.05
 		if vec.length < 0.05:
 			vec = Vector(0, 0)
+
 		self.position += vec
-		self.rect = pygame.rect.Rect(self.position - (640, 360), (1280, 720))
+		self.resolution = Vector(game.resolution)
+		self.rect = pygame.rect.Rect(self.position - self.resolution / 2, self.resolution)
 
 		if self.rect.x < 0:
 			self.rect.x = 0
 
-		if self.rect.x > game.map.width - 1280:
-			self.rect.x = game.map.width - 1280
+		if self.rect.x > game.map.width - self.resolution.x:
+			self.rect.x = game.map.width - self.resolution.x
 
 		if self.rect.y < 0:
 			self.rect.y = 0
 
-		if self.rect.y > game.map.height - 720:
-			self.rect.y = game.map.height - 720
+		if self.rect.y > game.map.height - self.resolution.y:
+			self.rect.y = game.map.height - self.resolution.y
 
 		game.player.rect.x = game.player.position.x - self.rect.x
 		game.player.rect.y = game.player.position.y - self.rect.y
+
+		bgx = -util.remap(self.rect.x + self.resolution.x / 2, self.resolution.x / 2, game.map.width - self.resolution.x / 2, 0, game.map.bgSize[0] - self.resolution.x)
+		bgy = -util.remap(self.rect.y + self.resolution.y / 2, self.resolution.y / 2, game.map.height - self.resolution.y / 2, 0, game.map.bgSize[1] - self.resolution.y)
+		game.map.bgOffset = (bgx, bgy)
 
 		for layer in game.map.layers:
 			for block in layer:
