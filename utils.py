@@ -6,8 +6,10 @@ class Utils(object):
 	def approach(self, dt, num, target, step):
 		if num > target:
 			return max(num - step * dt * 100, target)
+
 		elif num < target:
 			return min(num + step * dt * 100, target)
+
 		return num
 
 	def collide(self, rect1, rect2):
@@ -24,3 +26,6 @@ class Utils(object):
 			return False
 
 		return True
+
+	def remap(self, v, min1, max1, min2, max2):
+		return min2 + (v - min1) * (max2 - min2) / (max1 - min1)
