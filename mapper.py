@@ -4,11 +4,14 @@ from pytmx import tmxloader
 
 class Mapper(object):
 
-	def __init__(self, filename):
+	def __init__(self, game, mapname):
 		self.layers = []
 		self.layerInfo = []
 		self.decorations = []
-		self.map = tmxloader.load_pygame(filename, pixelalpha = True)
+		self.map = tmxloader.load_pygame("maps/%s/map.tmx" % (mapname), pixelalpha = True)
+		self.background = pygame.image.load("maps/%s/bg.png" % (mapname)).convert_alpha()
+		self.bgSize = self.background.get_size()
+		self.bgOffset = (0, 0)
 		self.width = self.map.width * self.map.tilewidth
 		self.height = self.map.height * self.map.tileheight
 		self.layerID = -1
@@ -35,11 +38,15 @@ class Mapper(object):
 	def updateAll(self, game):
 		for layer in self.layers:
 			layer.update(game.dt / 1000.)
+
 		for deco in self.decorations:
 			deco.update(game.dt / 1000.)
 
 	def drawAll(self, game):
+		game.screen.blit(self.background, self.bgOffset)
+
 		for layer in self.layers:
 			layer.draw(game.screen)
+
 		for deco in self.decorations:
 			deco.draw(game.screen)
