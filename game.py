@@ -2,13 +2,14 @@ import pygame, player, mapper, viewport
 
 class Game(object):
 
-	def __init__(self, objScreen, objClock, fps, font):
+	def __init__(self, objScreen, objClock, fps, font, resolution):
 		self.blnRunning = True
 		self.paused = False
 		self.screen = objScreen
 		self.font = font
+		self.resolution = resolution
 
-		self.map = mapper.Mapper("maps/1-1.tmx")
+		self.map = mapper.Mapper(self, "1-1")
 
 		self.player = player.Player(self.map)
 		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
@@ -42,12 +43,12 @@ class Game(object):
 			self.screen.fill((82, 246, 255))
 
 			if not self.paused:
-				self.player.sprites.update(self.dt / 1000., self)
+				self.player.sprites.update(self, self.dt / 1000.)
 				self.map.updateAll(self)
 				self.viewport.update(self, self.player.position.x + self.player.position.width / 2, self.player.position.y + self.player.position.height / 2)
 
 			self.map.drawAll(self)
-			self.player.sprites.draw(self.screen)
+			self.player.draw(self.screen)
 
 			pygame.display.flip()
 
