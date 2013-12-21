@@ -16,7 +16,7 @@ class Game(object):
 
 		while self.blnRunning:
 			self.dt = objClock.tick(fps)
-			pygame.display.set_caption("pyg %.2f FPS" % (objClock.get_fps()), "pyg")
+			pygame.display.set_caption("Layer Switcher %.2f FPS" % (objClock.get_fps()), "Layer Switcher")
 
 			if self.dt > (1 / fps * 1000) + 10:
 				self.dt = (1 / fps * 1000) + 10
