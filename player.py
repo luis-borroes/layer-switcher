@@ -76,8 +76,6 @@ class Player(pygame.sprite.Sprite):
 					self.layerChanging = True
 					self.acceleration.y = 0
 					self.layerCooldown = 0.5
-
-		self.cdBar = pygame.rect.Rect((self.rect.left, self.rect.bottom + 2), (util.remap(self.layerCooldown, 0, 0.5, 0, self.rect.width), 5))
 		
 		keys = pygame.key.get_pressed()
 

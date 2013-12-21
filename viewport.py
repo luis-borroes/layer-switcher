@@ -36,6 +36,8 @@ class Viewport(object):
 		game.player.rect.x = game.player.position.x - self.rect.x
 		game.player.rect.y = game.player.position.y - self.rect.y
 
+		game.player.cdBar = pygame.rect.Rect((game.player.rect.left, game.player.rect.bottom + 2), (util.remap(game.player.layerCooldown, 0, 0.5, 0, game.player.rect.width), 5))
+
 		bgx = -util.remap(self.rect.x + self.resolution.x / 2, self.resolution.x / 2, game.map.width - self.resolution.x / 2, 0, game.map.bgSize[0] - self.resolution.x)
 		bgy = -util.remap(self.rect.y + self.resolution.y / 2, self.resolution.y / 2, game.map.height - self.resolution.y / 2, 0, game.map.bgSize[1] - self.resolution.y)
 		game.map.bgOffset = (bgx, bgy)
