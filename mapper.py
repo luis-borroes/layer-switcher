@@ -8,6 +8,7 @@ class Mapper(object):
 		self.layers = []
 		self.layerInfo = []
 		self.decorations = []
+		self.blocks = []
 		self.map = tmxloader.load_pygame("maps/%s/map.tmx" % (mapname), pixelalpha = True)
 		self.background = pygame.image.load("maps/%s/bg.png" % (mapname)).convert_alpha()
 		self.bgSize = self.background.get_size()
@@ -19,6 +20,7 @@ class Mapper(object):
 		for layer in self.map.getTileLayerOrder():
 			self.layerID += 1
 			if layer.visible:
+				self.blocks.append([])
 				if hasattr(layer, "decorations"):
 					self.decorations.append(pygame.sprite.Group())
 					for width in xrange(0, self.map.width):
@@ -30,10 +32,13 @@ class Mapper(object):
 					self.layers.append(pygame.sprite.Group())
 					self.layerInfo.append(layer)
 					for width in xrange(0, self.map.width):
+						self.blocks[self.layerID].append([])
 						for height in xrange(0, self.map.height):
 							img = self.map.getTileImage(width, height, self.layerID)
 							if img:
-								block.Block(width, height, self.map, img, self.layerID, self.layers[len(self.layers) - 1])
+								self.blocks[self.layerID][width].append(block.Block(width, height, self.map, img, self.layerID, self.layers[len(self.layers) - 1]))
+							else:
+								self.blocks[self.layerID][width].append(None)
 
 	def updateAll(self, game):
 		for layer in self.layers:
