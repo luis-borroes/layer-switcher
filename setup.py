@@ -18,7 +18,7 @@ data_dir = dist_dir
 
 class Target:
 	script = 'main.pyw'
-	dest_base = 'layerswjhitcher'
+	dest_base = 'layerswitcher'
 	icon_resources = [(0, os.path.join('assets', 'icons', 'icon.ico'))]
 
 setup(
