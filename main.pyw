@@ -8,7 +8,7 @@ class Main(object):
 		objClock = pygame.time.Clock()
 		fps = 120.
 		resolution = (1280, 720)
-		icon = pygame.image.load("assets/icon32fix.png")
+		icon = pygame.image.load("assets/icons/icon.png")
 		pygame.display.set_icon(icon)
 		pygame.display.set_caption("Layer Switcher", "Layer Switcher")
 		objScreen = pygame.display.set_mode(resolution)
