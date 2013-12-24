@@ -2,6 +2,28 @@
 <map version="1.0" orientation="orthogonal" width="100" height="30" tilewidth="70" tileheight="35">
  <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
   <image source="../../assets/sheet.png" width="1680" height="840"/>
+  <tile id="26">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
   <tile id="163">
    <properties>
     <property name="d" value=""/>
@@ -12,7 +34,7 @@
   <tile id="164">
    <properties>
     <property name="d" value=""/>
-    <property name="r" value=""/>
+    <property name="l" value=""/>
    </properties>
   </tile>
   <tile id="165">
@@ -93,11 +115,46 @@
   <tile id="213">
    <properties>
     <property name="d" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="241">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
    </properties>
   </tile>
   <tile id="242">
    <properties>
     <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="243">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="254">
+   <properties>
+    <property name="w" value=""/>
+   </properties>
+  </tile>
+  <tile id="256">
+   <properties>
+    <property name="s" value=""/>
+   </properties>
+  </tile>
+  <tile id="259">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="265">
+   <properties>
+    <property name="l" value=""/>
    </properties>
   </tile>
   <tile id="266">
@@ -106,20 +163,65 @@
     <property name="r" value=""/>
    </properties>
   </tile>
+  <tile id="267">
+   <properties>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="278">
+   <properties>
+    <property name="w" value=""/>
+   </properties>
+  </tile>
+  <tile id="280">
+   <properties>
+    <property name="s" value=""/>
+   </properties>
+  </tile>
+  <tile id="283">
+   <properties>
+    <property name="w" value=""/>
+   </properties>
+  </tile>
+  <tile id="284">
+   <properties>
+    <property name="k" value=""/>
+   </properties>
+  </tile>
+  <tile id="518">
+   <properties>
+    <property name="l" value=""/>
+   </properties>
+  </tile>
+  <tile id="519">
+   <properties>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="542">
+   <properties>
+    <property name="l" value=""/>
+   </properties>
+  </tile>
+  <tile id="543">
+   <properties>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
  </tileset>
  <layer name="bg" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0SEOgDAABMH+X4JA4hBUIHkAAsmXqK3CXNIl2UnOX7Kl6E/W0QfUOUcfUOcZfUCSJH2a2ubAFhfZ3lYDO1xkV2i3i2wLTRn2YLEHiz1Y7MFiDxZ7sNiDxR4s9mCxB4s9WOzBYg8We7DYg8UeLPZgsQfLC8HErDM=
+   eJzt0SEKgEAYROEVvIaX1mC0GTQYPYDB6JXc+idhGdxR3gfTB15K+JKp9gEEe+0DCK7aBwAAwKM+bxBsZJIteatgG5PsEO1kks2iQYMeXujhhR5e6OFF1aNt3n7+T/TwQg8v9PBCDy/08KLs0RUMkbJHyRDRwws9vNDDi6oHNOjhhR5eboCqrvQ=
   </data>
  </layer>
  <layer name="mid" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt1UEKAjEQRNHcf6mewYV6Cy/muAg0EkbFjBb4HtQ+8KHTGgAAAJBot2w/2OGXj/pT9xanZefBLk2Tb+otrivTZFv1HvUWx5Vpsq16m561eGziX5mv3qJXWtQm9V9hjncajJr0MccnPeqYQ48semTRI4seWfTIokcWPbLokUWPLHpk0SOLHllup6LXDg==
+   eJzt1sEJwjAYhuFUL27gwR7cQSdVV1BB3cIdXMExtDkUftKmTeJfG8j7wHcUhJekMQYAAAAAAOTo0OzYs9Ocf6pQtsWt2b1nD0OTf2pbPAdGk2nJ+6htcRkYTaYl76axFm4Tviv65F0U0kI2kd8V6Ihp0NekneV7l/lmz9U7YCX5pYec5XuX+WbP1SdgJdHsMfQu821dja8kmj1SfldX4ysJPfJCj7xo9jg3e0Xsaujh0uwRa7Wgh2vOHlt6dHA+8sL5yItWj2XC6NGl1WOTsNrQw6XVY5ewvaGH6wsBwDb+
   </data>
  </layer>
  <layer name="front" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0UENgAAAxDB4498CppCBAUzcYyFtMgU7DgAAAAAAgH95RrHxjmLjOjexcY9iw48WP1r8aPGjxY8WP1r8aPGjxY8WP1o+hEShuQ==
+   eJzt1UEKwjAQRuFk7Qm68PoeyYX1Am7VA9gaRkLTSRAzZMD3wb8LtPQRGgIAAAAAAAAAjHFZdh39EnhbW9yXPUe/CD4tDjGtdZY7tG/uNGlxCmk1codoUnp0Wt6i1UPuEE1K8m1+Xd6i1UPO0KS0/Y69dqssPydNkFj1iFHf9mzr//9PrHpMUd/eeSRWPY5RHz10Vj3OldFDZ9Xj22cjoYcv9PCFHr7Qwxd6+PICPkL9zg==
   </data>
  </layer>
  <layer name="decor" width="100" height="30">
@@ -127,7 +229,7 @@
    <property name="decorations" value=""/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt0SEOwCAUREHyTXsLev9TNpBgAQEEMWPX7UsJAAAAgJ43+vsz2FmntPgGf+fQ5ISZFo0m+822aDS5T9YDAAAAAACqHwuVAS0=
+   eJzt10EKwCAMRFFxY29h73/K0oUgxZgIRgL9b6urDBMxJQAAAAAAAMxceX5elHPs82ZxK/OumUxOsGTRkIk/axbNKBNt18FX7ea/0i/4GmUh7bO+Q+w8H6NeSLPu7/IOnVMN/Wj3Crm4s+yrhp74k/ohvfnkEQt5xEIesZCHL22+33edPHyRRyzafK3/eexBP2Ihj1hW95X0f/ybB9RpBBQ=
   </data>
  </layer>
  <objectgroup name="Camada de Objectos 1" width="100" height="30">
