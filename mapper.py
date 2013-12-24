@@ -47,11 +47,12 @@ class Mapper(object):
 		for deco in self.decorations:
 			deco.update(game.dt / 1000.)
 
-	def drawAll(self, game):
+	def drawBackground(self, game):
 		game.screen.blit(self.background, self.bgOffset)
 
-		for layer in self.layers:
-			layer.draw(game.screen)
+	def drawLayer(self, game, layer):
+		self.layers[layer].draw(game.screen)
 
+	def drawDecos(self, game):
 		for deco in self.decorations:
 			deco.draw(game.screen)
