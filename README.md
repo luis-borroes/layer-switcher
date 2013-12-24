@@ -9,3 +9,6 @@ PyTMX library by bitcraft - https://github.com/bitcraft/PyTMX
 vector.py - http://www.pygame.org/wiki/2DVectorClass  
 Sprite tileset by Kenney - http://kenney.nl  
 Music by Kevin MacLeod - http://incompetech.com/  
+
+
+Very inspired by Richard Jones' "Introduction to PyGame"
