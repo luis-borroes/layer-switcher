@@ -13,9 +13,13 @@ class Mapper(object):
 		self.background = pygame.image.load("maps/%s/bg.png" % (mapname)).convert_alpha()
 		self.bgSize = self.background.get_size()
 		self.bgOffset = (0, 0)
+		self.bgColor = (82, 246, 255)
 		self.width = self.map.width * self.map.tilewidth
 		self.height = self.map.height * self.map.tileheight
 		self.layerID = -1
+
+		if hasattr(self.map, "rgb"):
+			self.bgColor = tuple([map(int, self.map.rgb.split())])
 
 		for layer in self.map.getTileLayerOrder():
 			self.layerID += 1
@@ -42,10 +46,10 @@ class Mapper(object):
 
 	def updateAll(self, game):
 		for layer in self.layers:
-			layer.update(game.dt / 1000.)
+			layer.update(game.dt * 0.001)
 
 		for deco in self.decorations:
-			deco.update(game.dt / 1000.)
+			deco.update(game.dt * 0.001)
 
 	def drawBackground(self, game):
 		game.screen.blit(self.background, self.bgOffset)

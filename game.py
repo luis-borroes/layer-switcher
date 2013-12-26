@@ -40,11 +40,11 @@ class Game(object):
 					if event.key == pygame.K_SPACE:
 						self.player.spaced = True
 
-			self.screen.fill((82, 246, 255))
+			self.screen.fill(self.map.bgColor)
 			self.map.drawBackground(self)
 
 			if not self.paused:
-				self.player.sprites.update(self, self.dt / 1000.)
+				self.player.sprites.update(self, self.dt * 0.001)
 				self.map.updateAll(self)
 				self.viewport.update(self, self.player.position.x + self.player.position.width / 2, self.player.position.y + self.player.position.height / 2)
 
