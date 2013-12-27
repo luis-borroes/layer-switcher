@@ -6,12 +6,12 @@ util = Utils()
 
 class Character(pygame.sprite.Sprite):
 
-	def __init__(self, objMap, chartype, pos, layer):
+	def __init__(self, objMap, charType, pos, layer):
 		self.sprites = pygame.sprite.Group()
 		super(Character, self).__init__(self.sprites)
 
-		self.map = objMap.map
-		self.type = chartype
+		self.map = objMap
+		self.type = charType
 		self.setStatus("standing")
 
 		self.startPos = pos
@@ -22,8 +22,8 @@ class Character(pygame.sprite.Sprite):
 		self.jumpTimerLimit = 35
 		self.swimSpeed = -400
 
-		if hasattr(self.map, "gravity"):
-			self.gravity = int(self.map.gravity)
+		if hasattr(self.map.tilemap, "gravity"):
+			self.gravity = int(self.map.tilemap.gravity)
 
 		self.spawn()
 
@@ -40,10 +40,9 @@ class Character(pygame.sprite.Sprite):
 		self.drawLayer = self.startLayer
 		self.layerChanging = False
 		self.layerCooldown = 0
+		self.layerOffset = 70 * self.layer
 		self.oldAccel = 0
 		self.swimming = False
-
-		self.layerOffset = 70 * self.layer
 
 	def die(self):
 		pass
@@ -65,7 +64,7 @@ class Character(pygame.sprite.Sprite):
 			walled = False
 			destination = self.position.copy()
 			destination.y -= 71
-			for block in game.map.layers[self.layer - 1]:
+			for block in self.getNearbyBlocks(self.layer - 1, 2):
 				if block.collidable and util.collide(destination, block.position):
 					walled = True
 
@@ -80,7 +79,7 @@ class Character(pygame.sprite.Sprite):
 			walled = False
 			destination = self.position.copy()
 			destination.y += 69
-			for block in game.map.layers[self.layer + 1]:
+			for block in self.getNearbyBlocks(self.layer + 1, 2):
 				if block.collidable and util.collide(destination, block.position):
 					walled = True
 
@@ -152,7 +151,7 @@ class Character(pygame.sprite.Sprite):
 
 		self.oldOff = self.layerOffset
 
-		for block in game.map.layers[self.layer]:
+		for block in self.getNearbyBlocks(self.layer, 2):
 			if util.collide(self.position, block.position):
 				cell = block.position
 
@@ -192,8 +191,18 @@ class Character(pygame.sprite.Sprite):
 				if "k" in block.prop:
 					self.die()
 
-	def setStatus(self, new):
-		self.image = pygame.image.load('assets/characters/%s/%s.png' % (self.type, new))
-
 	def draw(self, screen):
 		self.sprites.draw(screen)
+
+	def setStatus(self, status):
+		self.image = pygame.image.load('assets/characters/%s/%s.png' % (self.type, status))
+
+	def getNearbyBlocks(self, layer, tileRadius):
+		d = []
+
+		for i in xrange(tileRadius * 2):
+			for j in xrange(tileRadius * 2):
+				if (layer, self.position.centerx / self.map.tilemap.tilewidth + i - tileRadius, self.position.centery / self.map.tilemap.tileheight + j - tileRadius) in self.map.blocks:
+					d.append(self.map.blocks[(layer, self.position.centerx / self.map.tilemap.tilewidth + i - tileRadius, self.position.centery / self.map.tilemap.tileheight + j - tileRadius)])
+
+		return d
