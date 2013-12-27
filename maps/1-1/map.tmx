@@ -104,6 +104,12 @@
     <property name="r" value=""/>
    </properties>
   </tile>
+  <tile id="198">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
   <tile id="199">
    <properties>
     <property name="r" value=""/>
@@ -190,6 +196,21 @@
   <tile id="284">
    <properties>
     <property name="k" value=""/>
+   </properties>
+  </tile>
+  <tile id="402">
+   <properties>
+    <property name="c" value=""/>
+   </properties>
+  </tile>
+  <tile id="470">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="494">
+   <properties>
+    <property name="u" value=""/>
    </properties>
   </tile>
   <tile id="518">
