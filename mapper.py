@@ -8,41 +8,37 @@ class Mapper(object):
 		self.layers = []
 		self.layerInfo = []
 		self.decorations = []
-		self.blocks = []
-		self.map = tmxloader.load_pygame("maps/%s/map.tmx" % (mapname), pixelalpha = True)
+		self.blocks = {}
+		self.tilemap = tmxloader.load_pygame("maps/%s/map.tmx" % (mapname), pixelalpha = True)
 		self.background = pygame.image.load("maps/%s/bg.png" % (mapname)).convert_alpha()
 		self.bgSize = self.background.get_size()
 		self.bgOffset = (0, 0)
 		self.bgColor = (82, 246, 255)
-		self.width = self.map.width * self.map.tilewidth
-		self.height = self.map.height * self.map.tileheight
+		self.width = self.tilemap.width * self.tilemap.tilewidth
+		self.height = self.tilemap.height * self.tilemap.tileheight
 		self.layerID = -1
 
-		if hasattr(self.map, "rgb"):
-			self.bgColor = tuple([map(int, self.map.rgb.split())])
+		if hasattr(self.tilemap, "rgb"):
+			self.bgColor = tuple([map(int, self.tilemap.rgb.split())])
 
-		for layer in self.map.getTileLayerOrder():
+		for layer in self.tilemap.getTileLayerOrder():
 			self.layerID += 1
 			if layer.visible:
-				self.blocks.append([])
 				if hasattr(layer, "decorations"):
 					self.decorations.append(pygame.sprite.Group())
-					for width in xrange(0, self.map.width):
-						for height in xrange(0, self.map.height):
-							img = self.map.getTileImage(width, height, self.layerID)
+					for x in xrange(0, self.tilemap.width):
+						for y in xrange(0, self.tilemap.height):
+							img = self.tilemap.getTileImage(x, y, self.layerID)
 							if img:
-								block.Block(width, height, self.map, img, self.layerID, self.decorations[len(self.decorations) - 1])
+								block.Block(x, y, self.tilemap, img, self.layerID, self.decorations[len(self.decorations) - 1])
 				else:
 					self.layers.append(pygame.sprite.Group())
 					self.layerInfo.append(layer)
-					for width in xrange(0, self.map.width):
-						self.blocks[self.layerID].append([])
-						for height in xrange(0, self.map.height):
-							img = self.map.getTileImage(width, height, self.layerID)
+					for x in xrange(0, self.tilemap.width):
+						for y in xrange(0, self.tilemap.height):
+							img = self.tilemap.getTileImage(x, y, self.layerID)
 							if img:
-								self.blocks[self.layerID][width].append(block.Block(width, height, self.map, img, self.layerID, self.layers[len(self.layers) - 1]))
-							else:
-								self.blocks[self.layerID][width].append(None)
+								self.blocks[(len(self.layers) - 1, x, y)] = block.Block(x, y, self.tilemap, img, self.layerID, self.layers[len(self.layers) - 1])
 
 	def updateAll(self, game):
 		for layer in self.layers:
