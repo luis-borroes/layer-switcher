@@ -3,7 +3,7 @@ import pygame, player, mapper, viewport
 class Game(object):
 
 	def __init__(self, objScreen, objClock, fps, font, resolution):
-		self.blnRunning = True
+		self.running = True
 		self.paused = False
 		self.screen = objScreen
 		self.font = font
@@ -14,9 +14,9 @@ class Game(object):
 		self.player = player.Player(self.map)
 		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
 
-		while self.blnRunning:
+		while self.running:
 			self.dt = objClock.tick(fps)
-			pygame.display.set_caption("Layer Switcher %.2f FPS" % (objClock.get_fps()), "Layer Switcher")
+			pygame.display.set_caption("Layer Switcher %3d FPS" % (objClock.get_fps()), "Layer Switcher")
 
 			if self.dt > (1 / fps * 1000) + 10:
 				self.dt = (1 / fps * 1000) + 10
@@ -63,5 +63,5 @@ class Game(object):
 		self.screen.blit(render, (x, y))
 
 	def leave(self):
-		self.blnRunning = False
+		self.running = False
 		pygame.quit()
