@@ -9,16 +9,17 @@ class Player(character.Character):
 	def __init__(self, objMap):
 		super(Player, self).__init__(objMap, "player", Vector(0, 0), 0)
 
-		for obj in objMap.map.getObjects():
+		for obj in self.map.tilemap.getObjects():
 			if obj.name == "spawn":
-				self.position.x = obj.x + (objMap.map.tilewidth / 2 - self.image.get_width() / 2)
-				self.position.y = obj.y - (self.image.get_height() - objMap.map.tileheight)
+				self.position.x = obj.x + (self.map.tilemap.tilewidth / 2 - self.image.get_width() / 2)
+				self.position.y = obj.y - (self.image.get_height() - self.map.tilemap.tileheight)
 				if hasattr(obj, "layer"):
 					self.layer = int(obj.layer)
 					self.drawLayer = self.layer
 
 		self.startPos = self.position.topleft
 		self.startLayer = self.layer
+		self.layerOffset = 70 * self.layer
 
 	def spawn(self):
 		super(Player, self).spawn()
