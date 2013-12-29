@@ -8,6 +8,9 @@ class Block(pygame.sprite.Sprite):
 		super(Block, self).__init__(*groups)
 
 		self.image = img
+		self.tilex = x
+		self.tiley = y
+
 		self.x = x * objMap.tilewidth
 		self.y = y * objMap.tileheight
 
@@ -19,6 +22,7 @@ class Block(pygame.sprite.Sprite):
 
 		self.prop = objMap.getTileProperties((x, y, layer)) or {}
 		self.collidable = "l" in self.prop or "r" in self.prop or "u" in self.prop or "d" in self.prop or "c" in self.prop
+		self.liquid = "w" in self.prop or "m" in self.prop
 
 	def update(self, dt):
 		pass
