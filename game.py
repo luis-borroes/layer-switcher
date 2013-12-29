@@ -52,7 +52,7 @@ class Game(object):
 				self.map.drawLayer(self, layer)
 
 				if layer == self.player.drawLayer:
-					self.player.draw(self.screen)
+					self.player.draw(self)
 
 			self.map.drawDecos(self)
 

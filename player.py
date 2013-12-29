@@ -57,8 +57,8 @@ class Player(character.Character):
 
 		super(Player, self).update(game, dt)
 
-	def draw(self, screen):
-		super(Player, self).draw(screen)
+	def draw(self, game):
+		super(Player, self).draw(game)
 
 		if self.cdBar.width > 0:
-			pygame.draw.rect(screen, (190, 0, 0), self.cdBar)
+			pygame.draw.rect(game.screen, (190, 0, 0), self.cdBar)
