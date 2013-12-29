@@ -3,9 +3,10 @@
  <properties>
   <property name="gravity" value="600"/>
   <property name="rgb" value="82 246 255"/>
+  <property name="shadow" value="1"/>
  </properties>
  <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
-  <image source="../../assets/sheet.png" width="1680" height="840"/>
+  <image source="../../assets/sprites/sheet.png" width="1680" height="840"/>
   <tile id="26">
    <properties>
     <property name="u" value=""/>
@@ -19,6 +20,7 @@
   </tile>
   <tile id="50">
    <properties>
+    <property name="d" value=""/>
     <property name="l" value=""/>
     <property name="r" value=""/>
    </properties>
@@ -136,6 +138,7 @@
   </tile>
   <tile id="242">
    <properties>
+    <property name="s" value=""/>
     <property name="u" value=""/>
    </properties>
   </tile>
@@ -152,7 +155,7 @@
   </tile>
   <tile id="256">
    <properties>
-    <property name="s" value=""/>
+    <property name="m" value=""/>
    </properties>
   </tile>
   <tile id="259">
@@ -185,7 +188,7 @@
   </tile>
   <tile id="280">
    <properties>
-    <property name="s" value=""/>
+    <property name="m" value=""/>
    </properties>
   </tile>
   <tile id="283">
@@ -196,6 +199,18 @@
   <tile id="284">
    <properties>
     <property name="k" value=""/>
+   </properties>
+  </tile>
+  <tile id="307">
+   <properties>
+    <property name="u" value=""/>
+    <property name="w" value=""/>
+   </properties>
+  </tile>
+  <tile id="308">
+   <properties>
+    <property name="k" value=""/>
+    <property name="u" value=""/>
    </properties>
   </tile>
   <tile id="402">
@@ -236,25 +251,33 @@
  </tileset>
  <layer name="bg" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0SEKgEAYROEVvIaX1mC0GTQYPYDB6JXc+idhGdxR3gfTB15K+JKp9gEEe+0DCK7aBwAAwKM+bxBsZJIteatgG5PsEO1kks2iQYMeXujhhR5e6OFF1aNt3n7+T/TwQg8v9PBCDy/08KLs0RUMkbJHyRDRwws9vNDDi6oHNOjhhR5eboCqrvQ=
+   eJzt1LEKwjAUheEKvoYvrYJjNwcVHH0AB0dfqYVMgfb2xgRy5P4fnDE09IcMA/7J2PsCyLx6XwCZb+8LAEEc550Wdu55qcBu8+4Le/S8VGBvY0jW3pDSXRy7GvOcj7C1N6R0T8esHp7zEWa9ISX7OGb18JyPMOsflcyj9nwE9NBCDy300EIPLa167Hd130JCDy300EIPLfTQQg8tLXscNkaPbS17/DJ65OihhR5a6KGlVY/abyGhhxZ6aJkA740E/Q==
   </data>
  </layer>
  <layer name="mid" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt1sEJwjAYhuFUL27gwR7cQSdVV1BB3cIdXMExtDkUftKmTeJfG8j7wHcUhJekMQYAAAAAAOTo0OzYs9Ocf6pQtsWt2b1nD0OTf2pbPAdGk2nJ+6htcRkYTaYl76axFm4Tviv65F0U0kI2kd8V6Ihp0NekneV7l/lmz9U7YCX5pYec5XuX+WbP1SdgJdHsMfQu821dja8kmj1SfldX4ysJPfJCj7xo9jg3e0Xsaujh0uwRa7Wgh2vOHlt6dHA+8sL5yItWj2XC6NGl1WOTsNrQw6XVY5ewvaGH6wsBwDb+
+   eJzt1sEJwjAYhuFUL27gwR7cQSdVV1BB3cIdXMExNDkUQts0afxrA//7wHcUhJekMQYAAAAAAJToYHfs2WnOP6WUa3Gzu/fsYWjyT02L58BoMi3/PmpaXAZGk2n5d1OsRbsJ3xV5/l2U0sJv4n9XIGNMg74mzZzQuyw0d67eCdPklx7+nNC7LDR3rj4J00Syx9C7LLR1FZ8mkj1yfldX8WlCj7LQoyySPc52rxG7Gnq0SfYYa7WgR9ucPbb06OB8lIXzURapHsuM0aNLqscmY7XdvopPE6keu8ylvIs1+QKrrT5W
   </data>
  </layer>
  <layer name="front" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt1UEKwjAQRuFk7Qm68PoeyYX1Am7VA9gaRkLTSRAzZMD3wb8LtPQRGgIAAAAAAAAAjHFZdh39EnhbW9yXPUe/CD4tDjGtdZY7tG/uNGlxCmk1codoUnp0Wt6i1UPuEE1K8m1+Xd6i1UPO0KS0/Y69dqssPydNkFj1iFHf9mzr//9PrHpMUd/eeSRWPY5RHz10Vj3OldFDZ9Xj22cjoYcv9PCFHr7Qwxd6+PICPkL9zg==
+   eJzt1UEKwjAQRuFk7Ql6DvHKHsp6AbfqAWwNI6HpJIgZMuD74N8FWvoIDQEAAAAAAAAAxrgsu45+CbytLe7LnqNfBJ8Wh5jWOssd2jd3mrQ4h7QauUM0KT06LW/R6iF3iCYl+Ta/Lm/R6iFnaFLafsdeu1WWn5MmSKx6xKhve7b1//8nVj2mqG/vPBKrHqeojx46qx7Hyuihs+rx7bOR0MMXevhCD1/o4Qs9fHkBLF36AQ==
   </data>
  </layer>
- <layer name="decor" width="100" height="30">
+ <layer name="decor2" width="100" height="30">
   <properties>
    <property name="decorations" value=""/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt10EKwCAMRFFxY29h73/K0oUgxZgIRgL9b6urDBMxJQAAAAAAAMxceX5elHPs82ZxK/OumUxOsGTRkIk/axbNKBNt18FX7ea/0i/4GmUh7bO+Q+w8H6NeSLPu7/IOnVMN/Wj3Crm4s+yrhp74k/ohvfnkEQt5xEIesZCHL22+33edPHyRRyzafK3/eexBP2Ihj1hW95X0f/ybB9RpBBQ=
+   eJzt2LEJADAIAEFJ5/4LW0hawbS5g1/iIwAAAAAAAHiVpwMAAAD40X0jUwAbBa6bAHo=
+  </data>
+ </layer>
+ <layer name="decor1" width="100" height="30">
+  <properties>
+   <property name="decorations" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt2UEKhTAMRdHiRHeh+1+liBRKaUwEn0S5Z+of9ZJU+aUAAAAAwL8s0/Xz2XmOZ23Oea/0wAewV/I4WkT2Ck30Ii0qmuhFW1SjJt6ug1b7TnRnvqA1amHts3aG2Hkao7mwzrr9LffQe6zvu/6OqU3oohXZVxVzomfNh3Xn0yMXeuRCj1zooeWdb3+v00OLHrl45xv9nsczmI9c6JHL3X3F/+enHdBmBGo=
   </data>
  </layer>
  <objectgroup name="Camada de Objectos 1" width="100" height="30">
