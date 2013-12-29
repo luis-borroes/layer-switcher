@@ -13,6 +13,8 @@ class Character(pygame.sprite.Sprite):
 		self.map = objMap
 		self.type = charType
 		self.setStatus("standing")
+		self.shadow = pygame.image.load("assets/sprites/shadow.png")
+		self.drawShadow = True
 
 		self.startPos = pos
 		self.startLayer = layer
@@ -25,6 +27,9 @@ class Character(pygame.sprite.Sprite):
 		if hasattr(self.map.tilemap, "gravity"):
 			self.gravity = int(self.map.tilemap.gravity)
 
+		if hasattr(self.map.tilemap, "shadow"):
+			self.drawShadow = bool(int(self.map.tilemap.shadow))
+
 		self.spawn()
 
 	def spawn(self):
@@ -34,15 +39,17 @@ class Character(pygame.sprite.Sprite):
 		self.speedModifier = 1
 		self.resting = False
 		self.jumping = False
+		self.swimming = False
 		self.jumpTimer = 0
 		self.holdJump = False
 		self.layer = self.startLayer
 		self.drawLayer = self.startLayer
+		self.oldLayer = self.startLayer
 		self.layerChanging = False
 		self.layerCooldown = 0
 		self.layerOffset = 70 * self.layer
 		self.oldAccel = 0
-		self.swimming = False
+		self.oldGround = None
 
 	def die(self):
 		pass
@@ -64,11 +71,12 @@ class Character(pygame.sprite.Sprite):
 			walled = False
 			destination = self.position.copy()
 			destination.y -= 71
-			for block in self.getNearbyBlocks(self.layer - 1, 2):
+			for block in self.getNearbyBlocks(self.layer - 1, destination, 1):
 				if block.collidable and util.collide(destination, block.position):
 					walled = True
 
 			if not walled:
+				self.oldLayer = self.layer
 				self.layer -= 1
 				self.layerChanging = True
 				self.acceleration.y = 0
@@ -79,11 +87,12 @@ class Character(pygame.sprite.Sprite):
 			walled = False
 			destination = self.position.copy()
 			destination.y += 69
-			for block in self.getNearbyBlocks(self.layer + 1, 2):
+			for block in self.getNearbyBlocks(self.layer + 1, destination, 1):
 				if block.collidable and util.collide(destination, block.position):
 					walled = True
 
 			if not walled:
+				self.oldLayer = self.layer
 				self.layer += 1
 				self.drawLayer = self.layer
 				self.layerChanging = True
@@ -113,7 +122,7 @@ class Character(pygame.sprite.Sprite):
 			self.acceleration.y = util.approach(dt, self.acceleration.y, self.gravity, 20)
 
 		if self.swimming:
-			self.acceleration.x = util.approach(dt, self.acceleration.x, 0, 10)
+			self.acceleration.x = util.approach(dt, self.acceleration.x, 0, 5)
 
 		self.position.x += int(round(self.acceleration.x * dt * self.speedModifier))
 		self.position.y += int(round(self.acceleration.y * dt * self.speedModifier))
@@ -151,7 +160,7 @@ class Character(pygame.sprite.Sprite):
 
 		self.oldOff = self.layerOffset
 
-		for block in self.getNearbyBlocks(self.layer, 2):
+		for block in self.getNearbyBlocks(self.layer, self.position, 1):
 			if util.collide(self.position, block.position):
 				cell = block.position
 
@@ -182,27 +191,104 @@ class Character(pygame.sprite.Sprite):
 							self.acceleration.y = 0
 
 				if "s" in block.prop:
-					self.speedModifier = 0.2
+					self.speedModifier = 0.4
 
 				if "w" in block.prop:
 					self.swimming = True
 					self.speedModifier = 0.5
 
+				if "m" in block.prop:
+					self.speedModifier = 0.2
+
 				if "k" in block.prop:
 					self.die()
 
-	def draw(self, screen):
-		self.sprites.draw(screen)
+	def draw(self, game):
+		if self.drawShadow:
+			shadowPos = self.genShadow()
+			if shadowPos:
+				game.screen.blit(self.shadow, shadowPos)
+
+		self.sprites.draw(game.screen)
 
 	def setStatus(self, status):
-		self.image = pygame.image.load('assets/characters/%s/%s.png' % (self.type, status))
+		self.image = pygame.image.load("assets/characters/%s/%s.png" % (self.type, status))
 
-	def getNearbyBlocks(self, layer, tileRadius):
+	def genShadow(self):
+		ground = self.getClosestGrounds(self.layer, self.position)
+		pos = self.getPosFromGrounds(ground)
+		
+		if ground:
+			if self.layerChanging:
+				if self.oldGround:
+					oldPos = self.getPosFromGrounds(self.oldGround)
+
+					if oldPos.y < pos.y and self.oldLayer > self.layer:
+						pos.y = oldPos.y - 35
+
+					if oldPos.y > pos.y and self.oldLayer < self.layer:
+						oldPos.y = pos.y - 35
+
+					pos.y = util.remap(abs(self.layerOffset - self.oldLayer * 70), 0, 70, oldPos.y, pos.y)
+			else:
+				self.oldGround = ground
+
+		return pos
+
+	def getPosFromGrounds(self, ground):
+		if ground:
+			pos = Vector(0, 0)
+			pos.x = self.rect.centerx - self.shadow.get_width() / 2
+
+			if ground[0] != ground[1]:
+				pos.y = util.remap(self.position.centerx, ground[0].position.right - self.rect.width / 2, ground[1].position.left + self.rect.width / 2, ground[0].rect.top - self.shadow.get_height() / 2, ground[1].rect.top - self.shadow.get_height() / 2)
+			else:
+				pos.y = ground[0].rect.top - self.shadow.get_height() / 2
+
+			return pos
+
+	def getClosestGrounds(self, layer, position):
+		left = None
+		right = None
+
+		for i in xrange(position.bottom / self.map.tilemap.tileheight, self.map.tilemap.height):
+			if (layer, position.left / self.map.tilemap.tilewidth, i) in self.map.blocks:
+				block = self.map.blocks[(layer, position.left / self.map.tilemap.tilewidth, i)]
+				blockAbove = None
+				if (layer, position.left / self.map.tilemap.tilewidth, i - 1) in self.map.blocks:
+					blockAbove = self.map.blocks[(layer, position.left / self.map.tilemap.tilewidth, i - 1)]
+
+				if block.collidable or (block.liquid and blockAbove and not self.map.blocks[(layer, position.left / self.map.tilemap.tilewidth, i - 1)].liquid):
+					left = block
+					break
+
+		for i in xrange(position.bottom / self.map.tilemap.tileheight, self.map.tilemap.height):
+			if (layer, (position.right - 1) / self.map.tilemap.tilewidth, i) in self.map.blocks:
+				block = self.map.blocks[(layer, (position.right - 1) / self.map.tilemap.tilewidth, i)]
+				blockAbove = None
+				if (layer, (position.right - 1) / self.map.tilemap.tilewidth, i - 1) in self.map.blocks:
+					blockAbove = self.map.blocks[(layer, (position.right - 1) / self.map.tilemap.tilewidth, i - 1)]
+
+				if block.collidable or (block.liquid and blockAbove and not self.map.blocks[(layer, (position.right - 1) / self.map.tilemap.tilewidth, i - 1)].liquid):
+					right = block
+					break
+
+		if left or right:
+			if not right:
+				right = left
+			elif not left:
+				left = right
+		else:
+			return None
+
+		return (left, right)
+
+	def getNearbyBlocks(self, layer, position, tileRadius):
 		d = []
 
-		for i in xrange(tileRadius * 2):
-			for j in xrange(tileRadius * 2):
-				if (layer, self.position.centerx / self.map.tilemap.tilewidth + i - tileRadius, self.position.centery / self.map.tilemap.tileheight + j - tileRadius) in self.map.blocks:
-					d.append(self.map.blocks[(layer, self.position.centerx / self.map.tilemap.tilewidth + i - tileRadius, self.position.centery / self.map.tilemap.tileheight + j - tileRadius)])
+		for i in xrange(tileRadius * 2 + 1):
+			for j in xrange(tileRadius * 2 + 1):
+				if (layer, position.centerx / self.map.tilemap.tilewidth + i - tileRadius, position.centery / self.map.tilemap.tileheight + j - tileRadius) in self.map.blocks:
+					d.append(self.map.blocks[(layer, position.centerx / self.map.tilemap.tilewidth + i - tileRadius, position.centery / self.map.tilemap.tileheight + j - tileRadius)])
 
 		return d
