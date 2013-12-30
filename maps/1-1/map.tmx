@@ -133,6 +133,7 @@
   <tile id="241">
    <properties>
     <property name="l" value=""/>
+    <property name="s" value=""/>
     <property name="u" value=""/>
    </properties>
   </tile>
@@ -145,6 +146,7 @@
   <tile id="243">
    <properties>
     <property name="r" value=""/>
+    <property name="s" value=""/>
     <property name="u" value=""/>
    </properties>
   </tile>
