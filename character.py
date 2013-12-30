@@ -50,6 +50,8 @@ class Character(pygame.sprite.Sprite):
 		self.layerOffset = 70 * self.layer
 		self.oldAccel = 0
 		self.oldGround = None
+		self.shadowPos = None
+		self.shadowLooking = True
 
 	def die(self):
 		pass
@@ -205,7 +207,7 @@ class Character(pygame.sprite.Sprite):
 
 	def draw(self, game):
 		if self.drawShadow:
-			shadowPos = self.genShadow()
+			shadowPos = self.genShadow(game)
 			if shadowPos:
 				game.screen.blit(self.shadow, shadowPos)
 
@@ -214,74 +216,62 @@ class Character(pygame.sprite.Sprite):
 	def setStatus(self, status):
 		self.image = pygame.image.load("assets/characters/%s/%s.png" % (self.type, status))
 
-	def genShadow(self):
-		ground = self.getClosestGrounds(self.layer, self.position)
-		pos = self.getPosFromGrounds(ground)
+	def genShadow(self, game):
+		ground = self.getClosestGround(self.layer, self.position)
+		pos = None
 		
 		if ground:
-			if self.layerChanging:
-				if self.oldGround:
-					oldPos = self.getPosFromGrounds(self.oldGround)
+			if self.shadowPos:
+				self.shadowPos.x = self.rect.centerx - self.shadow.get_width() / 2
 
-					if oldPos.y < pos.y and self.oldLayer > self.layer:
-						pos.y = oldPos.y - 35
+				target = ground.rect.top
+				stepToggle = False
 
-					if oldPos.y > pos.y and self.oldLayer < self.layer:
-						oldPos.y = pos.y - 35
+				if self.layerChanging:
+					if ground.rect.top < self.oldGround.rect.top and self.oldLayer < self.layer and self.shadowLooking:
+						self.shadowPos.y = ground.rect.top - self.map.tilemap.tileheight
+						self.shadowLooking = False
 
-					pos.y = util.remap(abs(self.layerOffset - self.oldLayer * 70), 0, 70, oldPos.y, pos.y)
+					if ground.rect.top > self.oldGround.rect.top and self.oldLayer > self.layer and self.shadowLooking:
+						target = self.oldGround.rect.top - self.map.tilemap.tileheight
+						stepToggle = True
+						if self.shadowPos.y == target:
+							target = ground.rect.top - self.map.tilemap.tileheight
+							self.shadowLooking = False
+				else:
+					self.oldGround = ground
+					self.shadowLooking = True
+
+				if stepToggle:
+					step = 2.5
+				else:
+					step = abs(target - self.shadowPos.y) * 0.3
+					if step < 5:
+						step = 5
+
+				self.shadowPos.y = util.approach(game.dt * 0.001, self.shadowPos.y, target, step)
+
+				pos = (self.shadowPos.x, self.shadowPos.y - self.shadow.get_height() / 2)
+
 			else:
-				self.oldGround = ground
+				self.shadowPos = Vector(self.rect.centerx - self.shadow.get_width() / 2, ground.rect.top)
+				pos = (self.shadowPos.x, self.shadowPos.y - self.shadow.get_height() / 2)
 
 		return pos
 
-	def getPosFromGrounds(self, ground):
-		if ground:
-			pos = Vector(0, 0)
-			pos.x = self.rect.centerx - self.shadow.get_width() / 2
-
-			if ground[0] != ground[1]:
-				pos.y = util.remap(self.position.centerx, ground[0].position.right - self.rect.width / 2, ground[1].position.left + self.rect.width / 2, ground[0].rect.top - self.shadow.get_height() / 2, ground[1].rect.top - self.shadow.get_height() / 2)
-			else:
-				pos.y = ground[0].rect.top - self.shadow.get_height() / 2
-
-			return pos
-
-	def getClosestGrounds(self, layer, position):
+	def getClosestGround(self, layer, position):
 		left = None
 		right = None
 
 		for i in xrange(position.bottom / self.map.tilemap.tileheight, self.map.tilemap.height):
-			if (layer, position.left / self.map.tilemap.tilewidth, i) in self.map.blocks:
-				block = self.map.blocks[(layer, position.left / self.map.tilemap.tilewidth, i)]
+			if (layer, position.centerx / self.map.tilemap.tilewidth, i) in self.map.blocks:
+				block = self.map.blocks[(layer, position.centerx / self.map.tilemap.tilewidth, i)]
 				blockAbove = None
-				if (layer, position.left / self.map.tilemap.tilewidth, i - 1) in self.map.blocks:
-					blockAbove = self.map.blocks[(layer, position.left / self.map.tilemap.tilewidth, i - 1)]
+				if (layer, position.centerx / self.map.tilemap.tilewidth, i - 1) in self.map.blocks:
+					blockAbove = self.map.blocks[(layer, position.centerx / self.map.tilemap.tilewidth, i - 1)]
 
-				if block.collidable or (block.liquid and blockAbove and not self.map.blocks[(layer, position.left / self.map.tilemap.tilewidth, i - 1)].liquid):
-					left = block
-					break
-
-		for i in xrange(position.bottom / self.map.tilemap.tileheight, self.map.tilemap.height):
-			if (layer, (position.right - 1) / self.map.tilemap.tilewidth, i) in self.map.blocks:
-				block = self.map.blocks[(layer, (position.right - 1) / self.map.tilemap.tilewidth, i)]
-				blockAbove = None
-				if (layer, (position.right - 1) / self.map.tilemap.tilewidth, i - 1) in self.map.blocks:
-					blockAbove = self.map.blocks[(layer, (position.right - 1) / self.map.tilemap.tilewidth, i - 1)]
-
-				if block.collidable or (block.liquid and blockAbove and not self.map.blocks[(layer, (position.right - 1) / self.map.tilemap.tilewidth, i - 1)].liquid):
-					right = block
-					break
-
-		if left or right:
-			if not right:
-				right = left
-			elif not left:
-				left = right
-		else:
-			return None
-
-		return (left, right)
+				if block.collidable or (block.liquid and blockAbove and not self.map.blocks[(layer, position.centerx / self.map.tilemap.tilewidth, i - 1)].liquid):
+					return block
 
 	def getNearbyBlocks(self, layer, position, tileRadius):
 		d = []
