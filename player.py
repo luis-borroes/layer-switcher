@@ -1,8 +1,6 @@
 import pygame, character
 
 from vector import Vec2d as Vector
-from utils import Utils
-util = Utils()
 
 class Player(character.Character):
 

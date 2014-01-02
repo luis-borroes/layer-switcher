@@ -1,8 +1,7 @@
-import pygame
+import pygame, utils
 
 from vector import Vec2d as Vector
-from utils import Utils
-util = Utils()
+util = utils.Utils()
 
 class Viewport(object):
 
