@@ -1,8 +1,7 @@
-import pygame
+import pygame, utils, animation
 
 from vector import Vec2d as Vector
-from utils import Utils
-util = Utils()
+util = utils.Utils()
 
 class Character(pygame.sprite.Sprite):
 
@@ -12,7 +11,10 @@ class Character(pygame.sprite.Sprite):
 
 		self.map = objMap
 		self.type = charType
-		self.setStatus("standing")
+
+		self.standing = animation.Animation("assets/characters/%s/standingRight.png" % (self.type), 50, 50, 2, 2)
+
+		self.setStatus(self.standing)
 		self.shadow = pygame.image.load("assets/sprites/shadow.png")
 		self.drawShadow = True
 
@@ -162,7 +164,7 @@ class Character(pygame.sprite.Sprite):
 
 		self.oldOff = self.layerOffset
 
-		for block in self.getNearbyBlocks(self.layer, self.position, 1):
+		for block in self.getNearbyBlocks(self.layer, self.position, 5):
 			if util.collide(self.position, block.position):
 				cell = block.position
 
@@ -211,10 +213,12 @@ class Character(pygame.sprite.Sprite):
 			if shadowPos:
 				game.screen.blit(self.shadow, shadowPos)
 
+		self.animation.update(game.dt * 0.001)
 		self.sprites.draw(game.screen)
 
 	def setStatus(self, status):
-		self.image = pygame.image.load("assets/characters/%s/%s.png" % (self.type, status))
+		self.animation = status
+		self.image = self.animation.getSplice()
 
 	def genShadow(self, game):
 		ground = self.getClosestGround(self.layer, self.position)
