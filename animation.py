@@ -1,4 +1,4 @@
-import pygame, vector
+import pygame
 
 class Animation(object):
 
