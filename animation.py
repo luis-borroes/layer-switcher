@@ -14,6 +14,8 @@ class Animation(object):
 		self.frame = 0
 		self.frameLimit = frameLimit
 
+		self.setPos(self.pos.topleft)
+
 	def genLoopable(self, width, height):
 		posList = []
 
@@ -41,4 +43,4 @@ class Animation(object):
 			if self.frame == self.frameLimit:
 				self.frame = 0
 
-		self.setPos(self.frameList[self.frame])
+			self.setPos(self.frameList[self.frame])
