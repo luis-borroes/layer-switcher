@@ -4,8 +4,8 @@ from vector import Vec2d as Vector
 
 class Player(character.Character):
 
-	def __init__(self, objMap):
-		super(Player, self).__init__(objMap, "player", Vector(0, 0), 0)
+	def __init__(self, game):
+		super(Player, self).__init__(game, game.map, "player", Vector(0, 0), 0)
 
 		for obj in self.map.tilemap.getObjects():
 			if obj.name == "spawn":
