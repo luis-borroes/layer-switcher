@@ -7,14 +7,15 @@ class Animation(object):
 		self.width = width
 		self.height = height
 		self.frameList = self.genLoopable(self.img.get_width(), self.img.get_height())
-		self.pos = pygame.rect.Rect((0, 0), (self.width, self.height))
-		self.surface = pygame.Surface(self.pos.size, pygame.SRCALPHA)
+		self.position = pygame.rect.Rect((0, 0), (self.width, self.height))
+		self.surface = pygame.Surface(self.position.size, pygame.SRCALPHA).convert_alpha()
 		self.rate = 1 / float(updateRate)
 		self.swapTimer = 0
 		self.frame = 0
 		self.frameLimit = frameLimit
+		self.hasFinished = False
 
-		self.setPos(self.pos.topleft)
+		self.setPos(self.position.topleft)
 
 	def genLoopable(self, width, height):
 		posList = []
@@ -26,17 +27,19 @@ class Animation(object):
 		return posList
 
 	def setPos(self, pos):
-		self.pos.topleft = (pos[0] * self.width, pos[1] * self.height)
+		self.position.topleft = (pos[0] * self.width, pos[1] * self.height)
 		self.surface.fill(0)
-		self.surface.blit(self.img, (-self.pos.x, -self.pos.y))
+		self.surface.blit(self.img, (-self.position.x, -self.position.y))
 
 	def getSplice(self):
 		return self.surface
 
 	def update(self, dt):
 		self.swapTimer = min(self.rate, self.swapTimer + dt)
+		self.hasFinished = False
 
 		if self.swapTimer == self.rate:
+			self.hasFinished = True
 			self.swapTimer = 0
 			self.frame += 1
 
