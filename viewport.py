@@ -37,16 +37,15 @@ class Viewport(object):
 
 		game.player.cdBar = pygame.rect.Rect((game.player.rect.left, game.player.rect.bottom + 2), (util.remap(game.player.layerCooldown, 0, 0.5, 0, game.player.rect.width), 5))
 
-		bgx = -util.remap(self.rect.x, 0, game.map.width - self.resolution.x, 0, game.map.bgSize[0] - self.resolution.x)
-		bgy = -util.remap(self.rect.y, 0, game.map.height - self.resolution.y, 0, game.map.bgSize[1] - self.resolution.y)
-		game.map.bgOffset = (bgx, bgy)
+		for group in game.particleGroups:
+			group.setOffset(self.rect.topleft)
 
-		for layer in game.map.layers:
+		if game.map.background:
+			bgx = -util.remap(self.rect.x, 0, game.map.width - self.resolution.x, 0, game.map.bgSize[0] - self.resolution.x)
+			bgy = -util.remap(self.rect.y, 0, game.map.height - self.resolution.y, 0, game.map.bgSize[1] - self.resolution.y)
+			game.map.bgOffset = (bgx, bgy)
+
+		for layer in game.map.totalLayers:
 			for block in layer:
-				block.rect.x = block.x - self.rect.x
-				block.rect.y = block.y - self.rect.y
-
-		for deco in game.map.decorations:
-			for block in deco:
 				block.rect.x = block.x - self.rect.x
 				block.rect.y = block.y - self.rect.y
