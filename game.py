@@ -1,4 +1,4 @@
-import pygame, player, mapper, viewport
+import pygame, player, mapper, viewport, animation, particles
 
 class Game(object):
 
@@ -8,10 +8,12 @@ class Game(object):
 		self.screen = objScreen
 		self.font = font
 		self.resolution = resolution
+		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
+		self.particleGroups = particles.Particles.groups
 
-		self.map = mapper.Mapper(self, "1-1")
+		self.map = mapper.Mapper(self, "World 1", "1 - Begin")
 
-		self.player = player.Player(self.map)
+		self.player = player.Player(self)
 		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
 
 		while self.running:
@@ -46,15 +48,21 @@ class Game(object):
 			if not self.paused:
 				self.player.sprites.update(self, self.dt * 0.001)
 				self.map.updateAll(self)
+				self.particleGroups = particles.Particles.groups
 				self.viewport.update(self, self.player.position.x + self.player.position.width / 2, self.player.position.y + self.player.position.height / 2)
 
-			for layer in xrange(len(self.map.layers)):
-				self.map.drawLayer(self, layer)
+			for layerID in xrange(self.map.layerCount):
+				layer = self.map.totalLayers[layerID]
+				layer.draw(self.screen)
 
-				if layer == self.player.drawLayer:
-					self.player.draw(self)
+				if layer in self.map.layers:
+					realID = self.map.layers.index(layer)
 
-			self.map.drawDecos(self)
+					for group in self.particleGroups:
+						group.draw(self, realID)
+
+					if realID == self.player.drawLayer:
+						self.player.draw(self)
 
 			pygame.display.flip()
 
