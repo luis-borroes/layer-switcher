@@ -5,6 +5,8 @@ import pygame, menu
 class Main(object):
 
 	def __init__(self):
+		version = "indev 0.1"
+
 		clock = pygame.time.Clock()
 		fps = 120.
 		resolution = (1280, 720)
@@ -14,9 +16,12 @@ class Main(object):
 		pygame.display.set_caption("Layer Switcher", "Layer Switcher")
 
 		screen = pygame.display.set_mode(resolution)
-		font = pygame.font.Font("assets/ARLRDBD.ttf", 30)
 
-		objMenu = menu.Menu(screen, clock, fps, font, resolution)
+		pygame.mixer.music.load("assets/music/Pamgaea.mp3")
+		pygame.mixer.music.set_volume(0.05)
+		pygame.mixer.music.play(-1)
+
+		objMenu = menu.Menu(screen, clock, fps, resolution, version)
 
 if __name__ == "__main__":
 	pygame.init()
