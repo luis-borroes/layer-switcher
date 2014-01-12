@@ -8,7 +8,7 @@ from distutils.core import setup
 origIsSystemDLL = py2exe.build_exe.isSystemDLL
 
 def isSystemDLL(pathname):
-	if os.path.basename(pathname).lower() in ("sdl_ttf.dll", "libfreetype-6.dll"):
+	if os.path.basename(pathname).lower() in ("sdl_ttf.dll", "libfreetype-6.dll", "libogg-0.dll"):
 		return False
 	return origIsSystemDLL(pathname)
 py2exe.build_exe.isSystemDLL = isSystemDLL
