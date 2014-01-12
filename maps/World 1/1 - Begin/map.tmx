@@ -322,5 +322,20 @@
     <property name="layer" value="1"/>
    </properties>
   </object>
+  <object name="enemy" x="630" y="210" width="70" height="35">
+   <properties>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="1120" y="455" width="70" height="35">
+   <properties>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="1400" y="385" width="70" height="35">
+   <properties>
+    <property name="layer" value="2"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
