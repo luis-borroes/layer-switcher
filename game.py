@@ -80,3 +80,4 @@ class Game(object):
 	def leave(self):
 		self.running = False
 		particles.Particles.groups = []
+		enemy.Enemy.group = []
