@@ -1,4 +1,5 @@
-import pygame, character
+import pygame, character, enemy, utils
+util = utils.Utils()
 
 from vector import Vec2d as Vector
 
@@ -6,18 +7,6 @@ class Player(character.Character):
 
 	def __init__(self, game):
 		super(Player, self).__init__(game, game.map, "player", Vector(0, 0), 0)
-
-		for obj in self.map.tilemap.getObjects():
-			if obj.name == "spawn":
-				self.position.x = obj.x + (self.map.tilemap.tilewidth / 2 - self.image.get_width() / 2)
-				self.position.y = obj.y - (self.image.get_height() - self.map.tilemap.tileheight)
-				if hasattr(obj, "layer"):
-					self.layer = int(obj.layer)
-					self.drawLayer = self.layer
-
-		self.startPos = self.position.topleft
-		self.startLayer = self.layer
-		self.layerOffset = 70 * self.layer
 
 	def spawn(self):
 		super(Player, self).spawn()
@@ -28,6 +17,9 @@ class Player(character.Character):
 		self.cdBar = pygame.rect.Rect((self.rect.left, self.rect.bottom + 2), (0, 10))
 
 	def die(self):
+		for gEnemy in enemy.Enemy.group:
+			gEnemy.die()
+
 		self.spawn()
 
 	def update(self, game, dt):
@@ -54,6 +46,11 @@ class Player(character.Character):
 		self.holdJump = keys[pygame.K_SPACE]
 
 		super(Player, self).update(game, dt)
+
+		for gEnemy in enemy.Enemy.group:
+			if util.collide(self.position, gEnemy.position) and self.layer == gEnemy.layer:
+				self.die()
+				break
 
 	def draw(self, game):
 		super(Player, self).draw(game)
