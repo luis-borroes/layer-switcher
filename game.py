@@ -1,11 +1,11 @@
-import pygame, player, mapper, viewport, animation, particles
+import pygame, player, mapper, viewport, animation, particles, sys
 
 class Game(object):
 
-	def __init__(self, objScreen, objClock, fps, font, resolution):
+	def __init__(self, screen, clock, fps, font, resolution):
 		self.running = True
 		self.paused = False
-		self.screen = objScreen
+		self.screen = screen
 		self.font = font
 		self.resolution = resolution
 		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
@@ -17,15 +17,16 @@ class Game(object):
 		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
 
 		while self.running:
-			self.dt = objClock.tick(fps)
-			pygame.display.set_caption("Layer Switcher %3d FPS" % (objClock.get_fps()), "Layer Switcher")
+			self.dt = clock.tick(fps)
+			pygame.display.set_caption("Layer Switcher %3d FPS" % (clock.get_fps()), "Layer Switcher")
 
 			if self.dt > (1 / fps * 1000) + 10:
 				self.dt = (1 / fps * 1000) + 10
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
-					self.leave()
+					pygame.quit()
+					sys.exit(0)
 					return
 
 				if event.type == pygame.KEYDOWN:
@@ -72,4 +73,4 @@ class Game(object):
 
 	def leave(self):
 		self.running = False
-		pygame.quit()
+		particles.Particles.groups = []
