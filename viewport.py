@@ -1,4 +1,4 @@
-import pygame, utils
+import pygame, utils, particles, enemy
 
 from vector import Vec2d as Vector
 util = utils.Utils()
@@ -35,9 +35,16 @@ class Viewport(object):
 		game.player.rect.x = game.player.position.x - self.rect.x
 		game.player.rect.y = game.player.position.y - self.rect.y
 
-		game.player.cdBar = pygame.rect.Rect((game.player.rect.left, game.player.rect.bottom + 2), (util.remap(game.player.layerCooldown, 0, 0.5, 0, game.player.rect.width), 5))
+		game.player.cdBar = pygame.rect.Rect(
+			(game.player.rect.left, game.player.rect.bottom + 2),
+			(util.remap(game.player.layerCooldown, 0, 0.5, 0, game.player.rect.width), 5)
+		)
 
-		for group in game.particleGroups:
+		for gEnemy in enemy.Enemy.group:
+			gEnemy.rect.x = gEnemy.position.x - self.rect.x
+			gEnemy.rect.y = gEnemy.position.y - self.rect.y
+
+		for group in particles.Particles.groups:
 			group.setOffset(self.rect.topleft)
 
 		if game.map.background:
