@@ -3,7 +3,7 @@ util = utils.Utils()
 
 class Menu(object):
 
-	def __init__(self, screen, clock, fps, font, resolution):
+	def __init__(self, screen, clock, fps, resolution, version):
 		self.running = True
 
 		self.img = pygame.image.load("assets/sprites/menu.png").convert_alpha()
@@ -12,10 +12,16 @@ class Menu(object):
 		self.background = pygame.image.load("assets/sprites/backgrounds/world1.png").convert_alpha()
 		self.bgPos = (0, 0)
 
-		self.args = [screen, clock, fps, font, resolution]
+		self.mediumFont = pygame.font.Font("assets/ARLRDBD.ttf", 30)
+		self.bigFont = pygame.font.Font("assets/ARLRDBD.ttf", 72)
 
-		Option(self.img, font, "Start", (resolution[0] // 2 - self.img.get_width() // 2, resolution[1] - 300), self.start)
-		Option(self.img, font, "Quit", (resolution[0] // 2 - self.img.get_width() // 2, resolution[1] - 225), self.leave)
+		self.mainText = self.bigFont.render("Layer Switcher", 1, (0, 0, 0))
+		self.versionText = self.mediumFont.render(version, 1, (0, 0, 0))
+
+		self.args = [screen, clock, fps, self.mediumFont, resolution]
+
+		Option(self.img, self.mediumFont, "Start", (resolution[0] // 2 - self.img.get_width() // 2, resolution[1] - 300), self.start)
+		Option(self.img, self.mediumFont, "Quit", (resolution[0] // 2 - self.img.get_width() // 2, resolution[1] - 225), self.leave)
 
 		while self.running:
 			dt = clock.tick(fps)
@@ -25,7 +31,13 @@ class Menu(object):
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					self.leave()
-					return
+
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_ESCAPE:
+						self.leave()
+
+					if event.key == pygame.K_SPACE:
+						self.start()
 
 				if event.type == pygame.MOUSEBUTTONUP:
 					if event.button == 1:
@@ -41,9 +53,11 @@ class Menu(object):
 			)
 
 			screen.blit(self.background, self.bgPos)
+			screen.blit(self.mainText, (resolution[0] // 2 - self.mainText.get_width() // 2, 100))
+			screen.blit(self.versionText, (5, resolution[1] - self.versionText.get_height() - 5))
 
 			self.logo.update(dt * 0.001)
-			screen.blit(self.splice, (resolution[0] / 2 - self.splice.get_width() / 2, 200))
+			screen.blit(self.splice, (resolution[0] // 2 - self.splice.get_width() // 2, 270))
 
 			for opt in Option.group:
 				opt.updateAndDraw(screen, mPos, mouseTrigger)
