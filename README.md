@@ -1,4 +1,4 @@
-Layer Switcher working title
+Layer Switcher
 ===
 
 This is a wip game I'm currently working solo on.  
@@ -11,4 +11,4 @@ Sprite tileset by Kenney - http://kenney.nl
 Music by Kevin MacLeod - http://incompetech.com/  
 
 
-Very inspired by Richard Jones' "Introduction to PyGame"
+Very inspired by Richard Jones' "Introduction to PyGame".
