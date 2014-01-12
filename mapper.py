@@ -1,4 +1,4 @@
-import pygame, block
+import pygame, block, vector, enemy
 
 from pytmx import tmxloader
 
@@ -18,6 +18,23 @@ class Mapper(object):
 		self.height = self.tilemap.height * self.tilemap.tileheight
 		self.layerCount = -1
 		self.background = None
+
+		self.pPosition = vector.Vec2d(0, 0)
+		self.pLayer = 0
+
+		for obj in self.tilemap.getObjects():
+			if obj.name == "spawn":
+				self.pPosition.x = obj.x
+				self.pPosition.y = obj.y
+				if hasattr(obj, "layer"):
+					self.pLayer = int(obj.layer)
+
+			elif obj.name == "enemy":
+				layer = 0
+				if hasattr(obj, "layer"):
+					layer = int(obj.layer)
+
+				enemy.Enemy(game, self, vector.Vec2d(obj.x, obj.y), layer)
 
 		if hasattr(self.tilemap, "gravity"):
 			self.gravity = int(self.tilemap.gravity)
