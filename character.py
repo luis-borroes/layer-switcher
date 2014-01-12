@@ -34,7 +34,7 @@ class Character(pygame.sprite.Sprite):
 
 		self.moveSpeed = 500
 		self.jumpSpeed = -600
-		self.jumpTimerLimit = 35
+		self.jumpTimerLimit = 0.34
 		self.swimSpeed = -400
 
 		if hasattr(self.map.tilemap, "shadow"):
@@ -45,6 +45,7 @@ class Character(pygame.sprite.Sprite):
 	def spawn(self):
 		self.rect = pygame.rect.Rect((0, 0), self.image.get_size())
 		self.position = pygame.rect.Rect(self.startPos, self.image.get_size())
+		self.realPosition = self.position
 		self.velocity = Vector(0, 0)
 		self.speedModifier = 1
 		self.resting = False
@@ -121,7 +122,7 @@ class Character(pygame.sprite.Sprite):
 
 		if self.holdJump:
 			if self.jumping:
-				self.jumpTimer += 1
+				self.jumpTimer = min(self.jumpTimerLimit, self.jumpTimer + dt)
 				self.velocity.y = util.approach(dt, self.velocity.y, self.jumpSpeed, 20)
 				if self.jumpTimer == self.jumpTimerLimit:
 					self.jumping = False
@@ -144,8 +145,10 @@ class Character(pygame.sprite.Sprite):
 			self.velocity.x = util.approach(dt, self.velocity.x, 0, 5)
 			self.bubbles.emit(game.dt * 0.001, self.layer)
 
-		self.position.x += int(round(self.velocity.x * dt * self.speedModifier))
-		self.position.y += int(round(self.velocity.y * dt * self.speedModifier))
+		self.realPosition = self.velocity * dt * self.speedModifier
+
+		self.position.x += int(round(self.realPosition.x))
+		self.position.y += int(round(self.realPosition.y))
 
 		self.speedModifier = 1
 
