@@ -1,4 +1,4 @@
-import pygame, player, mapper, viewport, animation, particles, sys
+import pygame, player, enemy, mapper, viewport, animation, particles, sys
 
 class Game(object):
 
@@ -9,7 +9,6 @@ class Game(object):
 		self.font = font
 		self.resolution = resolution
 		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
-		self.particleGroups = particles.Particles.groups
 
 		self.map = mapper.Mapper(self, "World 1", "1 - Begin")
 
@@ -48,8 +47,11 @@ class Game(object):
 
 			if not self.paused:
 				self.player.sprites.update(self, self.dt * 0.001)
+
+				for gEnemy in enemy.Enemy.group:
+					gEnemy.update(self, self.dt * 0.001)
+
 				self.map.updateAll(self)
-				self.particleGroups = particles.Particles.groups
 				self.viewport.update(self, self.player.position.x + self.player.position.width / 2, self.player.position.y + self.player.position.height / 2)
 
 			for layerID in xrange(self.map.layerCount):
@@ -59,8 +61,12 @@ class Game(object):
 				if layer in self.map.layers:
 					realID = self.map.layers.index(layer)
 
-					for group in self.particleGroups:
+					for group in particles.Particles.groups:
 						group.draw(self, realID)
+
+					for gEnemy in enemy.Enemy.group:
+						if realID == gEnemy.drawLayer:
+							gEnemy.draw(self)
 
 					if realID == self.player.drawLayer:
 						self.player.draw(self)
