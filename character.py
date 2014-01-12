@@ -5,11 +5,11 @@ util = utils.Utils()
 
 class Character(pygame.sprite.Sprite):
 
-	def __init__(self, game, objMap, charType, pos, layer):
+	def __init__(self, game, gMap, charType, pos, layer):
 		self.sprites = pygame.sprite.Group()
 		super(Character, self).__init__(self.sprites)
 
-		self.map = objMap
+		self.map = gMap
 		self.type = charType
 
 		self.standing = animation.Animation("assets/characters/%s/standingRight.png" % (self.type), 50, 50, 2, 2)
@@ -21,8 +21,17 @@ class Character(pygame.sprite.Sprite):
 		self.particles = particles.Particles(50, 0.5, (0, 0, 0, 50), (0, 0), (self.image.get_width(), self.map.tilemap.tileheight))
 		self.bubbles = particles.Particles(50, 0.5, (0, 0, 255, 50), (0, 0), (self.image.get_width(), self.map.tilemap.tileheight))
 
-		self.startPos = pos
+		self.startPos = pos + (self.map.tilemap.tilewidth / 2 - self.image.get_width() / 2, -self.image.get_height() + self.map.tilemap.tileheight)
 		self.startLayer = layer
+
+		if self.type == "player":
+			self.startPos.x += self.map.pPosition.x
+			self.startPos.y += self.map.pPosition.y 
+
+			self.startLayer = self.map.pLayer
+
+		self.layerOffset = 70 * self.startLayer
+
 		self.moveSpeed = 500
 		self.jumpSpeed = -600
 		self.jumpTimerLimit = 35
