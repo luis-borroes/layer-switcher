@@ -31,7 +31,7 @@ class Enemy(character.Character):
 			elif game.player.position.centerx > self.position.centerx:
 				self.moveRight(dt)
 
-			if game.player.position.centery < self.position.centery:
+			if game.player.position.centery < self.position.centery and not self.jumping and self.resting:
 				self.jump()
 
 		super(Enemy, self).update(game, dt)
