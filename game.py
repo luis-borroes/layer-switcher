@@ -6,6 +6,8 @@ class Game(object):
 		self.running = True
 		self.paused = False
 		self.screen = screen
+		self.clock = clock
+		self.fps = fps
 		self.font = font
 		self.resolution = resolution
 		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
@@ -16,11 +18,11 @@ class Game(object):
 		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
 
 		while self.running:
-			self.dt = clock.tick(fps)
-			pygame.display.set_caption("Layer Switcher %3d FPS" % (clock.get_fps()), "Layer Switcher")
+			self.dt = self.clock.tick(self.fps)
+			pygame.display.set_caption("Layer Switcher %3d FPS" % (self.clock.get_fps()), "Layer Switcher")
 
-			if self.dt > (1 / fps * 1000) + 10:
-				self.dt = (1 / fps * 1000) + 10
+			if self.dt > (1 / self.fps * 1000) + 10:
+				self.dt = (1 / self.fps * 1000) + 10
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
