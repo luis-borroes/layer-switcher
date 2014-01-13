@@ -337,5 +337,17 @@
     <property name="layer" value="2"/>
    </properties>
   </object>
+  <object name="enemy" x="910" y="0" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="1890" y="140" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>

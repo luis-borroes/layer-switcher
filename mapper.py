@@ -31,10 +31,15 @@ class Mapper(object):
 
 			elif obj.name == "enemy":
 				layer = 0
+				enemyType = "enemyBlue"
+
 				if hasattr(obj, "layer"):
 					layer = int(obj.layer)
 
-				enemy.Enemy(game, self, vector.Vec2d(obj.x, obj.y), layer)
+				if hasattr(obj, "color"):
+					enemyType = "enemy" + obj.color.capitalize()
+
+				enemy.Enemy(game, self, enemyType, vector.Vec2d(obj.x, obj.y), layer)
 
 		if hasattr(self.tilemap, "gravity"):
 			self.gravity = int(self.tilemap.gravity)
