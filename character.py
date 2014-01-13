@@ -60,7 +60,7 @@ class Character(pygame.sprite.Sprite):
 		self.layerCooldown = 0
 		self.layerOffset = 70 * self.layer
 		self._oldAccel = 0
-		self._oldGround = None
+		self._oldGround = self.getClosestGround(self.layer, self.position)
 		self._oldResting = False
 		self.shadowPos = None
 		self.shadowLooking = True
@@ -161,7 +161,7 @@ class Character(pygame.sprite.Sprite):
 			self.velocity.x = 0
 
 		if self.position.y > game.map.height + 250:
-			self.spawn()
+			self.die()
 
 		self.resting = False
 		self.swimming = False
