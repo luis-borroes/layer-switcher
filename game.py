@@ -49,12 +49,12 @@ class Game(object):
 
 			if not self.paused:
 				self.player.sprites.update(self, self.dt * 0.001)
+				self.viewport.update(self, self.player.position.centerx, self.player.position.centery)
 
 				for gEnemy in enemy.Enemy.group:
 					gEnemy.update(self, self.dt * 0.001)
 
 				self.map.updateAll(self)
-				self.viewport.update(self, self.player.position.x + self.player.position.width / 2, self.player.position.y + self.player.position.height / 2)
 
 			for layerID in xrange(self.map.layerCount):
 				layer = self.map.totalLayers[layerID]
