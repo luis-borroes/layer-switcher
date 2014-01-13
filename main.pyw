@@ -8,7 +8,7 @@ class Main(object):
 		version = "indev 0.1"
 
 		clock = pygame.time.Clock()
-		fps = 120.
+		fps = 60.
 		resolution = (1280, 720)
 
 		icon = pygame.image.load("assets/icons/icon.png")
