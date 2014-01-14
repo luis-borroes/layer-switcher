@@ -5,7 +5,7 @@ import pygame, menu
 class Main(object):
 
 	def __init__(self):
-		version = "indev 0.1"
+		version = "indev 0.0.1"
 
 		clock = pygame.time.Clock()
 		fps = 60.
