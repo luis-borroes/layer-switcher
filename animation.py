@@ -1,9 +1,17 @@
 import pygame
 
 class Animation(object):
+	loadedImagePaths = []
+	loadedImages = []
 
 	def __init__(self, imgPath, width, height, updateRate, frameLimit):
-		self.img = pygame.image.load(imgPath).convert_alpha()
+		if imgPath not in Animation.loadedImagePaths:
+			self.img = pygame.image.load(imgPath).convert_alpha()
+			Animation.loadedImagePaths.append(imgPath)
+			Animation.loadedImages.append(self.img)
+		else:
+			self.img = Animation.loadedImages[Animation.loadedImagePaths.index(imgPath)]
+
 		self.width = width
 		self.height = height
 		self.frameList = self.genLoopable(self.img.get_width(), self.img.get_height())
@@ -13,7 +21,7 @@ class Animation(object):
 		self.swapTimer = 0
 		self.frame = 0
 		self.frameLimit = frameLimit
-		self.hasFinished = False
+		self.callback = None
 
 		self.setPos(self.position.topleft)
 
@@ -34,16 +42,20 @@ class Animation(object):
 	def getSplice(self):
 		return self.surface
 
+	def setCallback(self, callback):
+		self.callback = callback
+
 	def update(self, dt):
 		self.swapTimer = min(self.rate, self.swapTimer + dt)
-		self.hasFinished = False
 
 		if self.swapTimer == self.rate:
-			self.hasFinished = True
 			self.swapTimer = 0
 			self.frame += 1
 
 			if self.frame == self.frameLimit:
 				self.frame = 0
+
+				if self.callback:
+					self.callback()
 
 			self.setPos(self.frameList[self.frame])
