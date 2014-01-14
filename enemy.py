@@ -28,8 +28,8 @@ class Enemy(character.Character):
 		self.spawn()
 
 	def update(self, game, dt):
-		in_x = self.position.centerx - game.player.position.centerx in xrange(-game.resolution[0] / 2, game.resolution[0] / 2)
-		in_y = self.position.centery - game.player.position.centery in xrange(-game.resolution[1] / 2, game.resolution[1] / 2)
+		in_x = abs(self.position.centerx - game.player.position.centerx) < game.halfResolution[0]
+		in_y = abs(self.position.centery - game.player.position.centery) < game.halfResolution[1]
 		self.inProximity = in_x and in_y
 
 		if self.type == Enemy.blue:
