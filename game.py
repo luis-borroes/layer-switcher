@@ -2,7 +2,7 @@ import pygame, player, enemy, mapper, viewport, animation, particles, sys
 
 class Game(object):
 
-	def __init__(self, screen, clock, fps, font, resolution):
+	def __init__(self, screen, clock, fps, font, resolution, halfResolution):
 		self.running = True
 		self.paused = False
 		self.screen = screen
@@ -10,6 +10,7 @@ class Game(object):
 		self.fps = fps
 		self.font = font
 		self.resolution = resolution
+		self.halfResolution = halfResolution
 		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
 
 		self.map = mapper.Mapper(self, "World 1", "1 - Begin")
@@ -49,14 +50,14 @@ class Game(object):
 
 			if not self.paused:
 				self.player.sprites.update(self, self.dt * 0.001)
-				self.viewport.update(self, self.player.position.centerx, self.player.position.centery)
 
 				for gEnemy in enemy.Enemy.group:
 					gEnemy.update(self, self.dt * 0.001)
 
 				self.map.updateAll(self)
+				self.viewport.update(self, self.player.position.centerx, self.player.position.centery)
 
-			for layerID in xrange(self.map.layerCount):
+			for layerID in xrange(self.map.layerCount + 1):
 				layer = self.map.totalLayers[layerID]
 				layer.draw(self.screen)
 
