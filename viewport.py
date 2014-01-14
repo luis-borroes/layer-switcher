@@ -8,7 +8,8 @@ class Viewport(object):
 	def __init__(self, game, x, y):
 		self.position = Vector(x, y)
 		self.resolution = Vector(game.resolution)
-		self.rect = pygame.rect.Rect(self.position - self.resolution / 2, self.resolution)
+		self.halfResolution = Vector(game.halfResolution)
+		self.rect = pygame.rect.Rect(self.position - self.halfResolution, self.resolution)
 		self.update(game, x, y)
 
 	def update(self, game, x, y):
@@ -18,7 +19,7 @@ class Viewport(object):
 
 		self.position += vec
 		self.resolution = Vector(game.resolution)
-		self.rect = pygame.rect.Rect(self.position - self.resolution / 2, self.resolution)
+		self.rect = pygame.rect.Rect(self.position - self.halfResolution, self.resolution)
 
 		if self.rect.x < 0:
 			self.rect.x = 0
