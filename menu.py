@@ -1,4 +1,4 @@
-import pygame, game, sys, utils, animation
+import pygame, game, sys, os, utils, animation
 util = utils.Utils()
 
 class Menu(object):
@@ -8,14 +8,20 @@ class Menu(object):
 		self.clock = clock
 		self.fps = fps
 		self.resolution = resolution
+		self.halfResolution = (self.resolution[0] // 2, self.resolution[1] // 2)
 		self.version = version
 
 		self.running = True
 
 		self.img = pygame.image.load("assets/sprites/menu.png").convert_alpha()
 		self.imgSmall = pygame.image.load("assets/sprites/menuSmall.png").convert_alpha()
-		self.logo = animation.Animation("assets/characters/player/standingRight.png", 50, 50, 2, 2)
-		self.splice = self.logo.getSplice()
+
+		for anim in os.listdir("assets/characters/player"):
+			info = anim[:anim.find(".")].split("+")
+			if info[0] == "standingRight":
+				self.logo = animation.Animation("assets/characters/player/%s" % anim, 50, 50, float(info[1]), float(info[2]))
+				self.splice = self.logo.getSplice()
+
 		self.background = pygame.image.load("assets/sprites/backgrounds/world1.png").convert_alpha()
 		self.bgPos = (0, 0)
 
@@ -63,12 +69,12 @@ class Menu(object):
 			)
 
 			self.screen.blit(self.background, self.bgPos)
-			self.screen.blit(self.mainText, (self.resolution[0] // 2 - self.mainText.get_width() // 2, 100))
+			self.screen.blit(self.mainText, (self.halfResolution[0] - self.mainText.get_width() // 2, 100))
 			self.screen.blit(self.versionText, (5, self.resolution[1] - self.versionText.get_height() - 5))
 
 			if self.currentMenu == "main":
 				self.logo.update(dt * 0.001)
-				self.screen.blit(self.splice, (self.resolution[0] // 2 - self.splice.get_width() // 2, 270))
+				self.screen.blit(self.splice, (self.halfResolution[0] - self.splice.get_width() // 2, 270))
 
 			for opt in Option.group:
 				opt.updateAndDraw(self.screen, mPos, mouseTrigger)
@@ -112,7 +118,7 @@ class Menu(object):
 		pygame.mixer.music.set_volume(new)
 
 	def start(self):
-		self.game = game.Game(self.screen, self.clock, self.fps, self.mediumFont, self.resolution)
+		self.game = game.Game(self.screen, self.clock, self.fps, self.mediumFont, self.resolution, self.halfResolution)
 
 	def leave(self):
 		self.running = False
