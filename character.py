@@ -1,10 +1,9 @@
-import pygame, utils, animation, particles
+import pygame, utils, animation, particles, os
 
 from vector import Vec2d as Vector
 util = utils.Utils()
 
 class Character(pygame.sprite.Sprite):
-
 	def __init__(self, game, gMap, charType, pos, layer):
 		self.sprites = pygame.sprite.Group()
 		super(Character, self).__init__(self.sprites)
@@ -12,9 +11,15 @@ class Character(pygame.sprite.Sprite):
 		self.map = gMap
 		self.type = charType
 
-		self.standing = animation.Animation("assets/characters/%s/standingRight.png" % (self.type), 50, 50, 2, 2)
+		self.animList = {}
+		for anim in os.listdir("assets/characters/%s" % self.type):
+			info = anim[:anim.find(".")].split("+")
+			if len(info) < 3:
+				info[1:2] = [1, 1]
 
-		self.setStatus(self.standing)
+			self.animList[info[0]] = animation.Animation("assets/characters/%s/%s" % (self.type, anim), 50, 50, float(info[1]), float(info[2]))
+
+		self.setStatus("standingRight")
 		self.shadow = pygame.image.load("assets/sprites/shadow.png")
 		self.drawShadow = True
 
@@ -47,6 +52,7 @@ class Character(pygame.sprite.Sprite):
 		self.position = pygame.rect.Rect(self.startPos, self.image.get_size())
 		self.realPosition = self.position
 		self.velocity = Vector(0, 0)
+		self.direction = "Right"
 		self.speedModifier = 1
 		self.resting = False
 		self.jumping = False
@@ -74,11 +80,19 @@ class Character(pygame.sprite.Sprite):
 			self.velocity.y = self.jumpSpeed
 			self.resting = False
 
+			self.setStatus("jumping" + self.direction, lambda: self.setStatus("falling" + self.direction))
+
 	def moveLeft(self, dt):
 		self.velocity.x = util.approach(dt, self.velocity.x, -self.moveSpeed, 20)
+		self.direction = "Left"
+		if self.resting:
+			self.setStatus("walking" + self.direction)
 
 	def moveRight(self, dt):
 		self.velocity.x = util.approach(dt, self.velocity.x, self.moveSpeed, 20)
+		self.direction = "Right"
+		if self.resting:
+			self.setStatus("walking" + self.direction)
 
 	def toBack(self, game):
 		if self.layerCooldown == 0 and self.layer > 0:
@@ -167,6 +181,11 @@ class Character(pygame.sprite.Sprite):
 		self.swimming = False
 
 		if self.layerChanging:
+			if self.layer > self.oldLayer:
+				self.setStatus("switchFront", lambda: self.setStatus("falling" + self.direction))
+			if self.layer < self.oldLayer:
+				self.setStatus("switchBack", lambda: self.setStatus("falling" + self.direction))
+
 			oldOff = self.layerOffset
 			self.layerOffset = util.approach(dt, self.layerOffset, 70 * self.layer, 5)
 
@@ -237,9 +256,19 @@ class Character(pygame.sprite.Sprite):
 		self.animation.update(game.dt * 0.001)
 		self.sprites.draw(game.screen)
 
-	def setStatus(self, status):
-		self.animation = status
-		self.image = self.animation.getSplice()
+		if self.resting:
+			self.setStatus("standing" + self.direction)
+		elif not self.jumping:
+			self.setStatus("falling" + self.direction)
+
+	def setStatus(self, status, callback = None):
+		if status in self.animList:
+			self.animation = self.animList[status]
+
+			if callback:
+				self.animation.setCallback(callback)
+
+			self.image = self.animation.getSplice()
 
 	def genShadow(self, game):
 		ground = self.getClosestGround(self.layer, self.position)
