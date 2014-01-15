@@ -71,7 +71,7 @@ class Character(pygame.sprite.Sprite):
 		self.shadowPos = None
 		self.shadowLooking = True
 
-	def die(self):
+	def die(self, game):
 		pass
 
 	def jump(self):
@@ -175,7 +175,7 @@ class Character(pygame.sprite.Sprite):
 			self.velocity.x = 0
 
 		if self.position.y > game.map.height + 250:
-			self.die()
+			self.die(game)
 
 		self.resting = False
 		self.swimming = False
@@ -242,7 +242,7 @@ class Character(pygame.sprite.Sprite):
 					self.speedModifier = 0.2
 
 				if "k" in block.prop:
-					self.die()
+					self.die(game)
 
 	def draw(self, game):
 		if self.drawShadow:
@@ -256,9 +256,9 @@ class Character(pygame.sprite.Sprite):
 		self.animation.update(game.dt * 0.001)
 		self.sprites.draw(game.screen)
 
-		if self.resting:
+		if self.resting and not game.paused:
 			self.setStatus("standing" + self.direction)
-		elif not self.jumping:
+		elif not self.jumping and not game.paused:
 			self.setStatus("falling" + self.direction)
 
 	def setStatus(self, status, callback = None):
