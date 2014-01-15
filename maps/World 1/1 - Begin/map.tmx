@@ -340,7 +340,7 @@
  </layer>
  <layer name="bgdec" width="100" height="30">
   <properties>
-   <property name="decorations" value=""/>
+   <property name="decorations" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJzt08EJACAMBMHoyzLsvzpL8GsBgQSZqWDhuAgAAIC/rFldwGvbA0hwRnUBmewJffgjAAAAAADdXHPPAwA=
@@ -353,7 +353,7 @@
  </layer>
  <layer name="middec" width="100" height="30">
   <properties>
-   <property name="decorations" value=""/>
+   <property name="decorations" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJzt2DEOgCAQAEFCo74C//9KYwwtUKhAmEmuuo5tLoQAAAAAQMkey/utsuc9d4uz8t4pavKHlhaZJt9rbZFpMp6kx9SO+AzA6twXY3FfAAD0seJdnP9GStOLuxjmdAGzNQH6
@@ -366,7 +366,7 @@
  </layer>
  <layer name="frontdec" width="100" height="30">
   <properties>
-   <property name="decorations" value=""/>
+   <property name="decorations" value="2"/>
   </properties>
   <data encoding="base64" compression="zlib">
    eJzt2EEKgzAQBVBxU29h73/KEkLAhWkClumI720NRPL5YXRZAAAAAAB4um399xvQlCze8kjhLItXJ5tjh3pruOasF3vnrI9ryxqZxJjpRyGTGLN5FL0u/ULbr7zPk+eNmfsqQttvN2+koB+5bPqRin5Uo5kp6mz0oxrNTFFnox+VfuQyykM/Yo3uq+h+yOP789n/j1fd7XvwA0J+BSw=
