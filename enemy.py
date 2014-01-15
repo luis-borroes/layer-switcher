@@ -24,7 +24,7 @@ class Enemy(character.Character):
 	def spawn(self):
 		super(Enemy, self).spawn()
 
-	def die(self):
+	def die(self, game):
 		self.spawn()
 
 	def update(self, game, dt):
