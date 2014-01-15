@@ -16,11 +16,17 @@ class Player(character.Character):
 		self.key_s = False
 		self.cdBar = pygame.rect.Rect((self.rect.left, self.rect.bottom + 2), (0, 10))
 
-	def die(self):
+	def die(self, game):
+		game.paused = True
+		self.setStatus("death", lambda: self.realDie(game))
+
+	def realDie(self, game):
 		for gEnemy in enemy.Enemy.group:
-			gEnemy.die()
+			gEnemy.die(game)
 
 		self.spawn()
+		game.paused = False
+		game.viewport.update(game, self.position.centerx, self.position.centery)
 
 	def update(self, game, dt):
 		if self.key_w:
@@ -49,7 +55,7 @@ class Player(character.Character):
 
 		for gEnemy in enemy.Enemy.group:
 			if util.collide(self.position, gEnemy.position) and self.layer == gEnemy.layer:
-				self.die()
+				self.die(game)
 				break
 
 	def draw(self, game):
