@@ -7,6 +7,8 @@ class Mapper(object):
 	def __init__(self, game, world, mapName):
 		self.layers = []
 		self.layerInfo = []
+		self.specialDecos = []
+		self.decoLinks = {}
 		self.totalLayers = []
 		self.blocks = {}
 		self.mapName = mapName
@@ -62,7 +64,17 @@ class Mapper(object):
 
 			if layer.visible:
 				if hasattr(layer, "decorations"):
-					self.totalLayers.append(pygame.sprite.Group())
+					newGroup = pygame.sprite.Group()
+					self.totalLayers.append(newGroup)
+
+					if layer.decorations != "":
+						self.specialDecos.append(newGroup)
+						parentID = int(layer.decorations)
+
+						if not parentID in self.specialDecos:
+							self.decoLinks[parentID] = []
+
+						self.decoLinks[parentID].append(newGroup)
 
 					for x in xrange(0, self.tilemap.width):
 						for y in xrange(0, self.tilemap.height):

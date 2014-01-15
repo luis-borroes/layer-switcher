@@ -59,10 +59,16 @@ class Game(object):
 
 			for layerID in xrange(self.map.layerCount + 1):
 				layer = self.map.totalLayers[layerID]
-				layer.draw(self.screen)
+
+				if not layer in self.map.specialDecos:
+					layer.draw(self.screen)
 
 				if layer in self.map.layers:
 					realID = self.map.layers.index(layer)
+
+					if realID in self.map.decoLinks:
+						for subLayer in self.map.decoLinks[realID]:
+							subLayer.draw(self.screen)
 
 					for group in particles.Particles.groups:
 						group.draw(self, realID)
