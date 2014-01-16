@@ -33,8 +33,11 @@ class Game(object):
 
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_ESCAPE:
-						self.leave()
-						return
+						if self.paused:
+							self.leave()
+							return
+						else:
+							self.paused = True
 
 					if event.key == pygame.K_w:
 						self.player.key_w = True
@@ -43,7 +46,10 @@ class Game(object):
 						self.player.key_s = True
 
 					if event.key == pygame.K_SPACE:
-						self.player.spaced = True
+						if self.paused:
+							self.paused = False
+						else:
+							self.player.spaced = True
 
 			self.screen.fill(self.map.bgColor)
 			self.map.drawBackground(self)
