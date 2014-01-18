@@ -13,7 +13,7 @@ class Viewport(object):
 		self.update(game, x, y)
 
 	def update(self, game, x, y):
-		vec = Vector(x - self.position.x, y - self.position.y) * 0.05
+		vec = Vector(x - self.position.x, y - self.position.y) * 0.005 * game.dt
 		if vec.length < 0.05:
 			vec = Vector(0, 0)
 

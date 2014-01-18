@@ -12,6 +12,7 @@ class Game(object):
 		self.resolution = resolution
 		self.halfResolution = halfResolution
 		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
+		self.dt = 0
 
 		self.map = mapper.Mapper(self, "World 1", "1 - Begin")
 
