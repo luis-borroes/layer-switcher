@@ -10,6 +10,7 @@ class Menu(object):
 		self.resolution = resolution
 		self.halfResolution = (self.resolution[0] // 2, self.resolution[1] // 2)
 		self.version = version
+		self.volume = pygame.mixer.music.get_volume()
 
 		self.running = True
 
@@ -110,12 +111,12 @@ class Menu(object):
 		self.fps = fps
 
 	def lowerVolume(self):
-		new = pygame.mixer.music.get_volume() - 0.05
-		pygame.mixer.music.set_volume(new)
+		self.volume = max(0, self.volume - 0.05)
+		pygame.mixer.music.set_volume(self.volume)
 
 	def raiseVolume(self):
-		new = pygame.mixer.music.get_volume() + 0.05
-		pygame.mixer.music.set_volume(new)
+		self.volume = min(1, self.volume + 0.05)
+		pygame.mixer.music.set_volume(self.volume)
 
 	def start(self):
 		self.game = game.Game(self.screen, self.clock, self.fps, self.mediumFont, self.resolution, self.halfResolution)
