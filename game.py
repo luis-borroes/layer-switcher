@@ -23,8 +23,8 @@ class Game(object):
 			self.dt = self.clock.tick(self.fps)
 			pygame.display.set_caption("Layer Switcher %3d FPS" % (self.clock.get_fps()), "Layer Switcher")
 
-			if self.dt > (1 / self.fps * 1000) + 10:
-				self.dt = (1 / self.fps * 1000) + 10
+			if self.dt > (1 / self.fps * 1000) + 20:
+				self.dt = (1 / self.fps * 1000) + 20
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
