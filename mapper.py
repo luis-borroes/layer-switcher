@@ -11,6 +11,7 @@ class Mapper(object):
 		self.decoLinks = {}
 		self.totalLayers = []
 		self.blocks = {}
+		self.grounds = []
 		self.mapName = mapName
 		self.world = world
 		self.tilemap = tmxloader.load_pygame("maps/%s/%s/map.tmx" % (self.world, self.mapName), pixelalpha = True)
@@ -23,25 +24,6 @@ class Mapper(object):
 
 		self.pPosition = vector.Vec2d(0, 0)
 		self.pLayer = 0
-
-		for obj in self.tilemap.getObjects():
-			if obj.name == "spawn":
-				self.pPosition.x = obj.x
-				self.pPosition.y = obj.y
-				if hasattr(obj, "layer"):
-					self.pLayer = int(obj.layer)
-
-			elif obj.name == "enemy":
-				layer = 0
-				enemyType = "enemyBlue"
-
-				if hasattr(obj, "layer"):
-					layer = int(obj.layer)
-
-				if hasattr(obj, "color"):
-					enemyType = "enemy" + obj.color.capitalize()
-
-				enemy.Enemy(game, self, enemyType, vector.Vec2d(obj.x, obj.y), layer)
 
 		if hasattr(self.tilemap, "gravity"):
 			self.gravity = int(self.tilemap.gravity)
@@ -89,12 +71,45 @@ class Mapper(object):
 					self.totalLayers.append(newGroup)
 					self.layerInfo.append(layer)
 
+					self.grounds.append([])
+
 					for x in xrange(0, self.tilemap.width):
+						self.grounds[len(self.grounds) - 1].append([])
+						nextGround = True
 						for y in xrange(0, self.tilemap.height):
 							img = self.tilemap.getTileImage(x, y, self.layerCount)
 							
 							if img:
 								self.blocks[(len(self.layers) - 1, x, y)] = block.Block(x, y, self.tilemap, img, self.layerCount, self.totalLayers[self.layerCount])
+								if nextGround and self.blocks[(len(self.layers) - 1, x, y)].collidable or (self.blocks[(len(self.layers) - 1, x, y)].liquid and not self.blocks[(len(self.layers) - 1, x, y - 1)].liquid):
+									self.grounds[len(self.grounds) - 1][x].append(self.blocks[(len(self.layers) - 1, x, y)])
+
+									if self.blocks[(len(self.layers) - 1, x, y)].liquid:
+										nextGround = True
+									else:
+										nextGround = False
+
+							else:
+								nextGround = True
+
+		for obj in self.tilemap.getObjects():
+			if obj.name == "spawn":
+				self.pPosition.x = obj.x
+				self.pPosition.y = obj.y
+				if hasattr(obj, "layer"):
+					self.pLayer = int(obj.layer)
+
+			elif obj.name == "enemy":
+				layer = 0
+				enemyType = "enemyBlue"
+
+				if hasattr(obj, "layer"):
+					layer = int(obj.layer)
+
+				if hasattr(obj, "color"):
+					enemyType = "enemy" + obj.color.capitalize()
+
+				enemy.Enemy(game, self, enemyType, vector.Vec2d(obj.x, obj.y), layer)
 
 	def updateAll(self, game):
 		for layer in self.totalLayers:
