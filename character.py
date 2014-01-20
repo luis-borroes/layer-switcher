@@ -20,7 +20,7 @@ class Character(pygame.sprite.Sprite):
 			self.animList[info[0]] = animation.Animation("assets/characters/%s/%s" % (self.type, anim), 50, 50, float(info[1]), float(info[2]))
 
 		self.setStatus("standingRight")
-		self.shadow = pygame.image.load("assets/sprites/shadow.png")
+		self.shadow = pygame.image.load("assets/sprites/shadow.png").convert_alpha()
 		self.drawShadow = True
 
 		self.particles = particles.Particles(50, 0.5, (0, 0, 0, 50), (0, 0), (self.image.get_width(), self.map.tilemap.tileheight))
@@ -282,20 +282,18 @@ class Character(pygame.sprite.Sprite):
 			if self.shadowPos:
 				self.shadowPos.x = self.rect.centerx - self.shadow.get_width() * 0.5
 
-				target = ground.rect.top
+				target = ground.rect.top - self.map.tilemap.tileheight * 0.5
 				stepToggle = False
 
 				if self.layerChanging:
 					if ground.rect.top < self._oldGround.rect.top and self.oldLayer < self.layer and self.shadowLooking:
-						self.shadowPos.y = ground.rect.top - self.map.tilemap.tileheight
+						self.shadowPos.y = ground.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
 						self.shadowLooking = False
 
 					if ground.rect.top > self._oldGround.rect.top and self.oldLayer > self.layer and self.shadowLooking:
-						target = self._oldGround.rect.top - self.map.tilemap.tileheight
+						target = self._oldGround.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
 						stepToggle = True
-						if self.shadowPos.y == target:
-							target = ground.rect.top - self.map.tilemap.tileheight
-							self.shadowLooking = False
+						
 				else:
 					self._oldGround = ground
 					self.shadowLooking = True
@@ -307,10 +305,13 @@ class Character(pygame.sprite.Sprite):
 					if step < 7:
 						step = 7
 
-				self.shadowPos.y = util.approach(game.dt * 0.001, self.shadowPos.y, target - self.shadow.get_height() * 0.5, step)
+				self.shadowPos.y = util.approach(game.dt * 0.001, self.shadowPos.y, target, step)
 
 			else:
 				self.shadowPos = Vector(self.rect.centerx - self.shadow.get_width() * 0.5, ground.rect.top - self.shadow.get_height() * 0.5)
+
+		else:
+			self.shadowPos = None
 
 	def getClosestGround(self, layer, position):
 		if (position.centerx / self.map.tilemap.tilewidth, position.centery / self.map.tilemap.tileheight) == self._oldPos and layer == self.oldLayer:
@@ -318,8 +319,7 @@ class Character(pygame.sprite.Sprite):
 
 		else:
 			for ground in self.map.grounds[layer][position.centerx / self.map.tilemap.tilewidth]:
-				if position.y <= ground.y or util.collide(position, ground.position):
-					self._oldGround = ground
+				if position.y <= ground.y or (self.layerChanging and util.collide(position, ground.position)):
 					self._oldPos = (position.centerx / self.map.tilemap.tilewidth, position.centery / self.map.tilemap.tileheight)
 
 					return ground

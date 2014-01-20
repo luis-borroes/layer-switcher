@@ -32,6 +32,8 @@ class Enemy(character.Character):
 		in_y = abs(self.position.centery - game.player.position.centery) < game.halfResolution[1]
 		self.inProximity = in_x and in_y
 
+		update = True
+
 		if self.type == Enemy.blue:
 			if self.inProximity and self.layer == game.player.layer:
 
@@ -50,6 +52,9 @@ class Enemy(character.Character):
 				if game.player.position.centery > self.position.centery and self.holdJump:
 					self.holdJump = False
 
+			elif self.resting and self.velocity.x == 0:
+				update = False
+
 		if self.type == Enemy.yellow:
 			if self.inProximity:
 
@@ -67,6 +72,9 @@ class Enemy(character.Character):
 
 				if game.player.position.centery > self.position.centery and self.holdJump:
 					self.holdJump = False
+
+			elif self.resting and self.velocity.x == 0:
+				update = False
 
 		if self.type == Enemy.red:
 			if self.inProximity:
@@ -91,7 +99,11 @@ class Enemy(character.Character):
 				if game.player.position.centery > self.position.centery and self.holdJump:
 					self.holdJump = False
 
-		super(Enemy, self).update(game, dt)
+			elif self.resting and self.velocity.x == 0:
+				update = False
+
+		if update:
+			super(Enemy, self).update(game, dt)
 
 	def draw(self, game):
 		super(Enemy, self).draw(game)

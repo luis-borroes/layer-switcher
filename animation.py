@@ -16,7 +16,7 @@ class Animation(object):
 		self.height = height
 		self.frameList = self.genLoopable(self.img.get_width(), self.img.get_height())
 		self.position = pygame.rect.Rect((0, 0), (self.width, self.height))
-		self.surface = pygame.Surface(self.position.size, pygame.SRCALPHA).convert_alpha()
+		self.surface = pygame.Surface(self.position.size, pygame.SRCALPHA | pygame.HWSURFACE).convert_alpha()
 		self.rate = 1 / float(updateRate)
 		self.swapTimer = 0
 		self.frame = 0

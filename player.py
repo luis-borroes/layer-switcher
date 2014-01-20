@@ -47,6 +47,7 @@ class Player(character.Character):
 
 		if self.spaced:
 			self.spaced = False
+			self.holdJump = True
 			self.jump()
 
 		self.holdJump = keys[pygame.K_SPACE]

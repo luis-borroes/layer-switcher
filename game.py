@@ -61,7 +61,6 @@ class Game(object):
 				for gEnemy in enemy.Enemy.group:
 					gEnemy.update(self, self.dt * 0.001)
 
-				self.map.updateAll(self)
 				self.viewport.update(self, self.player.position.centerx, self.player.position.centery)
 
 			for layerID in xrange(self.map.layerCount + 1):

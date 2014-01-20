@@ -111,10 +111,6 @@ class Mapper(object):
 
 				enemy.Enemy(game, self, enemyType, vector.Vec2d(obj.x, obj.y), layer)
 
-	def updateAll(self, game):
-		for layer in self.totalLayers:
-			layer.update(game.dt * 0.001)
-
 	def drawBackground(self, game):
 		if self.background:
 			game.screen.blit(self.background, self.bgOffset)

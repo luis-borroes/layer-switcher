@@ -4,7 +4,7 @@ class Particles(object):
 	groups = []
 
 	def __init__(self, rate, lifeTime, color, position, size):
-		self.img = pygame.Surface((5, 5), pygame.SRCALPHA)
+		self.img = pygame.Surface((5, 5), pygame.SRCALPHA | pygame.HWSURFACE)
 		self.img.fill(color)
 		self.img.convert_alpha()
 
