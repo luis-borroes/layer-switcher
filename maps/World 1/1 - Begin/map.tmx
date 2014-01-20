@@ -41,8 +41,6 @@
   <tile id="50">
    <properties>
     <property name="d" value=""/>
-    <property name="l" value=""/>
-    <property name="r" value=""/>
    </properties>
   </tile>
   <tile id="51">
@@ -80,6 +78,12 @@
     <property name="d" value=""/>
     <property name="l" value=""/>
     <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="121">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
    </properties>
   </tile>
   <tile id="122">
@@ -199,12 +203,6 @@
     <property name="r" value=""/>
    </properties>
   </tile>
-  <tile id="198">
-   <properties>
-    <property name="l" value=""/>
-    <property name="r" value=""/>
-   </properties>
-  </tile>
   <tile id="199">
    <properties>
     <property name="r" value=""/>
@@ -277,6 +275,7 @@
   </tile>
   <tile id="265">
    <properties>
+    <property name="d" value=""/>
     <property name="l" value=""/>
    </properties>
   </tile>
@@ -323,6 +322,20 @@
     <property name="u" value=""/>
    </properties>
   </tile>
+  <tile id="326">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="350">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
   <tile id="402">
    <properties>
     <property name="c" value=""/>
@@ -359,9 +372,17 @@
    </properties>
   </tile>
  </tileset>
+ <layer name="background" width="100" height="30">
+  <properties>
+   <property name="decorations" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt0bEJADAMwLAW+v/NfSFT8CCBL/A5bHh3Fjv8aPGjxY8WP1r8aPGjxY8WP1r8aPGjxY8WP1r8aPGjxY8WP1r8aPGjxY8WP1r8aPGjxY8WP1r8aPGjxY8WP1qmPz52xwXd
+  </data>
+ </layer>
  <layer name="bg" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlTtOAzEQQG3IHRAhnGJzUT4SJdCsxEeiBEpEQQk5BceAMcpWeLyezHg968yTXpPGEz95xzljTlyDt4g39cYS5wBcgN8C+oJzPoOviC8Fz52aJbgCfwQ8LjjnJ7hB/Cp47tR04Bo88ny72n+mAXpw5WXsa/+ZTM7Bi4iXNYfaEu4w7I996nEPPkR8rDnUlr/34farx3vCGGcTzRUIdxj2R+0e2DeE6lWGfcIYd4z/RUXL/sC+IVSfMqT2eEN+L/FutOyP1DeE4keG1B4YJd6Nlv2RuiOK3LMolHg3WvbHHHtgcN6Nlv3RUg/s3eSgZX+01IOD7Q99PVraHwvPO6s2Uvvj0FkPCST2R2hx4qyHBNz9MbTonPWQIMwQ7lKihfXgM8wh0cJ68NmlB9ZCS4/TEVvqkWqhpccuzrHHWAvrwSe3R04L68Enp0duC+vBZ6wHpYWGHtyzapPqQW1hPfgMc6z9f6ktrAefYY4OscR9xPgFRf41hQ==
+   eJztmj1OAzEQRr1ABTcAcQYkOATH4Ez8SJRAA+JHoiSUiIISaCgCpwgcgIkixBb+xjPJeNfOzpNegyaKd5+8DtKG4ORihVxVmuKMvACem65++dgkt5SmeCAfgSPb5S8du+Se0hSv5DvwzXb5jjNojsjjiCd9LmrA3JC3Ee/6XFRHjMlP4FdPa3pmjHHY0bq6YEJ+A39ac+gZovVU4CVjjOtFbkBhbDS8f6BniNZ7gdoeT+DvNe4b7trb1889QzS+CNT2QNS4b7hrvxLOaVx0TRpq3DeSFtxcyT0QOfcNd862z0g0I2kRwFytPdC+sYA7Z9tnJJqRtAiRuZp75ER6dqIZSYtx8B5SpGtP3SeuxUTwealrTUgy9B6pFtP/Q7yHDIseMXK08B76uSm5WngP/VzOFt5DN5e7hffQzaEWH4nPa3tsJ/QeM9ab2b2PadljHofYY97v8R7/eI+y8B5l0UWPHcPfW5bXVCKWPdB7pPveQ4xlD/Qe6YH3EGPZg3uP9BcETYdm
   </data>
  </layer>
  <layer name="bgdec" width="100" height="30">
@@ -369,12 +390,12 @@
    <property name="decorations" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt18ENgCAUREH0ol1o/9VZgvHmHYz7w0wFJI+woTUAqOFa/j4BFWzr3yfg7Sjcw5tT2z7w7rkL/c4Cb4H9yFJ5P4C52I8s9gO+NfKfNbve/XhaVPhnVdGzH1rk0CKHFjm0yKFFDi1yaJFDixxa5NAiixbzugFaJAW4
+   eJzt2UEKgCAQRuFyY93C+5+uI0QLQaIGQxl/433QNoNXjdSyAAAwh2MdfQUAlOzBPmJoOz/vnL5ae3y1dVzvj/eCd4/kvN5svHvARg8dtPBlzU5a+HubnbTQcW9xPUM996Co99QiBfagI9BCBy20lD1oMV7uQQsNMdBCSdkD40VaSMnzw/ovBT98H9FCDy300EIPLfTQUtPjBEx7Bt8=
   </data>
  </layer>
  <layer name="mid" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlsFtwjAUhuNy6QZVRQ7sAB0CwRIIlkAwBe0KLRIwQy/dgRUQU4B9iPQUYtfPPF4i83/SJ/mSKNYnO68oAAAAAAAAAAAA0EU21s8Gv9r8qCfFtdhZ9w0eCjTRpGrxFxBNHgu9j6oWPwHR5LHQu+m/FvUm+K/IQ++imBa0Cf2vABk4DZqaVDp8c5lPd65OTHOf/e7pQXX45jKf7lxdmIZmvxyQ7BGay3y+GZ6hd+WAZI+U50rDM/SuSYRTsvcxc61BTj3mES7I3mfMtQY59VhFuCZ7XzLXGkj2+LYeGW4L2R6/kXYZyR5cXl/Qo06bPQbocQPOR7d4xvNxTlQDqR69BNvqYUyaGkj16CdYWkeGp0SPd5OmBlI9hkpK9PgwaWpwBaR635Q=
+   eJztmd1NwzAQgM8gJDZAiD6wAzBEW5ZoyxJQpgBWACRghr6wAysgpgDnwZLl5s6++Eyc5D7pk/JyUdovP44CoMSYZ8wurEvrtdCxKACrjNm1dWO9EToWBWCbOetUZNhlzjqPTFwljvaoC+1RF9qjLrRHXUj1oNAe6fTd48H62OJTxnENmT57NC3erO8tfsA0m5TugT0/XItPwik2KdkjfJ779yPX4oVwik1K9WhbX/n3pliLsMlUnislemDrXf9elNLCb+I/V8aMdA/q/YPToK2JswFbl2E219U30z7WfpI9Yu+COT18G7B1GWZzXf0ypdZ+pQh7YOcXNpvyfu6Q7EGtyzBPDE9qX6UIe2DnFzYb6+Ej2aPL3MzwpPa1TND/bjpP2F7Afg/O+RDrETKmHpsE/e+mq4TtNez3oP6DEKpHG2PqsU3w3vvttwnbd1CmB4Zkj2frF8NXkO2xS5SLdA8KyR5cjg+m2aPU+0duj3PtUVUPvT7q6tHX9fHD1M04htDjsIN99TCGp5sZUo+zDs6sl4anRI9Tw9PNDKnHxT8p0ePK8HQzUj0o/gAuVGoF
   </data>
  </layer>
  <layer name="middec" width="100" height="30">
@@ -382,12 +403,12 @@
    <property name="decorations" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt2UEOgyAUBUDLpu0p9P6n6xGaxvyNaYAoKrYzCXHBSh+PoA4DAAAAADmPlJ+/F+bZ7nWbr58spsLzHpNMjlCTRYhMIkfaq80i6El/xso89u6Rnq7zTPMA+Hdbzhf20fZqzxfAvrx79cXe2Bf96It+tPNtbZe+HSz/Q1ytH3F/uXGWNWt7+b1VP8519X78mqP68QZ48wbf
+   eJzt10EKgzAQBVCbTe0pbO9/OY9QioRAEROb1Ej7HgwusvNnyMwwAAAAALBlDNvn18w59ebL8n1lcc/87ynI5AglWUQxk5gj7ZVmEemT85kK8/h2H+nTz9zCUtDKGNK9cr/62/vO/rOa+aL0nuf2M5LS+aKGPM7hEVIBAP2tzcW/vtu977Br1csRczHQ3hP9eQa0
   </data>
  </layer>
  <layer name="front" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJztlc0NAiEQRoeDJyuwDmMR/jThTxfbj2VsIWoDXtUCxBgSQgRCYIBxv5e8hMNkIbyQJfp/1p41aMPeswZtGDxr0IbRswZtQI++QI++QI++QI++QI++QI++QI++QI++mHKPi/bW+hAOU+3xafHQvlofxGGKPUyLufoam635hiT1uBbStDjT1xDmDdVqIqnHs5B2i1gP84ZqNZHUw9xNrnaLWA8zU6uJpB7uPZbyHtCeM004QQ8ipfy6s7H/fy7oQbRQfn/Nc4IeRCvlV2qPjXar3eUdJwhXj2VAqT0O2qP2lHecIFw9ZiqutB6DJRdcPVL35qRUj9GSC/RI+w565IMe6Xtzgh7pe3MiqccbacEzQQ==
+   eJztmsFtwzAMRalDTp0gcxQZom2WSJMtsk/GyCBtF+i1yQCRYRAwDJOyFIWh6v+AD+hAm4IeBOkgov/PmzC24D3mI2Zr3NczO2FswWfMPuZg3NczR2Fs1ZsDes7C2Ko3B/TAhy/gwxfw4Qv48AV8+AI+fAEfvoAPXyzZx1fMz5N6SyzVR+fiL+b6hN4aS/TBLl5Cn1St5R5qycd3pbCLE/XR4D1k5aQlH5dKGbpI+eA9ZOWkJR+8Nvdm6CLlg2usnLTkY7yOtfKrZFjHTh4JfBCFIGdcmzr/7wU+iNZBzlT9I4EPok2Qk+ujux+n7nfaGVTqg9+GjJPzVsSLj1cluT66+3HqfqedQaU++G3IODlvRbz4WIV05vqYe8fT1mRqnOKoZC5efOT2rjFHiVIfZyUl/5gDfOjfwUf5HCXgI793jTlKwEd+7xpzlGjJxw1I37lG
   </data>
  </layer>
  <layer name="frontdec" width="100" height="30">
@@ -395,7 +416,7 @@
    <property name="decorations" value="2"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt2EEKgzAQBVBxU29h73/KEkLAhWkClumI720NRPL5YXRZAAAAAAB4um399xvQlCze8kjhLItXJ5tjh3pruOasF3vnrI9ryxqZxJjpRyGTGLN5FL0u/ULbr7zPk+eNmfsqQttvN2+koB+5bPqRin5Uo5kp6mz0oxrNTFFnox+VfuQyykM/Yo3uq+h+yOP789n/j1fd7XvwA0J+BSw=
+   eJztmEEOgzAMBBGX0leU/78S5RApihLsGEy8ZUfiUlHsZj2NwrIQL7Z1dgekhHnEgnkQQgghhBBCCCH38jGctXk+9+MHmMfs+p6g+ZFq73+cB5IfrSx681T2aJm5WSDl0fKi1395b7oHJROkPFpo/EigZIK2f9Ro80hYZk9Lrpf6saxP/g66H5r/qyfYi/W01N6LPEeJlMcMWmt21Y9Mnq+RTN+Qx3ftXy0nt4t+5GfXn2l8eUMeZ3j6UaPZTyLlIc2PR69neVj9GKnVqx0BaX489nX60QfdD6k/ND+kfqP7IfWn8SPS+zyp36f9GM3jDj+Q8tC+fxz5Ta2a1vPgLD8OcsAJjw==
   </data>
  </layer>
  <objectgroup name="Camada de Objectos 1" width="100" height="30">
@@ -459,44 +480,47 @@
     <property name="layer" value="1"/>
    </properties>
   </object>
-  <object name="enemy" x="4690" y="280" width="70" height="35">
+  <object name="enemy" x="5212" y="250" width="70" height="35">
    <properties>
     <property name="color" value="yellow"/>
     <property name="layer" value="0"/>
    </properties>
   </object>
-  <object name="enemy" x="4690" y="560" width="70" height="35">
-   <properties>
-    <property name="color" value="yellow"/>
-    <property name="layer" value="0"/>
-   </properties>
-  </object>
-  <object name="enemy" x="4690" y="420" width="70" height="35">
+  <object name="enemy" x="5404" y="122" width="70" height="35">
    <properties>
     <property name="layer" value="0"/>
    </properties>
   </object>
-  <object name="enemy" x="4690" y="0" width="70" height="35">
+  <object name="enemy" x="5512" y="150" width="70" height="35">
    <properties>
     <property name="layer" value="0"/>
    </properties>
   </object>
-  <object name="enemy" x="4690" y="140" width="70" height="35">
+  <object name="enemy" x="5378" y="216" width="70" height="35">
+   <properties>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="5206" y="98" width="70" height="35">
    <properties>
     <property name="color" value="red"/>
     <property name="layer" value="0"/>
    </properties>
   </object>
-  <object name="enemy" x="5950" y="0" width="70" height="35">
+  <object name="enemy" x="5542" y="360" width="70" height="35">
    <properties>
-    <property name="color" value="red"/>
     <property name="layer" value="0"/>
    </properties>
   </object>
-  <object name="enemy" x="5880" y="525" width="70" height="35">
+  <object name="enemy" x="5302" y="371" width="70" height="35">
+   <properties>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="3290" y="735" width="70" height="35">
    <properties>
     <property name="color" value="red"/>
-    <property name="layer" value="0"/>
+    <property name="layer" value="2"/>
    </properties>
   </object>
  </objectgroup>
