@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import pygame, menu
+import pygame, menu, os
 
 class Main(object):
 
@@ -24,5 +24,6 @@ class Main(object):
 		objMenu = menu.Menu(screen, clock, fps, resolution, version)
 
 if __name__ == "__main__":
+	os.environ["SDL_VIDEO_CENTERED"] = "1"
 	pygame.init()
 	Main()
