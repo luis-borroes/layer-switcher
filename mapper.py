@@ -1,4 +1,4 @@
-import pygame, block, vector, enemy
+import pygame, block, vector, enemy, item
 
 from pytmx import tmxloader
 
@@ -12,9 +12,11 @@ class Mapper(object):
 		self.totalLayers = []
 		self.blocks = {}
 		self.grounds = []
+		self.keyHoles = []
 		self.mapName = mapName
 		self.world = world
 		self.tilemap = tmxloader.load_pygame("maps/%s/%s/map.tmx" % (self.world, self.mapName), pixelalpha = True)
+		self.drawShadow = True
 		self.gravity = 600
 		self.bgColor = (82, 246, 255)
 		self.width = self.tilemap.width * self.tilemap.tilewidth
@@ -24,6 +26,9 @@ class Mapper(object):
 
 		self.pPosition = vector.Vec2d(0, 0)
 		self.pLayer = 0
+
+		if hasattr(self.tilemap, "shadow"):
+			self.drawShadow = bool(int(self.tilemap.shadow))
 
 		if hasattr(self.tilemap, "gravity"):
 			self.gravity = int(self.tilemap.gravity)
@@ -53,7 +58,7 @@ class Mapper(object):
 						self.specialDecos.append(newGroup)
 						parentID = int(layer.decorations)
 
-						if not parentID in self.specialDecos:
+						if not parentID in self.decoLinks:
 							self.decoLinks[parentID] = []
 
 						self.decoLinks[parentID].append(newGroup)
@@ -81,6 +86,13 @@ class Mapper(object):
 							
 							if img:
 								self.blocks[(len(self.layers) - 1, x, y)] = block.Block(x, y, self.tilemap, img, self.layerCount, self.totalLayers[self.layerCount])
+
+								if "keyhole" in self.blocks[(len(self.layers) - 1, x, y)].prop:
+									self.keyHoles.append(self.blocks[(len(self.layers) - 1, x, y)])
+
+									if (len(self.layers) - 1, x, y - 1) in self.blocks and "keyhole" in self.blocks[(len(self.layers) - 1, x, y - 1)].prop:
+										self.keyHoles.remove(self.blocks[(len(self.layers) - 1, x, y - 1)])
+
 								if nextGround and self.blocks[(len(self.layers) - 1, x, y)].collidable or (self.blocks[(len(self.layers) - 1, x, y)].liquid and not self.blocks[(len(self.layers) - 1, x, y - 1)].liquid):
 									self.grounds[len(self.grounds) - 1][x].append(self.blocks[(len(self.layers) - 1, x, y)])
 
@@ -110,6 +122,18 @@ class Mapper(object):
 					enemyType = "enemy" + obj.color.capitalize()
 
 				enemy.Enemy(game, self, enemyType, vector.Vec2d(obj.x, obj.y), layer)
+
+			elif obj.name == "item":
+				layer = 0
+				itemType = "keyYellow"
+
+				if hasattr(obj, "layer"):
+					layer = int(obj.layer)
+
+				if hasattr(obj, "color"):
+					itemType = "key" + obj.color.capitalize()
+
+				item.Item(game, self, itemType, vector.Vec2d(obj.x, obj.y), layer)
 
 	def drawBackground(self, game):
 		if self.background:

@@ -4,24 +4,25 @@ from vector import Vec2d as Vector
 util = utils.Utils()
 
 class Character(pygame.sprite.Sprite):
-	def __init__(self, game, gMap, charType, pos, layer):
+	def __init__(self, game, gMap, charType, pos, layer, defaultAnims = True):
 		self.sprites = pygame.sprite.Group()
 		super(Character, self).__init__(self.sprites)
 
 		self.map = gMap
 		self.type = charType
+		self.defaultAnims = defaultAnims
 
-		self.animList = {}
-		for anim in os.listdir("assets/characters/%s" % self.type):
-			info = anim[:anim.find(".")].split("+")
-			if len(info) < 3:
-				info[1:2] = [1, 1]
+		if self.defaultAnims:
+			self.animList = {}
+			for anim in os.listdir("assets/characters/%s" % self.type):
+				info = anim[:anim.find(".")].split("+")
+				if len(info) < 3:
+					info[1:2] = [1, 1]
 
-			self.animList[info[0]] = animation.Animation("assets/characters/%s/%s" % (self.type, anim), 50, 50, float(info[1]), float(info[2]))
+				self.animList[info[0]] = animation.Animation("assets/characters/%s/%s" % (self.type, anim), 50, 50, float(info[1]), float(info[2]))
 
 		self.setStatus("standingRight")
 		self.shadow = pygame.image.load("assets/sprites/shadow.png").convert_alpha()
-		self.drawShadow = True
 
 		self.particles = particles.Particles(50, 0.5, (0, 0, 0, 50), (0, 0), (self.image.get_width(), self.map.tilemap.tileheight))
 		self.bubbles = particles.Particles(50, 0.5, (0, 0, 255, 50), (0, 0), (self.image.get_width(), self.map.tilemap.tileheight))
@@ -42,15 +43,12 @@ class Character(pygame.sprite.Sprite):
 		self.jumpTimerLimit = 0.34
 		self.swimSpeed = -400
 
-		if hasattr(self.map.tilemap, "shadow"):
-			self.drawShadow = bool(int(self.map.tilemap.shadow))
-
 		self.spawn()
 
 	def spawn(self):
 		self.rect = pygame.rect.Rect((0, 0), self.image.get_size())
 		self.position = pygame.rect.Rect(self.startPos, self.image.get_size())
-		self.realChange = self.position
+		self.realChange = Vector(0, 0)
 		self.velocity = Vector(0, 0)
 		self.direction = "Right"
 		self.speedModifier = 1
@@ -236,6 +234,12 @@ class Character(pygame.sprite.Sprite):
 						if self.velocity.y < 0:
 							self.velocity.y = 0
 
+				if self.type == "player" and "keyhole" in block.prop and not block.hooked:
+					if (self.layer, block.tilex, block.tiley + 1) in self.map.blocks and "keyhole" in self.map.blocks[(self.layer, block.tilex, block.tiley + 1)].prop:
+						self._keyTarget.append(self.map.blocks[(self.layer, block.tilex, block.tiley + 1)])
+					else:
+						self._keyTarget.append(block)
+
 				if "s" in block.prop:
 					self.speedModifier = 0.4
 
@@ -250,7 +254,7 @@ class Character(pygame.sprite.Sprite):
 					self.die(game)
 
 	def draw(self, game):
-		if self.drawShadow:
+		if self.map.drawShadow:
 			self.genShadow(game)
 			if self.shadowPos:
 				game.screen.blit(self.shadow, self.shadowPos)
@@ -258,7 +262,9 @@ class Character(pygame.sprite.Sprite):
 		self.particles.update(game, self.position.midleft)
 		self.bubbles.update(game, self.position.midleft)
 
-		self.animation.update(game.dt * 0.001)
+		if self.defaultAnims:
+			self.animation.update(game.dt * 0.001)
+
 		self.sprites.draw(game.screen)
 
 		if self.resting and not game.paused:
@@ -267,13 +273,14 @@ class Character(pygame.sprite.Sprite):
 			self.setStatus("falling" + self.direction)
 
 	def setStatus(self, status, callback = None):
-		if status in self.animList:
-			self.animation = self.animList[status]
+		if self.defaultAnims:
+			if status in self.animList:
+				self.animation = self.animList[status]
 
-			if callback:
-				self.animation.setCallback(callback)
+				if callback:
+					self.animation.setCallback(callback)
 
-			self.image = self.animation.getSplice()
+				self.image = self.animation.getSplice()
 
 	def genShadow(self, game):
 		ground = self.getClosestGround(self.layer, self.position)

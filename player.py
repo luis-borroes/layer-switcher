@@ -1,4 +1,4 @@
-import pygame, character, enemy, utils
+import pygame, character, enemy, item, utils
 util = utils.Utils()
 
 from vector import Vec2d as Vector
@@ -10,6 +10,10 @@ class Player(character.Character):
 
 	def spawn(self):
 		super(Player, self).spawn()
+
+		self.keyRect = self.position.inflate(15, 5)
+		self.keyList = []
+		self.keyNames = []
 
 		self.spaced = False
 		self.key_w = False
@@ -23,6 +27,12 @@ class Player(character.Character):
 	def realDie(self, game):
 		for gEnemy in enemy.Enemy.group:
 			gEnemy.die(game)
+
+		for gItem in item.Item.group:
+			gItem.spawn()
+
+		for keyHole in self.map.keyHoles:
+			keyHole.hooked = False
 
 		self.spawn()
 		game.paused = False
@@ -47,10 +57,9 @@ class Player(character.Character):
 
 		if self.spaced:
 			self.spaced = False
-			self.holdJump = True
 			self.jump()
 
-		self.holdJump = keys[pygame.K_SPACE]
+		self._keyTarget = []
 
 		super(Player, self).update(game, dt)
 
@@ -58,6 +67,45 @@ class Player(character.Character):
 			if util.collide(self.position, gEnemy.position) and self.layer == gEnemy.layer:
 				self.die(game)
 				break
+
+		self.keyRect.centerx = self.position.centerx
+		self.keyRect.bottom = self.position.bottom
+
+		for gItem in item.Item.group:
+			if not gItem.hook and util.collide(self.position, gItem.position) and self.layer == gItem.layer:
+				if len(self.keyList) > 0:
+					gItem.hook = self.keyList[-1].position
+					gItem.hookType = "player"
+					self.keyList.append(gItem)
+					self.keyNames.append(gItem.type)
+				else:
+					gItem.hook = self.keyRect
+					gItem.hookType = "player"
+					self.keyList.append(gItem)
+					self.keyNames.append(gItem.type)
+
+		for keyHole in self._keyTarget:
+			if "key" + keyHole.prop["keyhole"].capitalize() in self.keyNames:
+				index = self.keyNames.index("key" + keyHole.prop["keyhole"].capitalize())
+				key = self.keyList[index]
+
+				key.hook = keyHole.position
+				key.hookType = "block"
+				key.hookBlock = keyHole
+
+				keyHole.hooked = True
+
+				self.keyNames.pop(index)
+				self.keyList.pop(index)
+
+				for trailing in xrange(index, index + len(self.keyList[index:])):
+					trailKey = self.keyList[trailing]
+					if trailing != 0:
+						trailKey.hook = self.keyList[trailing - 1].position
+						trailKey.hookType = "player"
+					else:
+						trailKey.hook = self.keyRect
+						trailKey.hookType = "player"
 
 	def draw(self, game):
 		super(Player, self).draw(game)

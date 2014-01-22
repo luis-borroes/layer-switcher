@@ -21,9 +21,6 @@ class Enemy(character.Character):
 
 		Enemy.group.append(self)
 
-	def spawn(self):
-		super(Enemy, self).spawn()
-
 	def die(self, game):
 		self.spawn()
 
@@ -104,6 +101,3 @@ class Enemy(character.Character):
 
 		if update:
 			super(Enemy, self).update(game, dt)
-
-	def draw(self, game):
-		super(Enemy, self).draw(game)

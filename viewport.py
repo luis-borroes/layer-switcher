@@ -1,4 +1,4 @@
-import pygame, utils, particles, enemy
+import pygame, utils, particles, enemy, item
 
 from vector import Vec2d as Vector
 util = utils.Utils()
@@ -18,7 +18,6 @@ class Viewport(object):
 			vec = Vector(0, 0)
 
 		self.position += vec
-		self.resolution = Vector(game.resolution)
 		self.rect = pygame.rect.Rect(self.position - self.halfResolution, self.resolution)
 
 		if self.rect.x < 0:
@@ -40,6 +39,10 @@ class Viewport(object):
 			(game.player.rect.left, game.player.rect.bottom + 2),
 			(util.remap(game.player.layerCooldown, 0, 0.5, 0, game.player.rect.width), 5)
 		)
+
+		for gItem in item.Item.group:
+			gItem.rect.x = gItem.position.x - self.rect.x
+			gItem.rect.y = gItem.position.y - self.rect.y
 
 		for gEnemy in enemy.Enemy.group:
 			gEnemy.rect.x = gEnemy.position.x - self.rect.x

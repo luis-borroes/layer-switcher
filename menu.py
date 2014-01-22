@@ -119,7 +119,7 @@ class Menu(object):
 		pygame.mixer.music.set_volume(self.volume)
 
 	def start(self):
-		self.game = game.Game(self.screen, self.clock, self.fps, self.mediumFont, self.resolution, self.halfResolution)
+		self.game = game.Game(self)
 
 	def leave(self):
 		self.running = False
