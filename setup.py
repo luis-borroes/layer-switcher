@@ -13,7 +13,7 @@ def isSystemDLL(pathname):
 	return origIsSystemDLL(pathname)
 py2exe.build_exe.isSystemDLL = isSystemDLL
 
-dist_dir = os.path.join("dist")
+dist_dir = os.path.join("layerswitcher")
 data_dir = dist_dir
 
 class Target:

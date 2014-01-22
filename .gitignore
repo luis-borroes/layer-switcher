@@ -1,5 +1,5 @@
 *.pyc
 debug.bat
 build/
-dist/
+layerswitcher/
 layerswitcher.rar
