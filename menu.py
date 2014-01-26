@@ -1,4 +1,4 @@
-import pygame, game, sys, os, utils, animation
+import pygame, sys, os, utils, animation, button, options, world
 util = utils.Utils()
 
 class Menu(object):
@@ -13,9 +13,6 @@ class Menu(object):
 		self.volume = pygame.mixer.music.get_volume()
 
 		self.running = True
-
-		self.img = pygame.image.load("assets/sprites/menu.png").convert_alpha()
-		self.imgSmall = pygame.image.load("assets/sprites/menuSmall.png").convert_alpha()
 
 		for anim in os.listdir("assets/characters/player"):
 			info = anim[:anim.find(".")].split("+")
@@ -54,7 +51,10 @@ class Menu(object):
 							self.mainMenu()
 
 					if event.key == pygame.K_SPACE:
-						self.start()
+						if self.currentMenu == "main":
+							world.World(self)
+						elif self.currentMenu == "world":
+							self.world.start()
 
 				if event.type == pygame.MOUSEBUTTONUP:
 					if event.button == 1:
@@ -71,13 +71,13 @@ class Menu(object):
 
 			self.screen.blit(self.background, self.bgPos)
 			self.screen.blit(self.mainText, (self.halfResolution[0] - self.mainText.get_width() // 2, 100))
-			self.screen.blit(self.versionText, (5, self.resolution[1] - self.versionText.get_height() - 5))
+			self.screen.blit(self.versionText, (5, self.resolution[1] - self.versionText.get_height()))
 
 			if self.currentMenu == "main":
 				self.logo.update(dt * 0.001)
 				self.screen.blit(self.splice, (self.halfResolution[0] - self.splice.get_width() // 2, 270))
 
-			for opt in Option.group:
+			for opt in button.Button.group:
 				opt.updateAndDraw(self.screen, mPos, mouseTrigger)
 
 			pygame.display.flip()
@@ -85,77 +85,13 @@ class Menu(object):
 	def mainMenu(self):
 		self.currentMenu = "main"
 
-		Option.group = []
+		button.Button.group = []
 
-		Option(self.img, self.mediumFont, "Start", (0, self.resolution[1] - 300), self.resolution, self.start)
-		Option(self.img, self.mediumFont, "Options", (0, self.resolution[1] - 225), self.resolution, self.options)
-		Option(self.img, self.mediumFont, "Quit", (0, self.resolution[1] - 150), self.resolution, self.leave)
-
-	def options(self):
-		self.currentMenu = "options"
-
-		Option.group = []
-
-		Option(None, self.mediumFont, "Set FPS:", (0, self.resolution[1] - 385), self.resolution, None)
-		Option(self.imgSmall, self.mediumFont, "30", (-125, self.resolution[1] - 335), self.resolution, lambda: self.setFPS(30.))
-		Option(self.imgSmall, self.mediumFont, "60", (0, self.resolution[1] - 335), self.resolution, lambda: self.setFPS(60.))
-		Option(self.imgSmall, self.mediumFont, "120", (125, self.resolution[1] - 335), self.resolution, lambda: self.setFPS(120.))
-
-		Option(None, self.mediumFont, "Music volume:", (0, self.resolution[1] - 275), self.resolution, None)
-		Option(self.imgSmall, self.mediumFont, "-", (-75, self.resolution[1] - 225), self.resolution, self.lowerVolume)
-		Option(self.imgSmall, self.mediumFont, "+", (75, self.resolution[1] - 225), self.resolution, self.raiseVolume)
-
-		Option(self.img, self.mediumFont, "Back", (0, self.resolution[1] - 150), self.resolution, self.mainMenu)
-
-	def setFPS(self, fps):
-		self.fps = fps
-
-	def lowerVolume(self):
-		self.volume = max(0, self.volume - 0.05)
-		pygame.mixer.music.set_volume(self.volume)
-
-	def raiseVolume(self):
-		self.volume = min(1, self.volume + 0.05)
-		pygame.mixer.music.set_volume(self.volume)
-
-	def start(self):
-		self.game = game.Game(self)
+		button.Button("big", self.mediumFont, "World", (0, self.resolution[1] - 300), self.resolution, lambda: world.World(self))
+		button.Button("big", self.mediumFont, "Options", (0, self.resolution[1] - 225), self.resolution, lambda: options.Options(self))
+		button.Button("big", self.mediumFont, "Quit", (0, self.resolution[1] - 150), self.resolution, self.leave)
 
 	def leave(self):
 		self.running = False
 		pygame.quit()
 		sys.exit(0)
-
-class Option(object):
-	group = []
-
-	def __init__(self, img, font, text, pos, resolution, callback):
-		self.text = font.render(text, 1, (0, 0, 0))
-		self.textSize = font.size(text)
-
-		if img:
-			self.position = pygame.rect.Rect((resolution[0] // 2 - img.get_width() // 2 + pos[0], pos[1]), img.get_size())
-			self.callback = callback
-
-			self.img = img
-			self.overlay = pygame.Surface(img.get_size(), pygame.SRCALPHA)
-			self.overlay.fill((255, 255, 255, 60))
-			self.overlay.convert_alpha()
-
-		else:
-			self.img = None
-			self.position = pygame.rect.Rect((resolution[0] // 2 - self.textSize[0] // 2 + pos[0], pos[1]), self.textSize)
-
-		Option.group.append(self)
-
-	def updateAndDraw(self, screen, mPos, trigger):
-		if self.img:
-			screen.blit(self.img, self.position.topleft)
-
-		screen.blit(self.text, (self.position.centerx - self.textSize[0] // 2, self.position.centery - self.textSize[1] // 2))
-
-		if mPos[0] in xrange(self.position.left, self.position.right) and mPos[1] in xrange(self.position.top, self.position.bottom) and self.img:
-			screen.blit(self.overlay, self.position.topleft)
-
-			if trigger:
-				self.callback()

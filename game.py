@@ -2,7 +2,7 @@ import pygame, player, enemy, mapper, viewport, animation, particles, item, sys,
 
 class Game(object):
 
-	def __init__(self, parent):
+	def __init__(self, parent, world, mapname):
 		self.running = True
 		self.paused = False
 		self.finished = False
@@ -15,14 +15,15 @@ class Game(object):
 		self.halfResolution = parent.halfResolution
 		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
 		self.dt = 0
+		self.returnValue = 0
 
 		self.finishText = self.bigFont.render("Finished!", 1, (0, 0, 0))
 		self.finishPos = vector.Vec2d(self.halfResolution[0] - self.finishText.get_width() // 2, -100)
 
-		self.hintText = self.mediumFont.render("Press ESC or SPACE to continue...", 1, (0, 0, 0))
+		self.hintText = self.mediumFont.render("Press ESC to leave or SPACE to continue...", 1, (0, 0, 0))
 		self.hintPos = vector.Vec2d(self.halfResolution[0] - self.hintText.get_width() // 2, self.resolution[1] + 150)
 
-		self.map = mapper.Mapper(self, "World 1", "1 - Begin")
+		self.map = mapper.Mapper(self, world, mapname)
 
 		self.player = player.Player(self)
 		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
@@ -45,6 +46,7 @@ class Game(object):
 						if self.paused:
 							self.leave()
 							return
+
 						else:
 							self.paused = True
 
@@ -57,12 +59,14 @@ class Game(object):
 					if event.key == pygame.K_SPACE:
 						if self.finished:
 							self.leave()
+							self.returnValue = 1
 							return
+
 						elif self.paused:
 							self.paused = False
 						else:
+
 							self.player.spaced = True
-							self.player.holdJump = True
 
 				if event.type == pygame.KEYUP:
 					if event.key == pygame.K_SPACE:
