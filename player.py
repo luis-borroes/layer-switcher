@@ -57,6 +57,7 @@ class Player(character.Character):
 
 		if self.spaced:
 			self.spaced = False
+			self.holdJump = True
 			self.jump()
 
 		self._keyTarget = []
@@ -71,19 +72,15 @@ class Player(character.Character):
 		self.keyRect.centerx = self.position.centerx
 		self.keyRect.bottom = self.position.bottom
 
-		for gItem in item.Item.group:
-			if not gItem.hook and util.collide(self.position, gItem.position) and self.layer == gItem.layer:
-				if len(self.keyList) > 0:
-					gItem.hook = self.keyList[-1].position
-					gItem.hookType = "player"
-					self.keyList.append(gItem)
-					self.keyNames.append(gItem.type)
-				else:
-					gItem.hook = self.keyRect
-					gItem.hookType = "player"
-					self.keyList.append(gItem)
-					self.keyNames.append(gItem.type)
+		self.key()
 
+	def draw(self, game):
+		super(Player, self).draw(game)
+
+		if self.cdBar.width > 0:
+			pygame.draw.rect(game.screen, (190, 0, 0), self.cdBar)
+
+	def key(self):
 		for keyHole in self._keyTarget:
 			if "key" + keyHole.prop["keyhole"].capitalize() in self.keyNames:
 				index = self.keyNames.index("key" + keyHole.prop["keyhole"].capitalize())
@@ -106,9 +103,3 @@ class Player(character.Character):
 					else:
 						trailKey.hook = self.keyRect
 						trailKey.hookType = "player"
-
-	def draw(self, game):
-		super(Player, self).draw(game)
-
-		if self.cdBar.width > 0:
-			pygame.draw.rect(game.screen, (190, 0, 0), self.cdBar)

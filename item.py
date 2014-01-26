@@ -64,5 +64,17 @@ class Item(character.Character):
 			if self.hookType == "player" and self.oldLayer != game.player.oldLayer:
 				self.oldLayer = game.player.oldLayer
 
+		elif util.collide(game.player.position, self.position) and game.player.layer == self.layer:
+			if len(game.player.keyList) > 0:
+				self.hook = game.player.keyList[-1].position
+				self.hookType = "player"
+				game.player.keyList.append(self)
+				game.player.keyNames.append(self.type)
+			else:
+				self.hook = game.player.keyRect
+				self.hookType = "player"
+				game.player.keyList.append(self)
+				game.player.keyNames.append(self.type)
+
 		else:
 			super(Item, self).update(game, dt)
