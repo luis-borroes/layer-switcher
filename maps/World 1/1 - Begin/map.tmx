@@ -405,7 +405,7 @@
    <property name="decorations" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt10EKgzAQBVCbTe0pbO9/OY9QioRAERNrmkj7HgwusvNnyMwwAAAAALBlDNvn18w5x82X5fvK4p7531OQSQslWUQxk5gj9ZVmEemT85kK8/h2H+nTz9zCUlDLGNK9cr/62/vO/rMW80VuPyMpnS+OkMc5PEIqAKC/tbn413e79x12rXppMRcD9T0BS8MGqQ==
+   eJzt2EEKgzAQBVCbTe0pbO9/OY9QioSAFBNrmgi+B0MW2fkzOMkwAAAAALBlDNv798w+x823Zf1k8cx87ynIpIWSLKKYScyR+kqziPTJ+UyFefy7j/Tpbx5hKahlDOlcOV/97f3PXlmL+SJ3PyMpnS+OkMc5vEIqAKC/K767re+w36qXFnMxUN8b2RQGkw==
   </data>
  </layer>
  <layer name="front" width="100" height="30">
