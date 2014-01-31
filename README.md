@@ -12,3 +12,6 @@ Music by Kevin MacLeod - http://incompetech.com/
 
 
 Very inspired by Richard Jones' "Introduction to PyGame".
+
+
+Future: http://gabrielgambetta.com/fast_paced_multiplayer.html
