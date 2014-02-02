@@ -19,13 +19,45 @@ class Options(object):
 
 		button.Button("big", self.parent.mediumFont, "Back", (0, self.parent.resolution[1] - 150), self.parent.resolution, self.parent.mainMenu)
 
+		for i in xrange(1, 4):
+			if self.parent.fps == float(button.Button.group[i].rawText):
+				button.Button.group[i].locked = True
+			else:
+				button.Button.group[i].locked = False
+
+		if self.parent.volume == 0.:
+			button.Button.group[5].locked = True
+		elif self.parent.volume == 1.:
+			button.Button.group[6].locked = True
+
 	def setFPS(self, fps):
 		self.parent.fps = fps
+		for i in xrange(1, 4):
+			if self.parent.fps == float(button.Button.group[i].rawText):
+				button.Button.group[i].locked = True
+			else:
+				button.Button.group[i].locked = False
+
+		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps})
 
 	def lowerVolume(self):
-		self.parent.volume = max(0, self.parent.volume - 0.05)
+		self.parent.volume = max(0., self.parent.volume - 0.05)
+		if self.parent.volume == 0.:
+			button.Button.group[5].locked = True
+		else:
+			button.Button.group[5].locked = False
+		button.Button.group[6].locked = False
+
 		pygame.mixer.music.set_volume(self.parent.volume)
+		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps})
 
 	def raiseVolume(self):
-		self.parent.volume = min(1, self.parent.volume + 0.05)
+		self.parent.volume = min(1., self.parent.volume + 0.05)
+		if self.parent.volume == 1.:
+			button.Button.group[6].locked = True
+		else:
+			button.Button.group[6].locked = False
+		button.Button.group[5].locked = False
+
 		pygame.mixer.music.set_volume(self.parent.volume)
+		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps})

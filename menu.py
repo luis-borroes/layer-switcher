@@ -1,4 +1,4 @@
-import pygame, sys, os, utils, animation, button, options, world
+import pygame, sys, os, utils, animation, button, options, world, save
 util = utils.Utils()
 
 class Menu(object):
@@ -11,6 +11,19 @@ class Menu(object):
 		self.halfResolution = (self.resolution[0] // 2, self.resolution[1] // 2)
 		self.version = version
 		self.volume = pygame.mixer.music.get_volume()
+
+		self.save = save.Save("opt")
+		self.data = self.save.load()
+
+		if "volume" in self.data:
+			self.volume = float(self.data["volume"])
+			if 0. <= self.volume <= 1.:
+				pygame.mixer.music.set_volume(self.volume)
+
+		if "fps" in self.data:
+			self.fps = int(self.data["fps"])
+
+		self.save.save({"volume": self.volume, "fps": self.fps})
 
 		self.running = True
 

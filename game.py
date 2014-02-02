@@ -1,8 +1,8 @@
-import pygame, player, enemy, mapper, viewport, animation, particles, item, sys, vector
+import pygame, player, enemy, mapper, viewport, animation, particles, item, sys, vector, save
 
 class Game(object):
 
-	def __init__(self, parent, world, mapname):
+	def __init__(self, parent, world, mapname, spec):
 		self.running = True
 		self.paused = False
 		self.finished = False
@@ -16,6 +16,9 @@ class Game(object):
 		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
 		self.dt = 0
 		self.returnValue = 0
+
+		self.save = save.Save("save")
+		self.data = self.save.load()
 
 		self.finishText = self.bigFont.render("Finished!", 1, (0, 0, 0))
 		self.finishPos = vector.Vec2d(self.halfResolution[0] - self.finishText.get_width() // 2, -100)
@@ -59,13 +62,16 @@ class Game(object):
 					if event.key == pygame.K_SPACE:
 						if self.finished:
 							self.leave()
-							self.returnValue = 1
+							if spec:
+								self.returnValue = 2
+							else:
+								self.returnValue = 1
 							return
 
 						elif self.paused:
 							self.paused = False
-						else:
 
+						else:
 							self.player.spaced = True
 
 				if event.type == pygame.KEYUP:
@@ -118,9 +124,16 @@ class Game(object):
 				if not keyHoles.done:
 					endTrigger = False
 
-			if endTrigger:
+			if endTrigger and len(self.map.keyHoles) > 0 and not self.finished:
 				self.paused = True
 				self.finished = True
+
+				if spec:
+					self.data[self.map.world] = "1"
+
+				self.data[self.map.world + ":" + self.map.mapName] = "1"
+
+				self.save.save(self.data)
 
 			if self.finished:
 				if self.finishPos.y < 100:
