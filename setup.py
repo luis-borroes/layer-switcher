@@ -31,6 +31,8 @@ data = []
 for dirpath, dirnames, filenames in os.walk("assets"):
 	data.extend(os.path.join(dirpath, fn) for fn in filenames)
 
+os.makedir(dest + "/data")
+
 for dirpath, dirnames, filenames in os.walk("maps"):
 	data.extend(os.path.join(dirpath, fn) for fn in filenames)
 

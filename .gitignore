@@ -3,3 +3,5 @@ debug.bat
 build/
 layerswitcher/
 layerswitcher.rar
+data/config
+data/save
