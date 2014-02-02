@@ -10,6 +10,8 @@ class Button(object):
 		self.font = font
 		self.setText(text)
 
+		self.locked = False
+
 		if bType == "text":
 			img = None
 		elif bType == "big":
@@ -28,6 +30,10 @@ class Button(object):
 			self.overlay.fill((255, 255, 255, 60))
 			self.overlay.convert_alpha()
 
+			self.lockedOverlay = pygame.Surface(img.get_size(), pygame.SRCALPHA | pygame.HWSURFACE)
+			self.lockedOverlay.fill((0, 0, 0, 100))
+			self.lockedOverlay.convert_alpha()
+
 		else:
 			self.img = None
 			self.position = pygame.rect.Rect((resolution[0] * 0.5 - self.textSize[0] * 0.5 + pos[0], pos[1]), self.textSize)
@@ -41,12 +47,16 @@ class Button(object):
 
 		screen.blit(self.text, (self.position.centerx - self.textSize[0] * 0.5, self.position.centery - self.textSize[1] * 0.5))
 
-		if mPos[0] in xrange(self.position.left, self.position.right) and mPos[1] in xrange(self.position.top, self.position.bottom) and self.img and self.callback:
+		if self.locked:
+			screen.blit(self.lockedOverlay, self.position.topleft)
+
+		elif mPos[0] in xrange(self.position.left, self.position.right) and mPos[1] in xrange(self.position.top, self.position.bottom) and self.img and self.callback:
 			screen.blit(self.overlay, self.position.topleft)
 
 			if trigger:
 				self.callback()
 
 	def setText(self, text):
+		self.rawText = text
 		self.text = self.font.render(str(text), 1, (0, 0, 0))
 		self.textSize = self.font.size(str(text))
