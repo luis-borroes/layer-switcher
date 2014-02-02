@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="20" height="150" tilewidth="70" tileheight="35">
+ <properties>
+  <property name="requires" value="World 1:1 - Begin"/>
+ </properties>
+ <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
+  <image source="../../../assets/sprites/sheet.png" width="1680" height="840"/>
+  <tile id="24">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="30">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="d" value=""/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="164">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+   </properties>
+  </tile>
+  <tile id="165">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="166">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="168">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="169">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="170">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="192">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="193">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+   </properties>
+  </tile>
+  <tile id="194">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="195">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="213">
+   <properties>
+    <property name="d" value=""/>
+   </properties>
+  </tile>
+  <tile id="260">
+   <properties>
+    <property name="c" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="20" height="150">
+  <properties>
+   <property name="decorations" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztzMEJAAAIAzEF95/ZGXyJmEKevYhbq5zR09Pb603/AAAAAAAAAAAAAPzWkwo38Q==
+  </data>
+ </layer>
+ <layer name="bg" width="20" height="150">
+  <data encoding="base64" compression="zlib">
+   eJzt1dEJwjAQxvFgnUIFd1AnVVeogjqFOoPzmD4E43FNcqYPlv4PvqfkfoRwIc79d+19DlGOlb0Xn2uUm8HTeu8+D5HSkn1Psd76nAxet/dcsMfiDbFnzN7Mp4li9eLeuc9SxOrJ/q2I1dP6ZSyelleU3HzG1Ype63lKzzs1L8zirxXeRPC6OVxVeAv3eQthJncV3sZ9z7Is+aa1aPfT54Xzp6LdT58Xzp+Kdj9jmT88PDy8qXq5v8f6H+X+Hi3rhJf7e7Q0CW+owsPDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw5um9wZCpOgc
+  </data>
+ </layer>
+ <layer name="bgdeco" width="20" height="150">
+  <properties>
+   <property name="decorations" value="0"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1aEKACAQA9Bh8/9/2CBmLwgXfA8WB2tLAPjFHDtd/W5n/y0A8FL1f/wRAAAAAAAAAECyAF70ATU=
+  </data>
+ </layer>
+ <layer name="mid" width="20" height="150">
+  <data encoding="base64" compression="zlib">
+   eJzt1lEOgjAMgOEZ5RR4C7wo6hWAoF4C9WD2udlqGyEB8y/539YvS/bSapdSRatJn1/nl/bagNl+59IY8EaHNwW8yeGt7exVfWC2z8zXqqin5xvVEPC6zHzkPZ734uHh4eFtwztLF+lqzJXu5LybdJcehle6k/Oe0kt6G17pzhb/A+//PL0TejoYnt4JPR0NT++Enk6GN9fBw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDw8PDW8b7ALhFzYo=
+  </data>
+ </layer>
+ <layer name="middeco" width="20" height="150">
+  <properties>
+   <property name="decorations" value="1"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztlEEKwzAQA4MvbV9R9/+f7CGE9BA7TrUBmR2Bb2LwyCHLMl8e5bzzHOjAg3eFt3Wu8Hrd+gfv3em632/LSKd2OiP3Ocvve0fzRvzgtXnu7+vOy/Ye+Gq8O30/ZT+tHHXYb82r7KeVo86svhE8fDWeu29EZvLle9F4+Go8fL142XzZT+Phq/Hw9eJl82U/jYevxsPXi5fNl/00Hr4aD18vXjZf9tN4+Go8fL142XzZT+NF+NZkvtneF988PPf9Iv9XXyCXERw=
+  </data>
+ </layer>
+ <layer name="middeco2" width="20" height="150">
+  <properties>
+   <property name="decorations" value="1"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKACAMA8Di5v8/LG4iFESog9xBtmbL0Ai411vNLWTmjtZU9wAA+Mv+F54GAAAAAAAAAHhjAJLbAQk=
+  </data>
+ </layer>
+ <objectgroup name="Camada de Objectos 1" width="20" height="150">
+  <object name="spawn" x="35" y="0" width="70" height="35">
+   <properties>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="70" y="315" width="70" height="35">
+   <properties>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="140" y="630" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="1190" y="630" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
