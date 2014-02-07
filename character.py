@@ -139,13 +139,17 @@ class Character(pygame.sprite.Sprite):
 			if self.jumping:
 				self.jumpTimer = min(self.jumpTimerLimit, self.jumpTimer + dt)
 				self.velocity.y = util.approach(dt, self.velocity.y, self.jumpSpeed, 20)
+
 				if self.jumpTimer == self.jumpTimerLimit:
 					self.jumping = False
 					self.jumpTimer = 0
+
 			elif self.swimming:
 				self.velocity.y = util.approach(dt, self.velocity.y, self.swimSpeed, 50)
+
 		elif self.jumping:
 			self.jumping = False
+			self.jumpTimer = 0
 
 		if self.resting or self._oldResting:
 			self.velocity.x = util.approach(dt, self.velocity.x, 0, 10)
