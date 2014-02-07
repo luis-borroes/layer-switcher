@@ -16,7 +16,8 @@ class World(object):
 		for i in self.worlds:
 			if previous in self.data:
 				self.unlockedWorlds.append(i)
-				previous = i
+
+			previous = i
 
 		if len(self.unlockedWorlds) == 0:
 			self.unlockedWorlds = [None]
@@ -24,20 +25,7 @@ class World(object):
 		self.worldIndex = 0
 		self.world = self.worlds[self.worldIndex]
 
-		self.maps = os.listdir("maps/%s" % self.world) or [None]
-		self.unlockedMaps = []
-
-		previous = None
-		for i in self.maps:
-			if previous in self.data:
-				self.unlockedMaps.append(self.world + ":" + i)
-				previous = i
-
-		if len(self.unlockedMaps) == 0:
-			self.unlockedMaps = [None]
-
-		self.mapIndex = 0
-		self.map = self.maps[self.mapIndex]
+		self.genMaps()
 
 		self.locked = not (self.world and self.map)
 
@@ -68,24 +56,27 @@ class World(object):
 		if self.world and self.map and not self.locked:
 			self.parent.game = game.Game(self.parent, self.world, self.map, spec)
 
-			if self.parent.game.returnValue == 1:
+			if self.parent.game.returnValue in (1, 3):
 				self.unlockedMaps.append(self.world + ":" + self.map)
 
 				if self.mapIndex == len(self.maps) - 2:
 					self.mapUp()
-					self.start(True)
+					if self.parent.game.returnValue == 1:
+						self.start(True)
 
 				elif self.mapIndex < len(self.maps) - 2:
 					self.mapUp()
-					self.stat()
+					if self.parent.game.returnValue == 1:
+						self.start()
 
-			elif self.parent.game.returnValue == 2:
+			elif self.parent.game.returnValue in (2, 4):
 				self.unlockedWorlds.append(self.world)
 				self.unlockedMaps.append(self.world + ":" + self.map)
 
 				if self.worldIndex < len(self.worlds) - 1:
 					self.worldUp()
-					self.start()
+					if self.parent.game.returnValue == 2:
+						self.start()
 
 				else:
 					self.parent.mainMenu()
@@ -102,13 +93,11 @@ class World(object):
 
 			button.Button.group[4].setText(self.world)
 
-			self.maps = os.listdir("maps/%s" % self.world) or [None]
-			self.mapIndex = 0
-			self.map = self.maps[self.mapIndex]
+			self.genMaps(self)
 
 			button.Button.group[5].setText(self.map)
 
-			if not self.worlds[self.worldIndex - 1] in self.unlockedWorlds:
+			if not self.world in self.unlockedWorlds:
 				button.Button.group[4].locked = True
 				button.Button.group[5].locked = True
 				button.Button.group[6].locked = True
@@ -131,13 +120,11 @@ class World(object):
 
 			button.Button.group[4].setText(self.world)
 
-			self.maps = os.listdir("maps/%s" % self.world) or [None]
-			self.mapIndex = 0
-			self.map = self.maps[self.mapIndex]
+			self.genMaps()
 
 			button.Button.group[5].setText(self.map)
 
-			if self.worldIndex > 0 and not self.worlds[self.worldIndex - 1] in self.unlockedWorlds:
+			if self.worldIndex > 0 and not self.world in self.unlockedWorlds:
 				button.Button.group[4].locked = True
 				button.Button.group[5].locked = True
 				button.Button.group[6].locked = True
@@ -160,7 +147,7 @@ class World(object):
 
 			button.Button.group[5].setText(self.map)
 
-			if not self.world + ":" + self.maps[self.mapIndex - 1] in self.unlockedMaps:
+			if not self.world + ":" + self.map in self.unlockedMaps:
 				button.Button.group[5].locked = True
 				button.Button.group[6].locked = True
 				self.locked = True
@@ -181,7 +168,7 @@ class World(object):
 
 			button.Button.group[5].setText(self.map)
 
-			if self.mapIndex > 0 and not self.world + ":" + self.maps[self.mapIndex - 1] in self.unlockedMaps:
+			if self.mapIndex > 0 and not self.world + ":" + self.map in self.unlockedMaps:
 				button.Button.group[5].locked = True
 				button.Button.group[6].locked = True
 				self.locked = True
@@ -189,3 +176,20 @@ class World(object):
 				button.Button.group[5].locked = False
 				button.Button.group[6].locked = False
 				self.locked = False
+
+	def genMaps(self):
+		self.maps = os.listdir("maps/%s" % self.world) or [None]
+		self.unlockedMaps = []
+
+		previous = None
+		for i in self.maps:
+			if previous in self.data:
+				self.unlockedMaps.append(self.world + ":" + i)
+
+			previous = self.world + ":" + i
+
+		if len(self.unlockedMaps) == 0:
+			self.unlockedMaps = [None]
+
+		self.mapIndex = 0
+		self.map = self.maps[self.mapIndex]

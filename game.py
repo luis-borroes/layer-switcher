@@ -48,6 +48,12 @@ class Game(object):
 					if event.key == pygame.K_ESCAPE:
 						if self.paused:
 							self.leave()
+							if self.finished:
+								if spec:
+									self.returnValue = 4
+								else:
+									self.returnValue = 3
+
 							return
 
 						else:
@@ -66,6 +72,7 @@ class Game(object):
 								self.returnValue = 2
 							else:
 								self.returnValue = 1
+
 							return
 
 						elif self.paused:
