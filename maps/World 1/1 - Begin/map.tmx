@@ -271,6 +271,7 @@
   <tile id="260">
    <properties>
     <property name="c" value=""/>
+    <property name="i" value=""/>
    </properties>
   </tile>
   <tile id="265">
