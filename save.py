@@ -19,7 +19,7 @@ class Save(object):
 			f.close()
 
 	def load(self):
-		data = None
+		data = {}
 
 		with open(self.filename, "r") as f:
 			data = json.load(f)
