@@ -48,20 +48,22 @@ class World(object):
 		if self.mapIndex == len(self.maps) - 1:
 			button.Button.group[3].locked = True
 
-	def start(self, spec = False):
+	def start(self):
 		if self.world and self.map and not self.locked:
+			if self.mapIndex == len(self.maps) - 1:
+				spec = True
+			else:
+				spec = False
+
 			self.parent.game = game.Game(self.parent, self.world, self.map, spec)
-			self.data = self.save.load()
-			self.genWorlds()
-			self.genMaps()
+
+			if self.parent.game.returnValue != 0:
+				self.data = self.save.load()
+				self.genWorlds()
+				self.genMaps()
 
 			if self.parent.game.returnValue in (1, 3):
-				if self.mapIndex == len(self.maps) - 2:
-					self.mapUp()
-					if self.parent.game.returnValue == 1:
-						self.start(True)
-
-				elif self.mapIndex < len(self.maps) - 2:
+				if self.mapIndex < len(self.maps) - 1:
 					self.mapUp()
 					if self.parent.game.returnValue == 1:
 						self.start()
