@@ -53,4 +53,4 @@ for fname in data:
 	if not os.path.isdir(fname):
 		shutil.copy(fname, dname)
 
-os.system("winrar a -r layerswitcher.rar * layerswitcher")
+os.system("winrar a -r layerswitcher.rar layerswitcher")
