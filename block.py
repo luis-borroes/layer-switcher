@@ -25,3 +25,6 @@ class Block(pygame.sprite.Sprite):
 		self.liquid = "w" in self.prop or "m" in self.prop
 		self.hooked = False
 		self.done = False
+
+		if "i" in self.prop:
+			self.image = pygame.Surface(self.image.get_size(), pygame.SRCALPHA | pygame.HWSURFACE)
