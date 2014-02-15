@@ -3,7 +3,16 @@ import shutil
 import glob
 import fnmatch
 import py2exe
+import sys
 from distutils.core import setup
+
+sys.argv.append("py2exe")
+
+if os.path.isdir("layerswitcher"):
+	shutil.rmtree("layerswitcher")
+
+if os.path.isfile("layerswitcher.rar"):
+	os.unlink("layerswitcher.rar")
 
 origIsSystemDLL = py2exe.build_exe.isSystemDLL
 
@@ -31,7 +40,7 @@ data = []
 for dirpath, dirnames, filenames in os.walk("assets"):
 	data.extend(os.path.join(dirpath, fn) for fn in filenames)
 
-os.makedir(dest + "/data")
+os.makedirs(data_dir + "/data")
 
 for dirpath, dirnames, filenames in os.walk("maps"):
 	data.extend(os.path.join(dirpath, fn) for fn in filenames)
@@ -43,3 +52,5 @@ for fname in data:
 		os.makedirs(os.path.dirname(dname))
 	if not os.path.isdir(fname):
 		shutil.copy(fname, dname)
+
+os.system("winrar a -r layerswitcher.rar * layerswitcher")
