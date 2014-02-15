@@ -22,7 +22,8 @@ class World(object):
 		if len(self.unlockedWorlds) == 0:
 			self.unlockedWorlds = [None]
 
-		self.worldIndex = 0
+		self.world = self.unlockedWorlds[-1]
+		self.worldIndex = self.worlds.index(self.world) if self.worlds.count(self.world) > 0 else 0
 		self.world = self.worlds[self.worldIndex]
 
 		self.genMaps()
@@ -44,12 +45,14 @@ class World(object):
 		button.Button("big", self.parent.mediumFont, "Start", (0, self.parent.resolution[1] - 225), self.parent.resolution, self.start)
 		button.Button("big", self.parent.mediumFont, "Back", (0, self.parent.resolution[1] - 150), self.parent.resolution, self.parent.mainMenu)
 
-		button.Button.group[0].locked = True
-		if len(self.worlds) == 1:
+		if self.worldIndex == 0:
+			button.Button.group[0].locked = True
+		if self.worldIndex == len(self.worlds) - 1:
 			button.Button.group[1].locked = True
 
-		button.Button.group[2].locked = True
-		if len(self.maps) == 1:
+		if self.mapIndex == 0:
+			button.Button.group[2].locked = True
+		if self.mapIndex == len(self.maps) - 1:
 			button.Button.group[3].locked = True
 
 	def start(self, spec = False):
@@ -191,5 +194,6 @@ class World(object):
 		if len(self.unlockedMaps) == 0:
 			self.unlockedMaps = [None]
 
-		self.mapIndex = 0
+		self.map = self.unlockedMaps[-1]
+		self.mapIndex = self.maps.index(self.map[self.map.find(":") + 1:]) if self.maps.count(self.map[self.map.find(":") + 1:]) > 0 else 0
 		self.map = self.maps[self.mapIndex]
