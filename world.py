@@ -9,24 +9,17 @@ class World(object):
 		self.save = save.Save("save")
 		self.data = self.save.load()
 
-		self.worlds = os.listdir("maps") or [None]
-		self.unlockedWorlds = []
-
-		previous = None
-		for i in self.worlds:
-			if previous in self.data:
-				self.unlockedWorlds.append(i)
-
-			previous = i
-
-		if len(self.unlockedWorlds) == 0:
-			self.unlockedWorlds = [None]
+		self.genWorlds()
 
 		self.world = self.unlockedWorlds[-1]
-		self.worldIndex = self.worlds.index(self.world) if self.worlds.count(self.world) > 0 else 0
+		self.worldIndex = self.worlds.index(self.world) if self.world and self.worlds.count(self.world) > 0 else 0
 		self.world = self.worlds[self.worldIndex]
 
 		self.genMaps()
+
+		self.map = self.unlockedMaps[-1]
+		self.mapIndex = self.maps.index(self.map[self.map.find(":") + 1:]) if self.map and self.maps.count(self.map[self.map.find(":") + 1:]) > 0 else 0
+		self.map = self.maps[self.mapIndex]
 
 		self.locked = not (self.world and self.map)
 
@@ -58,10 +51,11 @@ class World(object):
 	def start(self, spec = False):
 		if self.world and self.map and not self.locked:
 			self.parent.game = game.Game(self.parent, self.world, self.map, spec)
+			self.data = self.save.load()
+			self.genWorlds()
+			self.genMaps()
 
 			if self.parent.game.returnValue in (1, 3):
-				self.unlockedMaps.append(self.world + ":" + self.map)
-
 				if self.mapIndex == len(self.maps) - 2:
 					self.mapUp()
 					if self.parent.game.returnValue == 1:
@@ -73,9 +67,6 @@ class World(object):
 						self.start()
 
 			elif self.parent.game.returnValue in (2, 4):
-				self.unlockedWorlds.append(self.world)
-				self.unlockedMaps.append(self.world + ":" + self.map)
-
 				if self.worldIndex < len(self.worlds) - 1:
 					self.worldUp()
 					if self.parent.game.returnValue == 2:
@@ -180,6 +171,23 @@ class World(object):
 				button.Button.group[6].locked = False
 				self.locked = False
 
+	def genWorlds(self):
+		self.worlds = os.listdir("maps") or [None]
+		self.unlockedWorlds = []
+
+		previous = None
+		for i in self.worlds:
+			if previous in self.data:
+				self.unlockedWorlds.append(i)
+
+			previous = i
+
+		if len(self.unlockedWorlds) == 0:
+			self.unlockedWorlds = [None]
+
+		self.worldIndex = 0
+		self.world = self.worlds[self.worldIndex]
+
 	def genMaps(self):
 		self.maps = os.listdir("maps/%s" % self.world) or [None]
 		self.unlockedMaps = []
@@ -194,6 +202,5 @@ class World(object):
 		if len(self.unlockedMaps) == 0:
 			self.unlockedMaps = [None]
 
-		self.map = self.unlockedMaps[-1]
-		self.mapIndex = self.maps.index(self.map[self.map.find(":") + 1:]) if self.maps.count(self.map[self.map.find(":") + 1:]) > 0 else 0
+		self.mapIndex = 0
 		self.map = self.maps[self.mapIndex]
