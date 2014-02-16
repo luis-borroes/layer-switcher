@@ -96,7 +96,7 @@ class Character(pygame.sprite.Sprite):
 			self.setStatus("walking" + self.direction)
 
 	def toBack(self, game):
-		if self.layerCooldown == 0 and self.layer > 0:
+		if self.layerCooldown == 0 and self.layer > 0 and self.position.bottom > 0:
 			walled = False
 			destination = self.position.copy()
 			destination.y -= 71
@@ -113,7 +113,7 @@ class Character(pygame.sprite.Sprite):
 				self._oldResting = self.resting
 
 	def toFront(self, game):
-		if self.layerCooldown == 0 and self.layer < len(game.map.layers) - 1:
+		if self.layerCooldown == 0 and self.layer < len(game.map.layers) - 1 and self.position.bottom > 0:
 			walled = False
 			destination = self.position.copy()
 			destination.y += 69
