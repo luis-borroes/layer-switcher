@@ -1,5 +1,4 @@
-import pygame, character, enemy, item, utils
-util = utils.Utils()
+import pygame, character, enemy, item
 
 from vector import Vec2d as Vector
 
@@ -63,11 +62,6 @@ class Player(character.Character):
 		self._keyTarget = []
 
 		super(Player, self).update(game, dt)
-
-		for gEnemy in enemy.Enemy.group:
-			if util.collide(self.position, gEnemy.position) and self.layer == gEnemy.layer:
-				self.die(game)
-				break
 
 		self.keyRect.centerx = self.position.centerx
 		self.keyRect.bottom = self.position.bottom

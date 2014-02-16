@@ -1,4 +1,5 @@
-import pygame, player, enemy, mapper, viewport, animation, particles, item, sys, vector, save
+import pygame, player, enemy, mapper, viewport, animation, particles, item, sys, vector, save, utils
+util = utils.Utils()
 
 class Game(object):
 
@@ -96,6 +97,8 @@ class Game(object):
 
 				for gEnemy in enemy.Enemy.group:
 					gEnemy.update(self, self.dt * 0.001)
+					if util.collide(self.player.position, gEnemy.position) and self.player.layer == gEnemy.layer:
+						self.player.die(self)
 
 				self.viewport.update(self, self.player.position.centerx, self.player.position.centery)
 
