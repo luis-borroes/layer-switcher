@@ -226,7 +226,7 @@
  </layer>
  <layer name="mid" width="20" height="150">
   <data encoding="base64" compression="zlib">
-   eJzt2UEOgjAQhWGM4RQew5MiXkEMQuIZEA9mN2yaoc6UalryN3m7zhdCC5lCfaiqmmQTf2yt/7XXGMzmO1f1Bq9XeJPBmxRebuPopTPUdkL9yYvV8+vPXu4G7ybUW65Hc714eHh4eGV4F5fW5RqoW5sjeQ+XwWUMeGtzJO/lMru8A97anBLXA29/XhuRZ8AbIiI9j4s3R0R6HktZDzy8lJ7mHG7xNOdwi6c9h+9lPfDSeaG9HeOF9naMF9rb/7x/2neA1tO+A7RezLe4HPYfHl7uXkx/L2VLfy9lS38vZfFS/ZvBw8PDw8PDw8Mrw0vdn+be76YaeHh4eHh4eHgleh+vEEKZ
+   eJzt2UEOgjAQhWGM4RQew5MiXkENYuIZEA9mN2yaaZ1pq6Hkb/J2M1+IlGYa213TtGQ18Vdu/6+9zmB237lmMHiDwpsM3qTwrooaS22ut/di9fz+gxer5/cfvdwM3kXotzyP5nnx8PDw8OrwTi69yznSF6qRvLvL6PKIeKEayXu5zC7viBeqqfF94G3P6xPyjHhjQqTvcfHmhEjfYy3vAw+vpKe5h1s8zT3c4mnu4RZPu/Dq92J7O8WL7e0UL7a3//n7ac8Arac9A7Se9gzQeikLD2+LXsp8LyVnvpeSM99LWbxS/83g4eHh4eHh4eHV4ZWeT9c+75ZaeHh4eHh4eHg1eh9lX0Ux
   </data>
  </layer>
  <layer name="middeco" width="20" height="150">
