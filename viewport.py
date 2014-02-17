@@ -55,8 +55,3 @@ class Viewport(object):
 			bgx = -util.remap(self.rect.x, 0, game.map.width - self.resolution.x, 0, game.map.bgSize[0] - self.resolution.x)
 			bgy = -util.remap(self.rect.y, 0, game.map.height - self.resolution.y, 0, game.map.bgSize[1] - self.resolution.y)
 			game.map.bgOffset = (bgx, bgy)
-
-		for layer in game.map.totalLayers:
-			for block in layer:
-				block.rect.x = block.x - self.rect.x
-				block.rect.y = block.y - self.rect.y

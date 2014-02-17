@@ -30,8 +30,9 @@ class Player(character.Character):
 		for gItem in item.Item.group:
 			gItem.spawn()
 
-		for keyHole in self.map.keyHoles:
-			keyHole.hooked = False
+		for layer in self.map.layers:
+			for keyHole in layer.keyHoles:
+				keyHole.hooked = False
 
 		self.spawn()
 		game.paused = False

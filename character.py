@@ -239,8 +239,8 @@ class Character(pygame.sprite.Sprite):
 							self.velocity.y = 0
 
 				if self.type == "player" and "keyhole" in block.prop and not block.hooked:
-					if (self.layer, block.tilex, block.tiley + 1) in self.map.blocks and "keyhole" in self.map.blocks[(self.layer, block.tilex, block.tiley + 1)].prop:
-						self._keyTarget.append(self.map.blocks[(self.layer, block.tilex, block.tiley + 1)])
+					if (block.tilex, block.tiley + 1) in self.map.layers[self.layer].blocks and "keyhole" in self.map.layers[self.layer].blocks[(block.tilex, block.tiley + 1)].prop:
+						self._keyTarget.append(self.map.layers[self.layer].blocks[(block.tilex, block.tiley + 1)])
 					else:
 						self._keyTarget.append(block)
 
@@ -293,16 +293,16 @@ class Character(pygame.sprite.Sprite):
 			if self.shadowPos:
 				self.shadowPos.x = self.rect.centerx - self.shadow.get_width() * 0.5
 
-				target = ground.rect.top - self.map.tilemap.tileheight * 0.5
+				target = ground.position.top - game.viewport.rect.top - self.map.tilemap.tileheight * 0.5
 				stepToggle = False
 
 				if self.layerChanging:
-					if ground.rect.top < self._oldGround.rect.top and self.oldLayer < self.layer and self.shadowLooking:
-						self.shadowPos.y = ground.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
+					if ground.position.top - game.viewport.rect.top < self._oldGround.position.top - game.viewport.rect.top and self.oldLayer < self.layer and self.shadowLooking:
+						self.shadowPos.y = ground.position.top - game.viewport.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
 						self.shadowLooking = False
 
-					if ground.rect.top > self._oldGround.rect.top and self.oldLayer > self.layer and self.shadowLooking:
-						target = self._oldGround.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
+					if ground.position.top - game.viewport.rect.top > self._oldGround.position.top - game.viewport.rect.top and self.oldLayer > self.layer and self.shadowLooking:
+						target = self._oldGround.position.top - game.viewport.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
 						stepToggle = True
 						
 				else:
@@ -319,7 +319,7 @@ class Character(pygame.sprite.Sprite):
 				self.shadowPos.y = util.approach(game.dt * 0.001, self.shadowPos.y, target, step)
 
 			else:
-				self.shadowPos = Vector(self.rect.centerx - self.shadow.get_width() * 0.5, ground.rect.top - self.shadow.get_height() * 0.5)
+				self.shadowPos = Vector(self.rect.centerx - self.shadow.get_width() * 0.5, ground.position.top - game.viewport.rect.top - self.shadow.get_height() * 0.5)
 
 		else:
 			self.shadowPos = None
@@ -329,7 +329,7 @@ class Character(pygame.sprite.Sprite):
 			return self._oldGround
 
 		else:
-			for ground in self.map.grounds[layer][position.centerx / self.map.tilemap.tilewidth]:
+			for ground in self.map.layers[layer].grounds[position.centerx / self.map.tilemap.tilewidth]:
 				if position.y <= ground.y or (self.layerChanging and util.collide(position, ground.position)):
 					self._oldPos = (position.centerx / self.map.tilemap.tilewidth, position.centery / self.map.tilemap.tileheight)
 
@@ -344,8 +344,8 @@ class Character(pygame.sprite.Sprite):
 		else:
 			for i in xrange(tileRadius * 2 + 1):
 				for j in xrange(tileRadius * 2 + 1):
-					if (layer, position.centerx / self.map.tilemap.tilewidth + i - tileRadius, position.centery / self.map.tilemap.tileheight + j - tileRadius) in self.map.blocks:
-						d.append(self.map.blocks[(layer, position.centerx / self.map.tilemap.tilewidth + i - tileRadius, position.centery / self.map.tilemap.tileheight + j - tileRadius)])
+					if (position.centerx / self.map.tilemap.tilewidth + i - tileRadius, position.centery / self.map.tilemap.tileheight + j - tileRadius) in self.map.layers[layer].blocks:
+						d.append(self.map.layers[layer].blocks[(position.centerx / self.map.tilemap.tilewidth + i - tileRadius, position.centery / self.map.tilemap.tileheight + j - tileRadius)])
 
 			self._oldNearbyPos = (position.centerx / self.map.tilemap.tilewidth, position.centery / self.map.tilemap.tileheight)
 			self._oldNearby = d

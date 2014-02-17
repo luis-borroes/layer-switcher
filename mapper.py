@@ -1,31 +1,30 @@
-import pygame, block, vector, enemy, item
+import pygame, vector, enemy, item, layer
 
 from pytmx import tmxloader
 
 class Mapper(object):
 
 	def __init__(self, game, world, mapName):
-		self.layers = []
-		self.layerInfo = []
-		self.specialDecos = []
-		self.decoLinks = {}
-		self.totalLayers = []
-		self.blocks = {}
-		self.grounds = []
-		self.keyHoles = []
 		self.mapName = mapName
 		self.world = world
+
+		self.drawable = []
+		self.layers = []
+
 		self.tilemap = tmxloader.load_pygame("maps/%s/%s/map.tmx" % (self.world, self.mapName), pixelalpha = True)
+		self.width = self.tilemap.width * self.tilemap.tilewidth
+		self.height = self.tilemap.height * self.tilemap.tileheight
+
 		self.drawShadow = True
 		self.gravity = 600
 		self.bgColor = (82, 246, 255)
-		self.width = self.tilemap.width * self.tilemap.tilewidth
-		self.height = self.tilemap.height * self.tilemap.tileheight
-		self.layerCount = -1
 		self.background = None
 
 		self.pPosition = vector.Vec2d(0, 0)
 		self.pLayer = 0
+
+		self.layerCount = -1
+		self.hasKeyHoles = False
 
 		if hasattr(self.tilemap, "shadow"):
 			self.drawShadow = bool(int(self.tilemap.shadow))
@@ -46,63 +45,13 @@ class Mapper(object):
 			self.bgSize = self.background.get_size()
 			self.bgOffset = (0, 0)
 
-		for layer in self.tilemap.getTileLayerOrder():
+		for rawLayer in self.tilemap.getTileLayerOrder():
 			self.layerCount += 1
 
-			if layer.visible:
-				if hasattr(layer, "decorations"):
-					newGroup = pygame.sprite.Group()
-					self.totalLayers.append(newGroup)
-
-					if layer.decorations != "":
-						self.specialDecos.append(newGroup)
-						parentID = int(layer.decorations)
-
-						if not parentID in self.decoLinks:
-							self.decoLinks[parentID] = []
-
-						self.decoLinks[parentID].append(newGroup)
-
-					for x in xrange(0, self.tilemap.width):
-						for y in xrange(0, self.tilemap.height):
-							img = self.tilemap.getTileImage(x, y, self.layerCount)
-
-							if img:
-								block.Block(x, y, self.tilemap, img, self.layerCount, self.totalLayers[self.layerCount])
-
-				else:
-					newGroup = pygame.sprite.Group()
-					self.layers.append(newGroup)
-					self.totalLayers.append(newGroup)
-					self.layerInfo.append(layer)
-
-					self.grounds.append([])
-
-					for x in xrange(0, self.tilemap.width):
-						self.grounds[len(self.grounds) - 1].append([])
-						nextGround = True
-						for y in xrange(0, self.tilemap.height):
-							img = self.tilemap.getTileImage(x, y, self.layerCount)
-							
-							if img:
-								self.blocks[(len(self.layers) - 1, x, y)] = block.Block(x, y, self.tilemap, img, self.layerCount, self.totalLayers[self.layerCount])
-
-								if "keyhole" in self.blocks[(len(self.layers) - 1, x, y)].prop:
-									self.keyHoles.append(self.blocks[(len(self.layers) - 1, x, y)])
-
-									if (len(self.layers) - 1, x, y - 1) in self.blocks and "keyhole" in self.blocks[(len(self.layers) - 1, x, y - 1)].prop:
-										self.keyHoles.remove(self.blocks[(len(self.layers) - 1, x, y - 1)])
-
-								if nextGround and self.blocks[(len(self.layers) - 1, x, y)].collidable or (self.blocks[(len(self.layers) - 1, x, y)].liquid and not self.blocks[(len(self.layers) - 1, x, y - 1)].liquid):
-									self.grounds[len(self.grounds) - 1][x].append(self.blocks[(len(self.layers) - 1, x, y)])
-
-									if self.blocks[(len(self.layers) - 1, x, y)].liquid:
-										nextGround = True
-									else:
-										nextGround = False
-
-							else:
-								nextGround = True
+			if rawLayer.visible:
+				layer.Layer(self, rawLayer)
+					
+		self.layerCount += 1
 
 		for obj in self.tilemap.getObjects():
 			if obj.name == "spawn":
@@ -112,28 +61,28 @@ class Mapper(object):
 					self.pLayer = int(obj.layer)
 
 			elif obj.name == "enemy":
-				layer = 0
+				eLayer = 0
 				enemyType = "enemyBlue"
 
 				if hasattr(obj, "layer"):
-					layer = int(obj.layer)
+					eLayer = int(obj.layer)
 
 				if hasattr(obj, "color"):
 					enemyType = "enemy" + obj.color.capitalize()
 
-				enemy.Enemy(game, self, enemyType, vector.Vec2d(obj.x, obj.y), layer)
+				enemy.Enemy(game, self, enemyType, vector.Vec2d(obj.x, obj.y), eLayer)
 
 			elif obj.name == "item":
-				layer = 0
+				iLayer = 0
 				itemType = "keyYellow"
 
 				if hasattr(obj, "layer"):
-					layer = int(obj.layer)
+					iLayer = int(obj.layer)
 
 				if hasattr(obj, "color"):
 					itemType = "key" + obj.color.capitalize()
 
-				item.Item(game, self, itemType, vector.Vec2d(obj.x, obj.y), layer)
+				item.Item(game, self, itemType, vector.Vec2d(obj.x, obj.y), iLayer)
 
 	def drawBackground(self, game):
 		if self.background:

@@ -2,11 +2,9 @@ import pygame
 
 from vector import Vec2d as Vector
 
-class Block(pygame.sprite.Sprite):
+class Block(object):
 
-	def __init__(self, x, y, objMap, img, layer, *groups):
-		super(Block, self).__init__(*groups)
-
+	def __init__(self, x, y, objMap, img, layer):
 		self.image = img
 		self.tilex = x
 		self.tiley = y
@@ -14,11 +12,7 @@ class Block(pygame.sprite.Sprite):
 		self.x = x * objMap.tilewidth
 		self.y = y * objMap.tileheight
 
-		self.rect = self.image.get_rect()
-		self.rect.x = self.x
-		self.rect.y = self.y
-
-		self.position = self.rect.copy()
+		self.position = pygame.rect.Rect((self.x, self.y), self.image.get_size())
 
 		self.prop = objMap.getTileProperties((x, y, layer)) or {}
 		self.collidable = "l" in self.prop or "r" in self.prop or "u" in self.prop or "d" in self.prop or "c" in self.prop

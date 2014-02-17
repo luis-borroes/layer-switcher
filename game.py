@@ -102,39 +102,34 @@ class Game(object):
 
 				self.viewport.update(self, self.player.position.centerx, self.player.position.centery)
 
-			for layerID in xrange(self.map.layerCount + 1):
-				layer = self.map.totalLayers[layerID]
+			endTrigger = True
 
-				if not layer in self.map.specialDecos:
-					layer.draw(self.screen)
+			for layer in self.map.drawable:
+				layer.draw(self)
 
-				if layer in self.map.layers:
-					realID = self.map.layers.index(layer)
-
-					if realID in self.map.decoLinks:
-						for subLayer in self.map.decoLinks[realID]:
-							subLayer.draw(self.screen)
+				if layer.normal:
+					for subLayer in layer.decor:
+						subLayer.draw(self)
 
 					for group in particles.Particles.groups:
-						group.draw(self, realID)
+						group.draw(self, layer.normalID)
 
 					for gItem in item.Item.group:
-						if realID == gItem.drawLayer:
+						if layer.normalID == gItem.drawLayer:
 							gItem.draw(self)
 
 					for gEnemy in enemy.Enemy.group:
-						if realID == gEnemy.drawLayer:
+						if layer.normalID == gEnemy.drawLayer:
 							gEnemy.draw(self)
 
-					if realID == self.player.drawLayer:
+					if layer.normalID == self.player.drawLayer:
 						self.player.draw(self)
 
-			endTrigger = True
-			for keyHoles in self.map.keyHoles:
-				if not keyHoles.done:
-					endTrigger = False
+					for keyHole in layer.keyHoles:
+						if not keyHole.done:
+							endTrigger = False
 
-			if endTrigger and len(self.map.keyHoles) > 0 and not self.finished:
+			if endTrigger and self.map.hasKeyHoles and not self.finished:
 				self.paused = True
 				self.finished = True
 
