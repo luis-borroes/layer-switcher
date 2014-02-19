@@ -16,7 +16,8 @@ class Mapper(object):
 		self.height = self.tilemap.height * self.tilemap.tileheight
 
 		self.drawShadow = True
-		self.gravity = 600
+		self.gravity = 750
+		self.gravityAccel = 25
 		self.bgColor = (82, 246, 255)
 		self.background = None
 
@@ -31,6 +32,9 @@ class Mapper(object):
 
 		if hasattr(self.tilemap, "gravity"):
 			self.gravity = int(self.tilemap.gravity)
+
+		if hasattr(self.tilemap, "gravityAccel"):
+			self.gravityAccel = int(self.tilemap.gravityAccel)
 
 		if hasattr(self.tilemap, "rgb"):
 			self.bgColor = tuple([map(int, self.tilemap.rgb.split())])
