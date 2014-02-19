@@ -34,11 +34,8 @@ class Enemy(character.Character):
 		if self.type == Enemy.blue:
 			if self.inProximity and self.layer == game.player.layer:
 
-				if game.player.position.centerx < self.position.centerx:
-					self.moveLeft(dt)
-
-				elif game.player.position.centerx > self.position.centerx:
-					self.moveRight(dt)
+				self.movingLeft = game.player.position.centerx < self.position.centerx
+				self.movingRight = game.player.position.centerx > self.position.centerx
 
 				if game.player.position.centery < self.position.centery:
 					self.holdJump = True

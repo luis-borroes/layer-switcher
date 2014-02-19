@@ -21,6 +21,7 @@ class Player(character.Character):
 
 	def die(self, game):
 		game.paused = True
+		self.isDead = True
 		self.setStatus("death", lambda: self.realDie(game))
 
 	def realDie(self, game):
@@ -38,6 +39,8 @@ class Player(character.Character):
 		game.paused = False
 		game.viewport.update(game, self.position.centerx, self.position.centery)
 
+		self.isDead = False
+
 	def update(self, game, dt):
 		if self.key_w:
 			self.key_w = False
@@ -49,11 +52,8 @@ class Player(character.Character):
 
 		keys = pygame.key.get_pressed()
 
-		if keys[pygame.K_a]:
-			self.moveLeft(dt)
-
-		if keys[pygame.K_d]:
-			self.moveRight(dt)
+		self.movingLeft = keys[pygame.K_a]
+		self.movingRight = keys[pygame.K_d]
 
 		if self.spaced:
 			self.spaced = False
