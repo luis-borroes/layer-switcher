@@ -3,11 +3,8 @@ import pygame, utils, animation, particles, os
 from vector import Vec2d as Vector
 util = utils.Utils()
 
-class Character(pygame.sprite.Sprite):
+class Character(object):
 	def __init__(self, game, gMap, charType, pos, layer, defaultAnims = True):
-		self.sprites = pygame.sprite.Group()
-		super(Character, self).__init__(self.sprites)
-
 		self.map = gMap
 		self.type = charType
 		self.defaultAnims = defaultAnims
@@ -19,8 +16,11 @@ class Character(pygame.sprite.Sprite):
 				if len(info) < 3:
 					info[1:2] = [1, 1]
 
-				self.animList[info[0]] = animation.Animation("assets/characters/%s/%s" % (self.type, anim), 50, 50, float(info[1]), float(info[2]))
+				self.animList[info[0]] = animation.Animation("assets/characters/%s/%s" % (self.type, anim), 50, 50, float(info[1]), int(info[2]))
 
+		self.status = ""
+		self.animation = None
+		self._statusChanged = False
 		self.setStatus("standingRight")
 		self.shadow = pygame.image.load("assets/sprites/shadow.png").convert_alpha()
 
@@ -38,10 +38,14 @@ class Character(pygame.sprite.Sprite):
 
 		self.layerOffset = 70 * self.startLayer
 
-		self.moveSpeed = 500
-		self.jumpSpeed = -600
+		self.moveSpeed = 600
+		self.jumpSpeed = -800
 		self.jumpTimerLimit = 0.34
 		self.swimSpeed = -400
+
+		self.moveAccel = 30
+		self.jumpAccel = 20
+		self.swimAccel = 50
 
 		self.spawn()
 
@@ -53,6 +57,8 @@ class Character(pygame.sprite.Sprite):
 		self.direction = "Right"
 		self.speedModifier = 1
 		self.resting = False
+		self.movingLeft = False
+		self.movingRight = False
 		self.jumping = False
 		self.swimming = False
 		self.jumpTimer = 0
@@ -71,8 +77,10 @@ class Character(pygame.sprite.Sprite):
 		self._oldNearby = []
 		self.shadowPos = None
 		self.shadowLooking = True
+		self.isDead = False
 
 	def die(self, game):
+		self.isDead = True
 		pass
 
 	def jump(self):
@@ -84,13 +92,13 @@ class Character(pygame.sprite.Sprite):
 			self.setStatus("jumping" + self.direction, lambda: self.setStatus("falling" + self.direction))
 
 	def moveLeft(self, dt):
-		self.velocity.x = util.approach(dt, self.velocity.x, -self.moveSpeed, 20)
+		self.velocity.x = util.approach(dt, self.velocity.x, -self.moveSpeed, self.moveAccel)
 		self.direction = "Left"
 		if self.resting:
 			self.setStatus("walking" + self.direction)
 
 	def moveRight(self, dt):
-		self.velocity.x = util.approach(dt, self.velocity.x, self.moveSpeed, 20)
+		self.velocity.x = util.approach(dt, self.velocity.x, self.moveSpeed, self.moveAccel)
 		self.direction = "Right"
 		if self.resting:
 			self.setStatus("walking" + self.direction)
@@ -135,17 +143,23 @@ class Character(pygame.sprite.Sprite):
 
 		self.layerCooldown = max(0, self.layerCooldown - dt)
 
+		if self.movingLeft:
+			self.moveLeft(dt)
+
+		if self.movingRight:
+			self.moveRight(dt)
+
 		if self.holdJump:
 			if self.jumping:
 				self.jumpTimer = min(self.jumpTimerLimit, self.jumpTimer + dt)
-				self.velocity.y = util.approach(dt, self.velocity.y, self.jumpSpeed, 20)
+				self.velocity.y = util.approach(dt, self.velocity.y, self.jumpSpeed, self.jumpAccel)
 
 				if self.jumpTimer == self.jumpTimerLimit:
 					self.jumping = False
 					self.jumpTimer = 0
 
 			elif self.swimming:
-				self.velocity.y = util.approach(dt, self.velocity.y, self.swimSpeed, 50)
+				self.velocity.y = util.approach(dt, self.velocity.y, self.swimSpeed, self.swimAccel)
 
 		elif self.jumping:
 			self.jumping = False
@@ -158,7 +172,7 @@ class Character(pygame.sprite.Sprite):
 				self.particles.emit(game.dt * 0.001, self.layer)
 
 		elif not self.layerChanging:
-			self.velocity.y = util.approach(dt, self.velocity.y, self.map.gravity, 20)
+			self.velocity.y = util.approach(dt, self.velocity.y, self.map.gravity, self.map.gravityAccel)
 
 		if self.swimming:
 			self.velocity.x = util.approach(dt, self.velocity.x, 0, 5)
@@ -257,6 +271,19 @@ class Character(pygame.sprite.Sprite):
 				if "k" in block.prop:
 					self.die(game)
 
+		if not game.paused:
+			if not self.layerChanging and not self.jumping:
+				if self.resting:
+					if not self.movingRight and not self.movingLeft:
+						self.setStatus("standing" + self.direction)
+
+				elif not self.status in ("jumpingLeft", "jumpingRight"):
+					self.setStatus("falling" + self.direction)
+
+		self._statusChanged = False
+		self.movingRight = False
+		self.movingLeft = False
+
 	def draw(self, game):
 		if self.map.drawShadow:
 			self.genShadow(game)
@@ -266,20 +293,21 @@ class Character(pygame.sprite.Sprite):
 		self.particles.update(game, self.position.midleft)
 		self.bubbles.update(game, self.position.midleft)
 
-		if self.defaultAnims:
+		if self.defaultAnims and (not game.paused or self.isDead):
 			self.animation.update(game.dt * 0.001)
 
-		self.sprites.draw(game.screen)
-
-		if self.resting and not game.paused:
-			self.setStatus("standing" + self.direction)
-		elif not self.jumping and not game.paused:
-			self.setStatus("falling" + self.direction)
+		game.screen.blit(self.image, (self.position.x - game.viewport.rect.x, self.position.y - game.viewport.rect.y))
 
 	def setStatus(self, status, callback = None):
 		if self.defaultAnims:
-			if status in self.animList:
+			if not self._statusChanged and status != self.status and status in self.animList:
+				self._statusChanged = True
+
+				if self.animation:
+					self.animation.frame = 0
+
 				self.animation = self.animList[status]
+				self.status = status
 
 				if callback:
 					self.animation.setCallback(callback)
@@ -297,11 +325,11 @@ class Character(pygame.sprite.Sprite):
 				stepToggle = False
 
 				if self.layerChanging:
-					if ground.position.top - game.viewport.rect.top < self._oldGround.position.top - game.viewport.rect.top and self.oldLayer < self.layer and self.shadowLooking:
+					if ground.position.top < self._oldGround.position.top and self.oldLayer < self.layer and self.shadowLooking:
 						self.shadowPos.y = ground.position.top - game.viewport.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
 						self.shadowLooking = False
 
-					if ground.position.top - game.viewport.rect.top > self._oldGround.position.top - game.viewport.rect.top and self.oldLayer > self.layer and self.shadowLooking:
+					if ground.position.top > self._oldGround.position.top and self.oldLayer > self.layer and self.shadowLooking:
 						target = self._oldGround.position.top - game.viewport.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
 						stepToggle = True
 						
