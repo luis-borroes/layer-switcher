@@ -90,7 +90,7 @@ class Game(object):
 			self.map.drawBackground(self)
 
 			if not self.paused:
-				self.player.sprites.update(self, self.dt * 0.001)
+				self.player.update(self, self.dt * 0.001)
 
 				for gItem in item.Item.group:
 					gItem.update(self, self.dt * 0.001)
