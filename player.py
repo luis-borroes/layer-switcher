@@ -37,6 +37,7 @@ class Player(character.Character):
 
 		self.spawn()
 		game.paused = False
+		game.timer.reset(game)
 		game.viewport.update(game, self.position.centerx, self.position.centery)
 
 		self.isDead = False
