@@ -59,8 +59,8 @@ class World(object):
 
 			if self.parent.game.returnValue != 0:
 				self.data = self.save.load()
-				self.genWorlds()
-				self.genMaps()
+				self.genWorlds(False)
+				self.genMaps(False)
 
 			if self.parent.game.returnValue in (1, 3):
 				if self.mapIndex < len(self.maps) - 1:
@@ -89,7 +89,7 @@ class World(object):
 
 			button.Button.group[4].setText(self.world)
 
-			self.genMaps(self)
+			self.genMaps()
 
 			button.Button.group[5].setText(self.map)
 
@@ -103,6 +103,9 @@ class World(object):
 				button.Button.group[5].locked = False
 				button.Button.group[6].locked = False
 				self.locked = False
+
+			button.Button.group[2].locked = True
+			button.Button.group[3].locked = False
 
 	def worldDown(self):
 		if self.worldIndex > 0:
@@ -130,6 +133,9 @@ class World(object):
 				button.Button.group[5].locked = False
 				button.Button.group[6].locked = False
 				self.locked = False
+
+			button.Button.group[2].locked = True
+			button.Button.group[3].locked = False
 
 	def mapUp(self):
 		if self.mapIndex < len(self.maps) - 1:
@@ -164,7 +170,7 @@ class World(object):
 
 			button.Button.group[5].setText(self.map)
 
-			if self.mapIndex > 0 and not self.world + ":" + self.map in self.unlockedMaps:
+			if (self.worldIndex > 0 or self.mapIndex > 0) and not self.world + ":" + self.map in self.unlockedMaps:
 				button.Button.group[5].locked = True
 				button.Button.group[6].locked = True
 				self.locked = True
@@ -173,7 +179,7 @@ class World(object):
 				button.Button.group[6].locked = False
 				self.locked = False
 
-	def genWorlds(self):
+	def genWorlds(self, index = True):
 		self.worlds = os.listdir("maps") or [None]
 		self.unlockedWorlds = []
 
@@ -187,10 +193,11 @@ class World(object):
 		if len(self.unlockedWorlds) == 0:
 			self.unlockedWorlds = [None]
 
-		self.worldIndex = 0
-		self.world = self.worlds[self.worldIndex]
+		if index:
+			self.worldIndex = 0
+			self.world = self.worlds[self.worldIndex]
 
-	def genMaps(self):
+	def genMaps(self, index = True):
 		self.maps = os.listdir("maps/%s" % self.world) or [None]
 		self.unlockedMaps = []
 
@@ -204,5 +211,6 @@ class World(object):
 		if len(self.unlockedMaps) == 0:
 			self.unlockedMaps = [None]
 
-		self.mapIndex = 0
-		self.map = self.maps[self.mapIndex]
+		if index:
+			self.mapIndex = 0
+			self.map = self.maps[self.mapIndex]
