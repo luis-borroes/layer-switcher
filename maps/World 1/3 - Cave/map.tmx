@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="90" height="40" tilewidth="70" tileheight="35">
+ <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
+  <image source="../../../assets/sprites/sheet.png" width="1680" height="840"/>
+  <tile id="26">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="d" value=""/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="256">
+   <properties>
+    <property name="m" value=""/>
+   </properties>
+  </tile>
+  <tile id="280">
+   <properties>
+    <property name="m" value=""/>
+   </properties>
+  </tile>
+  <tile id="284">
+   <properties>
+    <property name="k" value=""/>
+    <property name="m" value=""/>
+   </properties>
+  </tile>
+  <tile id="308">
+   <properties>
+    <property name="c" value=""/>
+    <property name="k" value=""/>
+    <property name="m" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="90" height="40">
+  <properties>
+   <property name="decorations" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJztwwEJAAAMA6Ad1j/zehwFe0lVVVVVVVVVVVVVVVVV1VcHtLZGUQ==
+  </data>
+ </layer>
+ <layer name="bg" width="90" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztzsEJgEAMAME7tAlRq1D7r8cubCAfQRM4ZmD/2xrAO1PQXHo0pjVoKz0a0xF0lh4BAAAAAAAAAMD3bqXUuzJalNIuSZL0c5dSegBtoa/w
+  </data>
+ </layer>
+ <objectgroup name="Camada de Objectos 1" width="90" height="40">
+  <object name="spawn" x="70" y="35" width="70" height="35">
+   <properties>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
