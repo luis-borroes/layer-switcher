@@ -1,9 +1,9 @@
-import pygame, player, enemy, mapper, viewport, animation, particles, item, sys, vector, save, utils
+import pygame, player, enemy, mapper, viewport, animation, particles, item, sys, vector, save, utils, timer
 util = utils.Utils()
 
 class Game(object):
 
-	def __init__(self, parent, world, mapname, spec):
+	def __init__(self, parent, world, mapName, spec):
 		self.running = True
 		self.paused = False
 		self.finished = False
@@ -17,17 +17,30 @@ class Game(object):
 		self.tileset = animation.Animation("assets/sprites/sheet.png", 70, 35, 1, 1)
 		self.dt = 0
 		self.returnValue = 0
+		self.world = world
+		self.mapName = mapName
 
 		self.save = save.Save("save")
 		self.data = self.save.load()
 
 		self.finishText = self.bigFont.render("Finished!", 1, (0, 0, 0))
-		self.finishPos = vector.Vec2d(self.halfResolution[0] - self.finishText.get_width() // 2, -100)
+		self.finishPos = vector.Vec2d(self.halfResolution[0] - self.finishText.get_width() * 0.5, -100)
 
 		self.hintText = self.mediumFont.render("Press ESC to leave or SPACE to continue...", 1, (0, 0, 0))
-		self.hintPos = vector.Vec2d(self.halfResolution[0] - self.hintText.get_width() // 2, self.resolution[1] + 150)
+		self.hintPos = vector.Vec2d(self.halfResolution[0] - self.hintText.get_width() * 0.5, self.resolution[1] + 150)
 
-		self.map = mapper.Mapper(self, world, mapname)
+		self.recordText = self.mediumFont.render("New record!", 1, (0, 0, 0))
+		self.recordPos = vector.Vec2d(-100, self.halfResolution[1] - 80)
+
+		self.timeText = None
+		self.timePos = vector.Vec2d(self.resolution[0] + 100, self.halfResolution[1] - 20)
+
+		self.bestText = None
+		self.bestPos = vector.Vec2d(-100, self.halfResolution[1] + 20)
+
+		self.timer = timer.Timer(self)
+
+		self.map = mapper.Mapper(self, self.world, self.mapName)
 
 		self.player = player.Player(self)
 		self.viewport = viewport.Viewport(self, self.player.position.x, self.player.position.y)
@@ -136,33 +149,77 @@ class Game(object):
 				if spec:
 					self.data[self.map.world] = "1"
 
-				self.data[self.map.world + ":" + self.map.mapName] = "1"
+				if self.map.world + ":" + self.map.mapName in self.data:
+					if self.timer.current < float(self.data[self.map.world + ":" + self.map.mapName]):
+						self.data[self.map.world + ":" + self.map.mapName] = self.timer.current
+
+				else:
+					self.data[self.map.world + ":" + self.map.mapName] = self.timer.current
 
 				self.save.save(self.data)
 
+				if self.timer.best == "n/a" or self.timer.current < self.timer.best:
+					self.timeText = self.mediumFont.render("time: " + self.timer.text + "!", 1, (0, 0, 0))
+					self.bestText = self.mediumFont.render("best: " + self.timer.text + "!", 1, (0, 0, 0))
+				else:
+					self.timeText = self.mediumFont.render("time: " + self.timer.text, 1, (0, 0, 0))
+					self.bestText = self.mediumFont.render("best: " + self.timer.textBest, 1, (0, 0, 0))
+
+
 			if self.finished:
-				if self.finishPos.y < 100:
-					vec = vector.Vec2d(0, 100 - self.finishPos.y) * 0.005 * self.dt
-					if vec.length < 0.05:
-						vec = vector.Vec2d(0, 0)
+				self.drawFinished()
 
-					self.finishPos += vec
-
-				if self.hintPos.y > self.resolution[1] - 100:
-					vec = vector.Vec2d(0, self.resolution[1] - 100 - self.hintPos.y) * 0.005 * self.dt
-					if vec.length < 0.05:
-						vec = vector.Vec2d(0, 0)
-
-					self.hintPos += vec
-
-				self.screen.blit(self.finishText, self.finishPos)
-				self.screen.blit(self.hintText, self.hintPos)
+			self.timer.updateAndDraw(self)
 
 			pygame.display.flip()
 
 	def text(self, txt, x = 0, y = 0):
 		render = self.mediumFont.render(str(txt), 1, (0, 0, 0))
 		self.screen.blit(render, (x, y))
+
+	def drawFinished(self):
+		if self.finishPos.y < 100:
+			vec = vector.Vec2d(0, 100 - self.finishPos.y) * 0.005 * self.dt
+			if vec.length < 0.05:
+				vec = vector.Vec2d(0, 0)
+
+			self.finishPos += vec
+
+		if self.hintPos.y > self.resolution[1] - 100:
+			vec = vector.Vec2d(0, self.resolution[1] - 100 - self.hintPos.y) * 0.005 * self.dt
+			if vec.length < 0.05:
+				vec = vector.Vec2d(0, 0)
+
+			self.hintPos += vec
+
+		if self.timePos.x > self.halfResolution[0] - 100 - self.timeText.get_width() * 0.5:
+			vec = vector.Vec2d(self.halfResolution[0] - 100 - self.timeText.get_width() * 0.5 - self.timePos.x, 0) * 0.005 * self.dt
+			if vec.length < 0.05:
+				vec = vector.Vec2d(0, 0)
+
+			self.timePos += vec
+
+		if self.bestPos.x < self.halfResolution[0] + 100 - self.bestText.get_width() * 0.5:
+			vec = vector.Vec2d(self.halfResolution[0] + 100 - self.bestText.get_width() * 0.5 - self.bestPos.x, 0) * 0.005 * self.dt
+			if vec.length < 0.05:
+				vec = vector.Vec2d(0, 0)
+
+			self.bestPos += vec
+
+		self.screen.blit(self.finishText, self.finishPos)
+		self.screen.blit(self.hintText, self.hintPos)
+		self.screen.blit(self.timeText, self.timePos)
+		self.screen.blit(self.bestText, self.bestPos)
+
+		if self.timer.best == "n/a" or self.timer.current < self.timer.best:
+			if self.recordPos.x < self.halfResolution[0] - self.recordText.get_width() * 0.5:
+				vec = vector.Vec2d(self.halfResolution[0] - self.recordText.get_width() * 0.5 - self.recordPos.x, 0) * 0.005 * self.dt
+				if vec.length < 0.05:
+					vec = vector.Vec2d(0, 0)
+
+				self.recordPos += vec
+
+			self.screen.blit(self.recordText, self.recordPos)
 
 	def leave(self):
 		self.running = False
