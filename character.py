@@ -39,7 +39,7 @@ class Character(object):
 		self.layerOffset = 70 * self.startLayer
 
 		self.moveSpeed = 600
-		self.jumpSpeed = -800
+		self.jumpSpeed = -750
 		self.jumpTimerLimit = 0.34
 		self.swimSpeed = -400
 
