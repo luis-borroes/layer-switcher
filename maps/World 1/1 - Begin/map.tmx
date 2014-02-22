@@ -109,8 +109,10 @@
   </tile>
   <tile id="165">
    <properties>
+    <property name="d" value=""/>
     <property name="l" value=""/>
     <property name="r" value=""/>
+    <property name="u" value=""/>
    </properties>
   </tile>
   <tile id="166">
@@ -134,6 +136,8 @@
   </tile>
   <tile id="170">
    <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
     <property name="u" value=""/>
    </properties>
   </tile>
@@ -168,6 +172,8 @@
   </tile>
   <tile id="184">
    <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
     <property name="u" value=""/>
    </properties>
   </tile>
@@ -191,6 +197,7 @@
   </tile>
   <tile id="194">
    <properties>
+    <property name="d" value=""/>
     <property name="l" value=""/>
     <property name="r" value=""/>
    </properties>
@@ -220,12 +227,8 @@
   <tile id="208">
    <properties>
     <property name="d" value=""/>
-   </properties>
-  </tile>
-  <tile id="213">
-   <properties>
-    <property name="d" value=""/>
-    <property name="u" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
    </properties>
   </tile>
   <tile id="241">
@@ -382,7 +385,7 @@
  </layer>
  <layer name="bg" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJztmjtOAzEQQL2QKtwAxBmQkkNwDM7ER6IEmqAAEiWhRBSUQEOR5BSBAzBRhLJCnvFMdrxrx/Ok16CJ8O6T1xCtc0YsdsBdoSGuwBvEa9XVbx/74IHQEE/gM+JEd/lbxwAcCg3xDn4ifugu3zCK5gw893jR5aIK5g689/jQ5aJaYgrOEOcdremV0MdpS+tqgwX4jfhTm8OeIVIvGY4IfYyb3IDE2Kto/8CeIVIfGUp7vCA/z3HfUNdev37qGSLxjaG0B0aO+4a69lvmnMSma5KQ477htKDmUu6BEXPfUOds/YzEZjgtHDKXaw9s32hAnbP1MxKb4bRwnrmce8SEe3ZiM5wWU2c9uHDXHrpPVIsF4/Nce5ULUnqPUIvl/yHWg4dGDx8xWlgP+dySWC1K6/H/fHZu/R0c9xpjtiitR9P9EbuF9ZDNYS2+Ap+X9jgMaD1W9KvVvfep2WMTS+yx6e+xHmusR1pYj7Roo8eR4t9bmteUIpo9sPdIj60HG80e2HukJ9aDjWYP6j3SX/JUiEY=
+   eJztmjtKBEEURavVSHeguAZBF+EyXJMfMDZR/ICxoRhMbGIwuorRBVjDINNI3feZftVdRb0DJ5E3WN2H6tKhQ3BysRXdVspxw+hg9qMHSjleGB3McfREKcc7o+M4NlxELxNeTbmohnmIPiZ8mnJRIzGPfgK/JlrTG2GK85HWNQaL6DfwpzeHniFarwXeEqa4H3IDCmOvo/0DPUO0PgvU9ngFP69x31DX3r9+6hmicSZQ2wNR476hrv1OOKdx6Jo01LhvJC2ouZJ7IHLuG+qc7Z+RaEbSIoC5WnugfWMBdc72z0g0I2kREnM198iJ9OxEM5IW8+A9pEjXzt0nqsVC8HmpO11gab0H12L5f4j3kGHRI0WOFt5DP7ckV4vWevw/n0NYfwcnvcacLVrrMXR/5G7hPXRzqMUH83ltj0NG77Fit1vd+5SWPTaxxR6b/h7vscZ7lIX3KIsxehwZ/r1leU0lYtkDvUd66j3EWPZA75GeeQ8xlj2o90h/AXq+iE8=
   </data>
  </layer>
  <layer name="bgdec" width="100" height="30">
@@ -390,12 +393,12 @@
    <property name="decorations" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt2UEKgCAQRuFyY93C+5+uI0QLQaIGQxl/433QNoNXTtSyAAAwh2MdfQUAlOzBPmJoOz97Tl+tPb7aOq73x3vBu0dyXm823j1go4cOWviyZict/L3NTlrouLe4nqGe76Co99QiBd5BR6CFDlpoKXvQYrzcgxYaYqCFkrIHxou0kJLnh/VfCn74PqKFHlroocXqwZz3Rw8tNfvVCe33ByM=
+   eJzt2VEKhCAYReHyxWYXrb71zRKih0CG+mlQrteZ84GvGZxSqWkCAGAM77n3HQBw8krxyKnu+qw5bdX2+NbScL5ffBbUPVbxfKNR90CMHj5ooRXtnbTQu9s7aeHjs8XxDrU8g+K5qxZr4gzaAy180MJL2YMW/Z09aOEhJ1o4KXtc2bS38/dy0WK7GdA594/ovxR0+D7ihR5e6OEl6sH5V48eXp6sVzvSxAut
   </data>
  </layer>
  <layer name="mid" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJztmdFNwzAQQM8gJDZAiH6wAzBEW5ZoyxJQpgBWACRghn4AM7ACYgpwPixZjn32xWfiJPekJ+XnqrTPSRwVQIgxz5hdaJfaS6ZzEQBWGbNr7UZ7xXQuAsA2c9Yo8LDLnDUeqLhCHOlRF9KjLqRHXUiPuuDqgSE90um7x5323uNDxnkNmT57NC1etK8e32CaTUr3CD0/TIsPxCk2KdnDfZ7b9yPT4glxik1K9fDtr+x7U6yF22Qqz5USPUL7XftelNLCbmI/V8YMdw/s/YPSwNfE2BDal4Vsrqtvon3s/Th7xN4Fc3rYNoT2ZSGb6+qXKLb3K4Xbw7cmQush9f3cwNkD25eFPFI0sc8qhdvDtyZC6yGlhw1njy5zM0UT+6xlgvb/pvOE4wW0e7xDey18gp9YD5cx9dgkaP9vuko4XkO7B/YbuGA9fIypxzbBW+u7Xycc30CZHiE4ezxqvwg+A2+PXaJUuHtgcPagcrg3zR6l3j9ye5xKj6p6yPVRV4++ro8fombGMIQe+x3sq4dSNM3MkHqcdHCmPVc0OXocK5pmZkg9zv5Jjh4XiqaZ4eqB8QcuGGoF
+   eJztmd1NwzAQgM8gJDZAiD6wAzBEf5ZoyxJQpgBm4IEyQx+guyCmAOfBkuXYZ198Jk5yn/RJebkq7eckjgogxJhnzC60S+2K6VwEgHXG7Ea71d4znYsAsMucNQo8HDJnjWcqrhBHetSF9KgL6VEX0qMuuHpgSI90+u7xrH3x+JpxXkOmzx5Ni3ft3uMHTLNJ6R6h54dp8YU4xSYle7jPc/t+ZFq8IU6xSakevv2VfW+KtXCbTOW5UqJHaL9r34tSWthN7OfKmOHugb1/UBr4mhgbQvuykM119U20j70fZ4/Yu2BOD9uG0L4sZHNd/RLF9n6lcHv41kRoPaS+nxs4e2D7spAXiib2WaVwe/jWRGg9pPSw4ezRZW6maGKftUzQ/t90nnC8gHaPT2ivhSP4ifVwGVOPbYL2/6brhOMNtHtgv4EL1sPHmHrsEnyyvvtDwvEjlOkRYkw9DolS4e6BwdmDyvnJNHuUev/I7XEtParqIddHXT36uj5+iJoZwxB6nHawrx5K0TQzQ+px1cGZ9lbR5OhxqWiamSH1uPknOXrcKZpmhqsHxh8zEWf1
   </data>
  </layer>
  <layer name="middec" width="100" height="30">
