@@ -1,4 +1,4 @@
-import pygame, player, enemy, mapper, viewport, animation, particles, item, sys, vector, save, utils, timer
+import pygame, player, enemy, mapper, viewport, animation, particles, item, sys, button, save, utils, timer
 util = utils.Utils()
 
 class Game(object):
@@ -23,20 +23,13 @@ class Game(object):
 		self.save = save.Save("save")
 		self.data = self.save.load()
 
-		self.finishText = self.bigFont.render("Finished!", 1, (0, 0, 0))
-		self.finishPos = vector.Vec2d(self.halfResolution[0] - self.finishText.get_width() * 0.5, -100)
-
-		self.hintText = self.mediumFont.render("Press ESC to leave or SPACE to continue...", 1, (0, 0, 0))
-		self.hintPos = vector.Vec2d(self.halfResolution[0] - self.hintText.get_width() * 0.5, self.resolution[1] + 150)
-
-		self.recordText = self.mediumFont.render("New record!", 1, (0, 0, 0))
-		self.recordPos = vector.Vec2d(-100, self.halfResolution[1] - 80)
-
-		self.timeText = None
-		self.timePos = vector.Vec2d(self.resolution[0] + 100, self.halfResolution[1] - 20)
-
-		self.bestText = None
-		self.bestPos = vector.Vec2d(-100, self.halfResolution[1] + 20)
+		self.movingTexts = [
+			button.MovingText("Finished!", self.bigFont, (self.halfResolution[0], -100), (self.halfResolution[0], 100)),
+			button.MovingText("Press ESC to leave or SPACE to continue", self.mediumFont, (self.halfResolution[0], self.resolution[1] + 150), (self.halfResolution[0], self.resolution[1] - 100)),
+			button.MovingText("n/a", self.mediumFont, (self.resolution[0] + 150, self.halfResolution[1] - 20), (self.halfResolution[0] - 100, self.halfResolution[1] - 20)),
+			button.MovingText("n/a", self.mediumFont, (-150, self.halfResolution[1] + 20), (self.halfResolution[0] + 100, self.halfResolution[1] + 20)),
+			button.MovingText("New record!", self.mediumFont, (-150, self.halfResolution[1] - 90), (self.halfResolution[0], self.halfResolution[1] - 90))
+		]
 
 		self.timer = timer.Timer(self)
 
@@ -159,12 +152,11 @@ class Game(object):
 				self.save.save(self.data)
 
 				if self.timer.best == "n/a" or self.timer.current < self.timer.best:
-					self.timeText = self.mediumFont.render("time: " + self.timer.text + "!", 1, (0, 0, 0))
-					self.bestText = self.mediumFont.render("best: " + self.timer.text + "!", 1, (0, 0, 0))
+					self.movingTexts[2].setText("time: %s!" % self.timer.text)
+					self.movingTexts[3].setText("best: %s!" % self.timer.text)
 				else:
-					self.timeText = self.mediumFont.render("time: " + self.timer.text, 1, (0, 0, 0))
-					self.bestText = self.mediumFont.render("best: " + self.timer.textBest, 1, (0, 0, 0))
-
+					self.movingTexts[2].setText("time: %s" % self.timer.text)
+					self.movingTexts[3].setText("best: %s" % self.timer.textBest)
 
 			if self.finished:
 				self.drawFinished()
@@ -178,48 +170,9 @@ class Game(object):
 		self.screen.blit(render, (x, y))
 
 	def drawFinished(self):
-		if self.finishPos.y < 100:
-			vec = vector.Vec2d(0, 100 - self.finishPos.y) * 0.005 * self.dt
-			if vec.length < 0.05:
-				vec = vector.Vec2d(0, 0)
-
-			self.finishPos += vec
-
-		if self.hintPos.y > self.resolution[1] - 100:
-			vec = vector.Vec2d(0, self.resolution[1] - 100 - self.hintPos.y) * 0.005 * self.dt
-			if vec.length < 0.05:
-				vec = vector.Vec2d(0, 0)
-
-			self.hintPos += vec
-
-		if self.timePos.x > self.halfResolution[0] - 100 - self.timeText.get_width() * 0.5:
-			vec = vector.Vec2d(self.halfResolution[0] - 100 - self.timeText.get_width() * 0.5 - self.timePos.x, 0) * 0.005 * self.dt
-			if vec.length < 0.05:
-				vec = vector.Vec2d(0, 0)
-
-			self.timePos += vec
-
-		if self.bestPos.x < self.halfResolution[0] + 100 - self.bestText.get_width() * 0.5:
-			vec = vector.Vec2d(self.halfResolution[0] + 100 - self.bestText.get_width() * 0.5 - self.bestPos.x, 0) * 0.005 * self.dt
-			if vec.length < 0.05:
-				vec = vector.Vec2d(0, 0)
-
-			self.bestPos += vec
-
-		self.screen.blit(self.finishText, self.finishPos)
-		self.screen.blit(self.hintText, self.hintPos)
-		self.screen.blit(self.timeText, self.timePos)
-		self.screen.blit(self.bestText, self.bestPos)
-
-		if self.timer.best == "n/a" or self.timer.current < self.timer.best:
-			if self.recordPos.x < self.halfResolution[0] - self.recordText.get_width() * 0.5:
-				vec = vector.Vec2d(self.halfResolution[0] - self.recordText.get_width() * 0.5 - self.recordPos.x, 0) * 0.005 * self.dt
-				if vec.length < 0.05:
-					vec = vector.Vec2d(0, 0)
-
-				self.recordPos += vec
-
-			self.screen.blit(self.recordText, self.recordPos)
+		for mov in xrange(len(self.movingTexts)):
+			if mov != 4 or (self.timer.best == "n/a" or self.timer.current < self.timer.best):
+				self.movingTexts[mov].updateAndDraw(self)
 
 	def leave(self):
 		self.running = False

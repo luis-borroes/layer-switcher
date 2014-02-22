@@ -1,4 +1,4 @@
-import pygame
+import pygame, vector
 
 class Button(object):
 	group = []
@@ -60,3 +60,32 @@ class Button(object):
 		self.rawText = text
 		self.text = self.font.render(str(text), 1, (0, 0, 0))
 		self.textSize = self.font.size(str(text))
+
+class MovingText(object):
+
+	def __init__(self, text, font, pos, final):
+		self.font = font
+		self.pos = vector.Vec2d(pos)
+		self.final = vector.Vec2d(final)
+		self.vector = self.final - self.pos
+
+		self.setText(text)
+
+	def setText(self, text):
+		self.text = text
+		self.rendered = self.font.render(self.text, 1, (0, 0, 0))
+		self.pos -= (self.rendered.get_width() * 0.5, self.rendered.get_height() * 0.5)
+		self.final -= (self.rendered.get_width() * 0.5, self.rendered.get_height() * 0.5)
+
+	def updateAndDraw(self, parent):
+		if self.vector.length > 0:
+			vec = self.vector * 0.005 * parent.dt
+			if vec.length < 0.05:
+				self.pos = self.final
+				self.vector = vector.Vec2d(0, 0)
+
+			else:
+				self.pos += vec
+				self.vector = self.final - self.pos
+
+		parent.screen.blit(self.rendered, self.pos)
