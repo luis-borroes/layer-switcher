@@ -14,8 +14,8 @@ class Enemy(character.Character):
 		self.inProximity = False
 
 		if self.type in [Enemy.yellow, Enemy.red]:
-			self.moveSpeed = 400
-			self.jumpSpeed = -400
+			self.moveSpeed = 450
+			self.jumpSpeed = -550
 			self.jumpTimerLimit = 0.25
 			self.swimSpeed = -250
 
