@@ -227,30 +227,28 @@ class Character(object):
 				cell = block.position
 
 				if block.collidable:
-					siding = False
+					if last.top < cell.bottom and last.bottom > cell.top:
+						if "l" in block.prop and self.position.right >= cell.left and last.right <= cell.left:
+							self.position.right = cell.left
+							if self.velocity.x > 0:
+								self.velocity.x = 0
 
-					if "l" in block.prop and self.position.right >= cell.left and last.right <= cell.left:
-						self.position.right = cell.left
-						siding = True
-						if self.velocity.x > 0:
-							self.velocity.x = 0
+						if "r" in block.prop and self.position.left <= cell.right and last.left >= cell.right:
+							self.position.left = cell.right
+							if self.velocity.x < 0:
+								self.velocity.x = 0
 
-					if "r" in block.prop and self.position.left <= cell.right and last.left >= cell.right:
-						self.position.left = cell.right
-						siding = True
-						if self.velocity.x < 0:
-							self.velocity.x = 0
+					if last.left < cell.right and last.right > cell.left:
+						if "u" in block.prop and self.position.bottom >= cell.top and last.bottom <= cell.top:
+							self.position.bottom = cell.top
+							self.resting = True
+							if self.velocity.y > 0:
+								self.velocity.y = 0
 
-					if "u" in block.prop and self.position.bottom >= cell.top and last.bottom <= cell.top and not siding:
-						self.position.bottom = cell.top
-						self.resting = True
-						if self.velocity.y > 0:
-							self.velocity.y = 0
-
-					if "d" in block.prop and self.position.top <= cell.bottom and last.top >= cell.bottom and not siding:
-						self.position.top = cell.bottom
-						if self.velocity.y < 0:
-							self.velocity.y = 0
+						if "d" in block.prop and self.position.top <= cell.bottom and last.top >= cell.bottom:
+							self.position.top = cell.bottom
+							if self.velocity.y < 0:
+								self.velocity.y = 0
 
 				if self.type == "player" and "keyhole" in block.prop and not block.hooked:
 					if (block.tilex, block.tiley + 1) in self.map.layers[self.layer].blocks and "keyhole" in self.map.layers[self.layer].blocks[(block.tilex, block.tiley + 1)].prop:

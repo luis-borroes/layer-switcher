@@ -13,19 +13,7 @@ class Utils(object):
 		return num
 
 	def collide(self, rect1, rect2):
-		if rect1.left > rect2.right:
-			return False
-
-		if rect1.right < rect2.left:
-			return False
-
-		if rect1.top > rect2.bottom:
-			return False
-
-		if rect1.bottom < rect2.top:
-			return False
-
-		return True
+		return not (rect1.left > rect2.right or rect1.right < rect2.left or rect1.top > rect2.bottom or rect1.bottom < rect2.top)
 
 	def remap(self, v, min1, max1, min2, max2):
 		return min2 + (v - min1) * (max2 - min2) / (max1 - min1)
