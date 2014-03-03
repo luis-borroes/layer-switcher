@@ -95,7 +95,7 @@ class Game(object):
 			self.screen.fill(self.map.bgColor)
 			self.map.drawBackground(self)
 
-			if not self.paused:
+			if not self.paused and not self.player.isDead:
 				self.player.update(self, self.dt * 0.001)
 
 				for gItem in item.Item.group:

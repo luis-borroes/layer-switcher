@@ -20,7 +20,6 @@ class Player(character.Character):
 		self.cdBar = pygame.rect.Rect((self.rect.left, self.rect.bottom + 2), (0, 10))
 
 	def die(self, game):
-		game.paused = True
 		self.isDead = True
 		self.setStatus("death", lambda: self.realDie(game))
 
@@ -36,7 +35,6 @@ class Player(character.Character):
 				keyHole.hooked = False
 
 		self.spawn()
-		game.paused = False
 		game.timer.reset(game)
 		game.viewport.update(game, self.position.centerx, self.position.centery)
 
