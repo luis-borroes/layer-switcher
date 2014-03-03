@@ -231,6 +231,11 @@
     <property name="r" value=""/>
    </properties>
   </tile>
+  <tile id="230">
+   <properties>
+    <property name="o" value="200"/>
+   </properties>
+  </tile>
   <tile id="241">
    <properties>
     <property name="l" value=""/>
@@ -253,6 +258,7 @@
   </tile>
   <tile id="254">
    <properties>
+    <property name="o" value="200"/>
     <property name="w" value=""/>
    </properties>
   </tile>
@@ -293,6 +299,7 @@
   </tile>
   <tile id="278">
    <properties>
+    <property name="o" value="200"/>
     <property name="w" value=""/>
    </properties>
   </tile>
@@ -303,6 +310,7 @@
   </tile>
   <tile id="283">
    <properties>
+    <property name="o" value="200"/>
     <property name="w" value=""/>
    </properties>
   </tile>
@@ -313,6 +321,7 @@
   </tile>
   <tile id="307">
    <properties>
+    <property name="o" value="200"/>
     <property name="u" value=""/>
     <property name="w" value=""/>
    </properties>
@@ -385,7 +394,7 @@
  </layer>
  <layer name="bg" width="100" height="30">
   <data encoding="base64" compression="zlib">
-   eJztmjtKBEEURavVSHeguAZBF+EyXJMfMDZR/ICxoRhMbGIwuorRBVjDINNI3feZftVdRb0DJ5E3WN2H6tKhQ3BysRXdVspxw+hg9qMHSjleGB3McfREKcc7o+M4NlxELxNeTbmohnmIPiZ8mnJRIzGPfgK/JlrTG2GK85HWNQaL6DfwpzeHniFarwXeEqa4H3IDCmOvo/0DPUO0PgvU9ngFP69x31DX3r9+6hmicSZQ2wNR476hrv1OOKdx6Jo01LhvJC2ouZJ7IHLuG+qc7Z+RaEbSIoC5WnugfWMBdc72z0g0I2kREnM198iJ9OxEM5IW8+A9pEjXzt0nqsVC8HmpO11gab0H12L5f4j3kGHRI0WOFt5DP7ckV4vWevw/n0NYfwcnvcacLVrrMXR/5G7hPXRzqMUH83ltj0NG77Fit1vd+5SWPTaxxR6b/h7vscZ7lIX3KIsxehwZ/r1leU0lYtkDvUd66j3EWPZA75GeeQ8xlj2o90h/AXq+iE8=
+   eJztmk1KBDEQRjPqSm+geAZBD+ExPJOO4NqN4g+4dikuXLsd5xSjBzCDNNNIquqr6VR3QurB20gNJvNIB6VDcKzYie4qlbgVdGgOo0dKJV4FHZrT6JlSiU9Bx3HycBWdJ7yeclEN8xh9Svg85aJGYhH9IlxOtKZ3xhSXI61rDFbRb8Kf3hz1DNF6A3jHmOJhyBdQGAcz3g7qGaL1BVDb4434eY3nhtt7f//cM0TjB6C2B0WN54bb+z04p3HomjTUeG6QFtxcyT0oLM8Nd8/270hqBmkRiLlae1DnJgfcPdu/I6kZpEVIzNXcwxL07qRmkBaL4D1Q0LVL3xPXYgV8HnVvFkRa7yG1WP8d4j0wcvRIYdHCe+jn1li1aK3H//s5hM3/4NA9WrZorcfQ82Hdwnvo5qxbdD2OBb3HH/vGLboe29hij21/j/fY4D3KwnuUxRg9TjLeKzn3VCI5e1DvkZ57D5icPaj3SC+8B0zOHtx7pL/DXYb/
   </data>
  </layer>
  <layer name="bgdec" width="100" height="30">
@@ -393,7 +402,7 @@
    <property name="decorations" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt2VEKhCAYReHyxWYXrb71zRKih0CG+mlQrteZ84GvGZxSqWkCAGAM77n3HQBw8krxyKnu+qw5bdX2+NbScL5ffBbUPVbxfKNR90CMHj5ooRXtnbTQu9s7aeHjs8XxDrU8g+K5qxZr4gzaAy180MJL2YMW/Z09aOEhJ1o4KXtc2bS38/dy0WK7GdA594/ovxR0+D7ihR5e6OEl6sH5V48eXp6sVzvSxAut
+   eJzt2UEKgCAQRuFyY93C+5+uI0QLQaIGQxl/433QNoNXTtSyAAAwh2MdfQUAlOzBPmJoOz97Tl+tPb7aOq73x3vBu0dyXm823j1go4cOWviyZict/L3NTlrouLe4nqGe76Co99QiBd5BR6CFDlpoKXvQYrzcgxYaYqCFkrIHxou0kJLnh/VfCn74PqKFHlroocXqwZz3Rw8tNfvVCe33ByM=
   </data>
  </layer>
  <layer name="mid" width="100" height="30">

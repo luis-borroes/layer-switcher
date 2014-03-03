@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="110" height="30" tilewidth="70" tileheight="35">
+ <properties>
+  <property name="bg" value="d:world1"/>
+ </properties>
+ <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
+  <image source="../../../assets/sprites/sheet.png" width="1680" height="840"/>
+  <tile id="24">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="25">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="26">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="27">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="48">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="49">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="51">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="164">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+   </properties>
+  </tile>
+  <tile id="165">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="166">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="169">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="170">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="184">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="189">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="194">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="208">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="241">
+   <properties>
+    <property name="l" value=""/>
+    <property name="s" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="242">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="s" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="243">
+   <properties>
+    <property name="r" value=""/>
+    <property name="s" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="260">
+   <properties>
+    <property name="c" value=""/>
+    <property name="i" value=""/>
+   </properties>
+  </tile>
+  <tile id="265">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="s" value=""/>
+   </properties>
+  </tile>
+  <tile id="266">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="267">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="313">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="314">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="315">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="326">
+   <properties>
+    <property name="keyhole" value="yellow"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="338">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="350">
+   <properties>
+    <property name="d" value=""/>
+    <property name="keyhole" value="yellow"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="background" width="110" height="30">
+  <properties>
+   <property name="decorations" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt0UEJAEAIAEHNYozr3+sa+BDEz0yChY2AXuV1ARPPNwAAAAAAAAAAAAAAWPEBVfwAYQ==
+  </data>
+ </layer>
+ <layer name="bg" width="110" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztmr0RwjAUxpJVgJ4e6BmAAdg0s0FDQ+UoyZPP9+nulfmxlHMTT1Md17nwYcXcvmu7F04lz4G7vebaqeQ9cLeleM4zmwtoUP2dVFLdje6vD9Bu4Vq6p7rblj12bbt062PWtku3fmZNu3Tra37tWtY2KnaDLe1a1jYqtv8t07K2UbHdpxvDdp9uDNt9ujFs9+nGsN2nG8N2n24M2326MWz36caw3acbw3afbgzbfboxbPfpxrDdG91O4DwLueZIbPdGt5azh///98g1R2K7N7qRM4O9nTO03RvdyP33eqe9sN2nG8N2n24M2326MapdfwAblgwu
+  </data>
+ </layer>
+ <layer name="bgdec" width="110" height="30">
+  <properties>
+   <property name="decorations" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1jEKgEAQBEEVwWf4/18aiCCGl5wNVTD5Qie7LACMOrbZFzBCtybdmnT7r329R8vTTbuWdzftOr7dtIM5/JNNujXp1qRbk25NujXp1qRbk25NujXp1qRbk25NujXp1qRbk25Np26/dQGy/AEl
+  </data>
+ </layer>
+ <layer name="mid" width="110" height="30">
+  <data encoding="base64" compression="zlib">
+   eJztmstNAzEQhp3HCWggjxPQAElOQBfpLNACQYLUwIUuCFUABTA5rLAsz47Hby/zSb+0sCxr6dPsZLI+KqWOlnwqoWa+kfyUXJRAcj7CI9TLvidCvdTkbQd5MPJYYB0tUJO3F8irkUOBdVCMIRPIFDmfo8Vgzp4z3NvkHUltzCELyBI5P0t8/3Hi/8+llrqnWEHWkA1y/sb4Gas/qm4x5sy/T42PtxZ6IlZ/VN1irMKWEx0fby30RLP+Ovrq1rcWS+DjrZWeyIWqxYljcnj38dZKT+RC9dCFY7jPYB9yeWuhJ1KsGUlNLm8t9ESKvrk797Mnl7ch9MT/6K3VnqjP27G9XcKQeUXkGhlExVs/+rwd29stOLkjci/evNA/Y8T2th25xcZQvKWamffGcUxvb47B1jUEb77fX1GIt7TeqJnZF/FWR3/jvqc7rXGqHYu3Mt647+lOa1xqx+KtjDfsPQHGk/p79oq3ct5CEG/2az4Ufx8w1q9S7DcRb/ZrvhR/HzDWr1LsNxFv9mvOjD3AFw5Fg/Ur8/fdXB4S8Za/v3VzeUjEW35v3Vwekl/trQgW
+  </data>
+ </layer>
+ <layer name="middec" width="110" height="30">
+  <properties>
+   <property name="decorations" value="1"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt2UEKwyAQAMDQS5tXtP9/Zek9KlrFrM5ATkENrquGPQ4AAFZ1PmZ/AXf0Wxe5hz5Sc2mu4R7k4ppKZ5y4AwAjzbpjuNvAtZfcaDbz3+kjbiHJt5jk23gt+2ipjXyLqUfcnhV95MZL9dPSZnU99smaucuN9068a2mzg3/rAbvlW66uHYl8i2nXM6akpuY5oxYqbjHZq8b5Ap7NBLE=
+  </data>
+ </layer>
+ <layer name="front" width="110" height="30">
+  <data encoding="base64" compression="zlib">
+   eJzt1rsNwjAYRWGHRwNMAEwBrByyU2AKYAAsuSGWg2wpsf6rnE+6XQorp7CdwxS2Td1hGnTTRDdNdNNEN01000Q3TXTTRDdNdNNEN01000Q3TXTTRDdNdNNEN02WuvV+j8Sec/8EQZa6vfzeiX3m/gmCLHXbN+PDkKVu9z/DEN00qXXj7RJY6ta6dLPu5xveLoGlbjl4uwRq3bgDgyV1W/mtK2yTcZb4ni69n5fU7eh3qrBzxlnie7r0flbrlvN2GXPxu1bYLeMsu+huPhT+m9rdvmvKY7o=
+  </data>
+ </layer>
+ <layer name="frontdec" width="110" height="30">
+  <properties>
+   <property name="decorations" value="2"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1yEOADAIBDAyxf7/4WlQyxxLmyBRJw4iAAAAAAAAAOAve9UBAJjEHQMAVf/zb3ryZadLfTxSymykibkd/48A+w==
+  </data>
+ </layer>
+ <objectgroup name="Camada de Objectos 1" width="110" height="30">
+  <object name="spawn" x="70" y="315" width="70" height="35">
+   <properties>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="630" y="70" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+   </properties>
+  </object>
+  <object name="enemy" x="280" y="-35" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="1260" y="210" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+   </properties>
+  </object>
+  <object name="enemy" x="560" y="595" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="2"/>
+   </properties>
+  </object>
+  <object name="enemy" x="1330" y="770" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="2"/>
+   </properties>
+  </object>
+  <object name="enemy" x="1750" y="525" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="2660" y="105" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="2030" y="525" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="2590" y="910" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="2"/>
+   </properties>
+  </object>
+  <object name="enemy" x="3220" y="910" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="2"/>
+   </properties>
+  </object>
+  <object name="enemy" x="2940" y="770" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="3220" y="770" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="3780" y="770" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="3850" y="910" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="2"/>
+   </properties>
+  </object>
+  <object name="enemy" x="4480" y="385" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="5180" y="840" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="6090" y="595" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="6230" y="840" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="6650" y="910" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="7490" y="490" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="7000" y="910" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="item" x="7315" y="910" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="7630" y="175" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
