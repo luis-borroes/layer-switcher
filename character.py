@@ -97,46 +97,66 @@ class Character(object):
 		if self.resting:
 			self.setStatus("walking" + self.direction)
 
+		elif self.defaultAnims and self.status == "jumpingRight":
+			swap = self.animation.swapTimer
+			frame = self.animation.frame
+
+			self.setStatus("jumpingLeft")
+			self.animation.swapTimer = swap
+			self.animation.frame = frame
+
 	def moveRight(self, dt):
 		self.velocity.x = util.approach(dt, self.velocity.x, self.moveSpeed, self.moveAccel)
 		self.direction = "Right"
 		if self.resting:
 			self.setStatus("walking" + self.direction)
 
+		elif self.defaultAnims and self.status == "jumpingLeft":
+			swap = self.animation.swapTimer
+			frame = self.animation.frame
+
+			self.setStatus("jumpingRight")
+			self.animation.swapTimer = swap
+			self.animation.frame = frame
+
 	def toBack(self, game):
 		if self.layerCooldown == 0 and self.layer > 0 and self.position.bottom > 0:
 			walled = False
 			destination = self.position.copy()
 			destination.y -= 71
-			for block in self.getNearbyBlocks(self.layer - 1, destination, 1):
-				if block.collidable and util.collide(destination, block.position):
-					walled = True
 
-			if not walled:
-				self.oldLayer = self.layer
-				self.layer -= 1
-				self.layerChanging = True
-				self.velocity.y = 0
-				self.layerCooldown = 0.5
-				self._oldResting = self.resting
+			if destination.y > 0:
+				for block in self.getNearbyBlocks(self.layer - 1, destination, 1):
+					if block.collidable and util.collide(destination, block.position):
+						walled = True
+
+				if not walled:
+					self.oldLayer = self.layer
+					self.layer -= 1
+					self.layerChanging = True
+					self.velocity.y = 0
+					self.layerCooldown = 0.5
+					self._oldResting = self.resting
 
 	def toFront(self, game):
 		if self.layerCooldown == 0 and self.layer < len(game.map.layers) - 1 and self.position.bottom > 0:
 			walled = False
 			destination = self.position.copy()
 			destination.y += 69
-			for block in self.getNearbyBlocks(self.layer + 1, destination, 1):
-				if block.collidable and util.collide(destination, block.position):
-					walled = True
 
-			if not walled:
-				self.oldLayer = self.layer
-				self.layer += 1
-				self.drawLayer = self.layer
-				self.layerChanging = True
-				self.velocity.y = 0
-				self.layerCooldown = 0.5
-				self._oldResting = self.resting
+			if destination.y < self.map.height:
+				for block in self.getNearbyBlocks(self.layer + 1, destination, 1):
+					if block.collidable and util.collide(destination, block.position):
+						walled = True
+
+				if not walled:
+					self.oldLayer = self.layer
+					self.layer += 1
+					self.drawLayer = self.layer
+					self.layerChanging = True
+					self.velocity.y = 0
+					self.layerCooldown = 0.5
+					self._oldResting = self.resting
 
 	def update(self, game, dt):
 		last = self.position.copy()
@@ -227,7 +247,7 @@ class Character(object):
 				cell = block.position
 
 				if block.collidable:
-					if last.top < cell.bottom and last.bottom > cell.top:
+					if self.position.top < cell.bottom and self.position.bottom > cell.top:
 						if "l" in block.prop and self.position.right >= cell.left and last.right <= cell.left:
 							self.position.right = cell.left
 							if self.velocity.x > 0:
@@ -238,7 +258,7 @@ class Character(object):
 							if self.velocity.x < 0:
 								self.velocity.x = 0
 
-					if last.left < cell.right and last.right > cell.left:
+					if self.position.left < cell.right and self.position.right > cell.left:
 						if "u" in block.prop and self.position.bottom >= cell.top and last.bottom <= cell.top:
 							self.position.bottom = cell.top
 							self.resting = True
