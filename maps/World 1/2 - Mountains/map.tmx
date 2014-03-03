@@ -222,7 +222,7 @@
  </layer>
  <layer name="bg" width="110" height="30">
   <data encoding="base64" compression="zlib">
-   eJztmr0RwjAUxpJVgJ4e6BmAAdg0s0FDQ+UoyZPP9+nulfmxlHMTT1Md17nwYcXcvmu7F04lz4G7vebaqeQ9cLeleM4zmwtoUP2dVFLdje6vD9Bu4Vq6p7rblj12bbt062PWtku3fmZNu3Tra37tWtY2KnaDLe1a1jYqtv8t07K2UbHdpxvDdp9uDNt9ujFs9+nGsN2nG8N2n24M2326MWz36caw3acbw3afbgzbfboxbPfpxrDdG91O4DwLueZIbPdGt5azh///98g1R2K7N7qRM4O9nTO03RvdyP33eqe9sN2nG8N2n24M2326MapdfwAblgwu
+   eJztmrsRwjAQBe1WgJwcnFMABdAptWFShkB6km7lm7czF/qjXeEELUsc1zXwYcHc9rXdAyeSx/68c8FcDtj3ucZOJK/CvbQdsNs7eEr2f6/fxKz7qQfR3dTv6ya0q3mvoxHdreUbW9vO3eaY2nZZGv2DbjGyXdZmX+gOLe1q15YJukFLu9q1ZYL23zI1a8sG7d7dNGj37qZBu4/olhHavbtp0O7dTYN2724atHt306Ddj+6WFdq9u2nQ7t1Ng3bvbhq0e3fToN0T3U7CeRblmpHQ7oluJWcPf//fU64ZCe2e6Kac8ZrtXBjtnuim3L/XO/WCdu9uGrR7d9Og3bubRrTrD9ZGNVw=
   </data>
  </layer>
  <layer name="bgdec" width="110" height="30">
@@ -235,7 +235,7 @@
  </layer>
  <layer name="mid" width="110" height="30">
   <data encoding="base64" compression="zlib">
-   eJztmstNAzEQhp3HCWggjxPQAElOQBfpLNACQYLUwIUuCFUABTA5rLAsz47Hby/zSb+0sCxr6dPsZLI+KqWOlnwqoWa+kfyUXJRAcj7CI9TLvidCvdTkbQd5MPJYYB0tUJO3F8irkUOBdVCMIRPIFDmfo8Vgzp4z3NvkHUltzCELyBI5P0t8/3Hi/8+llrqnWEHWkA1y/sb4Gas/qm4x5sy/T42PtxZ6IlZ/VN1irMKWEx0fby30RLP+Ovrq1rcWS+DjrZWeyIWqxYljcnj38dZKT+RC9dCFY7jPYB9yeWuhJ1KsGUlNLm8t9ESKvrk797Mnl7ch9MT/6K3VnqjP27G9XcKQeUXkGhlExVs/+rwd29stOLkjci/evNA/Y8T2th25xcZQvKWamffGcUxvb47B1jUEb77fX1GIt7TeqJnZF/FWR3/jvqc7rXGqHYu3Mt647+lOa1xqx+KtjDfsPQHGk/p79oq3ct5CEG/2az4Ufx8w1q9S7DcRb/ZrvhR/HzDWr1LsNxFv9mvOjD3AFw5Fg/Ur8/fdXB4S8Za/v3VzeUjEW35v3Vwekl/trQgW
+   eJztmtFNAzEMhlPaJ+gC0D4BC0B5ArZgM2AFigTMwAtb0E4BDICrKiKK4nPiuyTO4U/6pYPTtZE+Oc6l2RhjNoFsjSKZbyQ/NQelkBxN8ChyWXdEkYskb/eQBy+PFcbRApK8vUBevbxVGAfFAWQKmSH3S7QYzNlzge/2+UAijRPIArJE7h9n/O5Ps1/vS0JK3VNcQlaQK+T+hfc3Vn9U3Yb4Mvv1viQ43lroiVj9UXUb4lDgWp/jrYWe6NefharbVuB4a6UnpkKV1DQyKXMwF463VnpiKtTaZhGZlDmYSylvLfREbG61rBKSm1LeWuiJFF3v3aXnnlLextAT/6O3Vnuiu1YZ2tspfPgZkXNksaTeunHXKkN7uwYnN0Ru1RsLd40xtLe7SVxCjMUbZ/8qhrV3PaS398hg4xqDN87+VQzqLa+3XPtX6k1Gf0vdHt6NceZcq7c63lJ/p9uNcelcq7c63qi9LJ8n8zf3qrd63vqg3sLP2PMAKeeAsX6V42dO9RZ+xp4HSDkHjPWrHOdN1Fv4GXsewGYeUTRYv/L/b9/L+0S9le9v9r28T9RbeW/2vbxPfgGowQrP
   </data>
  </layer>
  <layer name="middec" width="110" height="30">
@@ -243,7 +243,7 @@
    <property name="decorations" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt2UEKwyAQAMDQS5tXtP9/Zek9KlrFrM5ATkENrquGPQ4AAFZ1PmZ/AXf0Wxe5hz5Sc2mu4R7k4ppKZ5y4AwAjzbpjuNvAtZfcaDbz3+kjbiHJt5jk23gt+2ipjXyLqUfcnhV95MZL9dPSZnU99smaucuN9068a2mzg3/rAbvlW66uHYl8i2nXM6akpuY5oxYqbjHZq8b5Ap7NBLE=
+   eJzt2UEOwiAQAMDGi/UV+v9XeqwxAgVBsjKTcGqABNiFZrcNABjpdjka/Jpzx7vXnJRq9JFaS2sN0K6UO8/cc3IwADDKrDeG9w18touLZjP/nR72LSTxFpN4G68lj5b6iLeYeuzbtWKM3HypcVr6/LseebJm7XLz3RPfWvqs4Nt6wGrxlqtrRyLeYlr1jimpqXnOqIXat5jkqnGe/N4E0g==
   </data>
  </layer>
  <layer name="front" width="110" height="30">
@@ -299,7 +299,7 @@
     <property name="layer" value="1"/>
    </properties>
   </object>
-  <object name="enemy" x="2660" y="105" width="70" height="35">
+  <object name="enemy" x="2590" y="105" width="70" height="35">
    <properties>
     <property name="color" value="blue"/>
     <property name="layer" value="1"/>
@@ -347,9 +347,9 @@
     <property name="layer" value="2"/>
    </properties>
   </object>
-  <object name="enemy" x="4480" y="385" width="70" height="35">
+  <object name="enemy" x="4270" y="385" width="70" height="35">
    <properties>
-    <property name="color" value="red"/>
+    <property name="color" value="blue"/>
     <property name="layer" value="1"/>
    </properties>
   </object>
@@ -371,7 +371,7 @@
     <property name="layer" value="1"/>
    </properties>
   </object>
-  <object name="enemy" x="6650" y="910" width="70" height="35">
+  <object name="enemy" x="6510" y="910" width="70" height="35">
    <properties>
     <property name="color" value="blue"/>
     <property name="layer" value="1"/>
@@ -396,6 +396,18 @@
    </properties>
   </object>
   <object name="enemy" x="7630" y="175" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="2310" y="0" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="enemy" x="5390" y="140" width="70" height="35">
    <properties>
     <property name="color" value="blue"/>
     <property name="layer" value="1"/>

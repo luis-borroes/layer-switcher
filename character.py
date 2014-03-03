@@ -120,26 +120,25 @@ class Character(object):
 			self.animation.frame = frame
 
 	def toBack(self, game):
-		if self.layerCooldown == 0 and self.layer > 0 and self.position.bottom > 0:
+		if self.layerCooldown == 0 and self.layer > 0:
 			walled = False
 			destination = self.position.copy()
 			destination.y -= 71
 
-			if destination.y > 0:
-				for block in self.getNearbyBlocks(self.layer - 1, destination, 1):
-					if block.collidable and util.collide(destination, block.position):
-						walled = True
+			for block in self.getNearbyBlocks(self.layer - 1, destination, 1):
+				if block.collidable and util.collide(destination, block.position):
+					walled = True
 
-				if not walled:
-					self.oldLayer = self.layer
-					self.layer -= 1
-					self.layerChanging = True
-					self.velocity.y = 0
-					self.layerCooldown = 0.5
-					self._oldResting = self.resting
+			if not walled:
+				self.oldLayer = self.layer
+				self.layer -= 1
+				self.layerChanging = True
+				self.velocity.y = 0
+				self.layerCooldown = 0.5
+				self._oldResting = self.resting
 
 	def toFront(self, game):
-		if self.layerCooldown == 0 and self.layer < len(game.map.layers) - 1 and self.position.bottom > 0:
+		if self.layerCooldown == 0 and self.layer < len(game.map.layers) - 1:
 			walled = False
 			destination = self.position.copy()
 			destination.y += 69
