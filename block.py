@@ -20,5 +20,15 @@ class Block(object):
 		self.hooked = False
 		self.done = False
 
+		if "o" in self.prop and self.prop["o"] != "":
+			key = (0, 255, 255)
+			surf = pygame.Surface(self.image.get_size())
+			surf.fill(key)
+			surf.set_colorkey(key)
+			surf.blit(self.image, (0, 0))
+			surf.set_alpha(int(self.prop["o"]), pygame.RLEACCEL)
+
+			self.image = surf.convert_alpha()
+
 		if "i" in self.prop:
 			self.image = pygame.Surface(self.image.get_size(), pygame.SRCALPHA | pygame.HWSURFACE)
