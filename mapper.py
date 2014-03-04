@@ -57,6 +57,10 @@ class Mapper(object):
 					
 		self.layerCount += 1
 
+		MapText.group = []
+		for i in self.layers:
+			MapText.group.append([])
+
 		for obj in self.tilemap.getObjects():
 			if obj.name == "spawn":
 				self.pPosition.x = obj.x
@@ -88,6 +92,54 @@ class Mapper(object):
 
 				item.Item(game, self, itemType, vector.Vec2d(obj.x, obj.y), iLayer)
 
+			elif obj.name == "text":
+				text = ""
+				tLayer = 0
+
+				if hasattr(obj, "text"):
+					text = obj.text
+
+				if hasattr(obj, "layer"):
+					tLayer = int(obj.layer)
+
+				MapText(game, text, tLayer, vector.Vec2d(obj.x, obj.y), obj.width)
+
 	def drawBackground(self, game):
 		if self.background:
 			game.screen.blit(self.background, self.bgOffset)
+
+class MapText(object):
+	group = []
+
+	def __init__(self, game, text, tLayer, pos, width):
+		self.text = text
+		self.pos = pos
+
+		MapText.group[tLayer].append(self)
+
+		words = text.split()
+		line = ""
+		lines = []
+		lineCount = 0
+
+		for word in words:
+			size = game.smallFont.size(line + word)
+
+			if size[0] >= width:
+				lines.append(line.strip())
+
+				line = ""
+				lineCount += 1
+
+			line += word + " "
+
+		lines.append(line.strip())
+		lineCount += 1
+
+		self.surface = pygame.Surface((width, (size[1] + 5) * lineCount), pygame.SRCALPHA | pygame.HWSURFACE)
+
+		for i in xrange(lineCount):
+			self.surface.blit(game.smallFont.render(lines[i], 1, (0, 0, 0)), (0, (size[1] + 5) * i))
+
+	def draw(self, game):
+		game.screen.blit(self.surface, self.pos - game.viewport.rect.topleft)

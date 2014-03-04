@@ -10,6 +10,7 @@ class Game(object):
 		self.screen = parent.screen
 		self.clock = parent.clock
 		self.fps = parent.fps
+		self.smallFont = parent.smallFont
 		self.mediumFont = parent.mediumFont
 		self.bigFont = parent.bigFont
 		self.resolution = parent.resolution
@@ -116,6 +117,9 @@ class Game(object):
 				if layer.normal:
 					for subLayer in layer.decor:
 						subLayer.draw(self)
+
+					for text in mapper.MapText.group[layer.normalID]:
+						text.draw(self)
 
 					for group in particles.Particles.groups:
 						group.draw(self, layer.normalID)
