@@ -4,9 +4,9 @@ class Save(object):
 
 	def __init__(self, saveType):
 		if saveType == "opt":
-			self.filename = "data/config"
+			self.filename = "data/config.dat"
 		elif saveType == "save":
-			self.filename = "data/save"
+			self.filename = "data/save.dat"
 
 		if not os.path.isfile(self.filename) or os.path.getsize(self.filename) == 0:
 			with open(self.filename, "w+") as f:
