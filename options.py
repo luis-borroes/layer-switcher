@@ -5,6 +5,7 @@ class Options(object):
 	def __init__(self, parent):
 		self.parent = parent
 		self.parent.currentMenu = "options"
+		self.parent.menuObj = self
 
 		button.Button.group = []
 
@@ -18,6 +19,9 @@ class Options(object):
 		button.Button("small", self.parent.mediumFont, "+", (75, self.parent.resolution[1] - 225), self.parent.resolution, self.raiseVolume)
 
 		button.Button("big", self.parent.mediumFont, "Back", (0, self.parent.resolution[1] - 150), self.parent.resolution, self.parent.mainMenu)
+
+		button.Button("text", self.parent.mediumFont, "Set display:", (0, self.parent.resolution[1] - 495), self.parent.resolution, None)
+		button.Button("big", self.parent.mediumFont, "Windowed" if self.parent.fullscreen else "Fullscreen", (0, self.parent.resolution[1] - 445), self.parent.resolution, self.toggleDisplay)
 
 		for i in xrange(1, 4):
 			if self.parent.fps == float(button.Button.group[i].rawText):
@@ -38,7 +42,7 @@ class Options(object):
 			else:
 				button.Button.group[i].locked = False
 
-		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps})
+		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps, "fullscreen": int(self.parent.fullscreen)})
 
 	def lowerVolume(self):
 		self.parent.volume = max(0., self.parent.volume - 0.05)
@@ -49,7 +53,7 @@ class Options(object):
 		button.Button.group[6].locked = False
 
 		pygame.mixer.music.set_volume(self.parent.volume)
-		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps})
+		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps, "fullscreen": int(self.parent.fullscreen)})
 
 	def raiseVolume(self):
 		self.parent.volume = min(1., self.parent.volume + 0.05)
@@ -60,4 +64,12 @@ class Options(object):
 		button.Button.group[5].locked = False
 
 		pygame.mixer.music.set_volume(self.parent.volume)
-		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps})
+		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps, "fullscreen": int(self.parent.fullscreen)})
+
+	def toggleDisplay(self):
+		self.parent.fullscreen = not self.parent.fullscreen
+		button.Button.group[9].setText("Windowed" if self.parent.fullscreen else "Fullscreen")
+
+
+		pygame.display.set_mode(self.parent.resolution, pygame.FULLSCREEN if self.parent.fullscreen else 0)
+		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps, "fullscreen": int(self.parent.fullscreen)})

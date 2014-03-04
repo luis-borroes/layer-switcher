@@ -5,6 +5,7 @@ class World(object):
 	def __init__(self, parent):
 		self.parent = parent
 		self.parent.currentMenu = "world"
+		self.parent.menuObj = self
 
 		self.save = save.Save("save")
 		self.data = self.save.load()

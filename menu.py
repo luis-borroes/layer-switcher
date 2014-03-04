@@ -9,8 +9,10 @@ class Menu(object):
 		self.fps = fps
 		self.resolution = resolution
 		self.halfResolution = (self.resolution[0] // 2, self.resolution[1] // 2)
+		self.fullscreen = False
 		self.version = version
 		self.volume = pygame.mixer.music.get_volume()
+		self.menuObj = None
 
 		self.save = save.Save("opt")
 		self.data = self.save.load()
@@ -23,7 +25,13 @@ class Menu(object):
 		if "fps" in self.data:
 			self.fps = int(self.data["fps"])
 
-		self.save.save({"volume": self.volume, "fps": self.fps})
+		if "fullscreen" in self.data:
+			self.fullscreen = bool(int(self.data["fullscreen"]))
+
+			if self.fullscreen:
+				pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
+
+		self.save.save({"volume": self.volume, "fps": self.fps, "fullscreen": int(self.fullscreen)})
 
 		self.running = True
 
@@ -68,6 +76,19 @@ class Menu(object):
 							world.World(self)
 						elif self.currentMenu == "world":
 							self.world.start()
+
+					if self.currentMenu == "world":
+						if event.key == pygame.K_a:
+							if self.menuObj.mapIndex > 0:
+								self.menuObj.mapDown()
+							elif self.menuObj.worldIndex > 0:
+								self.menuObj.worldDown()
+
+						if event.key == pygame.K_d:
+							if self.menuObj.mapIndex < len(self.menuObj.maps) - 1:
+								self.menuObj.mapUp()
+							elif self.menuObj.worldIndex < len(self.menuObj.worlds) - 1:
+								self.menuObj.worldUp()
 
 				if event.type == pygame.MOUSEBUTTONUP:
 					if event.button == 1:
