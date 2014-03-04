@@ -413,5 +413,11 @@
     <property name="layer" value="1"/>
    </properties>
   </object>
+  <object name="text" x="777" y="609" width="312" height="72">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="World 01 | 002 - Mountains"/>
+   </properties>
+  </object>
  </objectgroup>
 </map>
