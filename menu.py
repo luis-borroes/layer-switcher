@@ -17,21 +17,15 @@ class Menu(object):
 		self.save = save.Save("opt")
 		self.data = self.save.load()
 
-		if "volume" in self.data:
-			self.volume = float(self.data["volume"])
-			if 0. <= self.volume <= 1.:
-				pygame.mixer.music.set_volume(self.volume)
+		self.volume = float(self.data["volume"])
+		if 0. <= self.volume <= 1.:
+			pygame.mixer.music.set_volume(self.volume)
 
-		if "fps" in self.data:
-			self.fps = int(self.data["fps"])
+		self.fps = int(self.data["fps"])
 
-		if "fullscreen" in self.data:
-			self.fullscreen = bool(int(self.data["fullscreen"]))
-
-			if self.fullscreen:
-				pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
-
-		self.save.save({"volume": self.volume, "fps": self.fps, "fullscreen": int(self.fullscreen)})
+		self.fullscreen = bool(int(self.data["fullscreen"]))
+		if self.fullscreen:
+			pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
 
 		self.running = True
 
@@ -44,6 +38,7 @@ class Menu(object):
 		self.background = pygame.image.load("assets/sprites/backgrounds/world1.png").convert_alpha()
 		self.bgPos = (0, 0)
 
+		self.smallFont = pygame.font.Font("assets/ARLRDBD.ttf", 14)
 		self.mediumFont = pygame.font.Font("assets/ARLRDBD.ttf", 30)
 		self.bigFont = pygame.font.Font("assets/ARLRDBD.ttf", 72)
 

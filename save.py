@@ -10,7 +10,7 @@ class Save(object):
 
 		if not os.path.isfile(self.filename) or os.path.getsize(self.filename) == 0:
 			with open(self.filename, "w+") as f:
-				json.dump({}, f)
+				json.dump({"volume": 0.05, "fps": 120., "fullscreen": 0, "displayTip": 1} if saveType == "opt" else {}, f)
 				f.close()
 
 	def save(self, arr):

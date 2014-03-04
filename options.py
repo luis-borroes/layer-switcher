@@ -35,17 +35,17 @@ class Options(object):
 			button.Button.group[6].locked = True
 
 	def setFPS(self, fps):
-		self.parent.fps = fps
+		self.parent.fps = self.parent.data["fps"] = fps
 		for i in xrange(1, 4):
 			if self.parent.fps == float(button.Button.group[i].rawText):
 				button.Button.group[i].locked = True
 			else:
 				button.Button.group[i].locked = False
 
-		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps, "fullscreen": int(self.parent.fullscreen)})
+		self.parent.save.save(self.parent.data)
 
 	def lowerVolume(self):
-		self.parent.volume = max(0., self.parent.volume - 0.05)
+		self.parent.volume = self.parent.data["volume"] = max(0., self.parent.volume - 0.05)
 		if self.parent.volume == 0.:
 			button.Button.group[5].locked = True
 		else:
@@ -53,10 +53,10 @@ class Options(object):
 		button.Button.group[6].locked = False
 
 		pygame.mixer.music.set_volume(self.parent.volume)
-		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps, "fullscreen": int(self.parent.fullscreen)})
+		self.parent.save.save(self.parent.data)
 
 	def raiseVolume(self):
-		self.parent.volume = min(1., self.parent.volume + 0.05)
+		self.parent.volume = self.parent.data["volume"] = min(1., self.parent.volume + 0.05)
 		if self.parent.volume == 1.:
 			button.Button.group[6].locked = True
 		else:
@@ -64,12 +64,12 @@ class Options(object):
 		button.Button.group[5].locked = False
 
 		pygame.mixer.music.set_volume(self.parent.volume)
-		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps, "fullscreen": int(self.parent.fullscreen)})
+		self.parent.save.save(self.parent.data)
 
 	def toggleDisplay(self):
 		self.parent.fullscreen = not self.parent.fullscreen
+		self.parent.data["fullscreen"] = int(self.parent.fullscreen)
 		button.Button.group[9].setText("Windowed" if self.parent.fullscreen else "Fullscreen")
 
-
 		pygame.display.set_mode(self.parent.resolution, pygame.FULLSCREEN if self.parent.fullscreen else 0)
-		self.parent.save.save({"volume": self.parent.volume, "fps": self.parent.fps, "fullscreen": int(self.parent.fullscreen)})
+		self.parent.save.save(self.parent.data)
