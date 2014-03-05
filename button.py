@@ -1,4 +1,5 @@
-import pygame, vector
+import pygame, vector, utils
+util = utils.Utils()
 
 class Button(object):
 	group = []
@@ -6,11 +7,10 @@ class Button(object):
 	imgMedium = pygame.image.load("assets/sprites/menuMedium.png")
 	imgSmall = pygame.image.load("assets/sprites/menuSmall.png")
 
-	def __init__(self, bType, font, text, pos, resolution, callback):
+	def __init__(self, bType, font, text, pos, resolution, callback = None, box = False):
 		self.font = font
-		self.setText(text)
-
 		self.locked = False
+		self.box = box
 
 		if bType == "text":
 			img = None
@@ -33,9 +33,11 @@ class Button(object):
 			self.lockedOverlay = pygame.Surface(img.get_size(), pygame.SRCALPHA | pygame.HWSURFACE)
 			self.lockedOverlay.fill((0, 0, 0, 100))
 			self.lockedOverlay.convert_alpha()
+			self.setText(text)
 
 		else:
 			self.img = None
+			self.setText(text)
 			self.position = pygame.rect.Rect((resolution[0] * 0.5 - self.textSize[0] * 0.5 + pos[0], pos[1]), self.textSize)
 			self.callback = None
 
@@ -58,8 +60,13 @@ class Button(object):
 
 	def setText(self, text):
 		self.rawText = text
-		self.text = self.font.render(str(text), 1, (0, 0, 0))
-		self.textSize = self.font.size(str(text))
+
+		if self.box:
+			self.text = util.boxText(text, self.font.size(text)[0] if not self.img else self.img.get_width(), self.font)
+		else:
+			self.text = self.font.render(text, 1, (0, 0, 0))
+
+		self.textSize = self.text.get_size()
 
 class MovingText(object):
 
