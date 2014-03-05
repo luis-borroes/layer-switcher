@@ -9,18 +9,18 @@ class Options(object):
 
 		button.Button.group = []
 
-		button.Button("text", self.parent.mediumFont, "Set FPS:", (0, self.parent.resolution[1] - 385), self.parent.resolution, None)
+		button.Button("text", self.parent.mediumFont, "Set FPS:", (0, self.parent.resolution[1] - 385), self.parent.resolution)
 		button.Button("small", self.parent.mediumFont, "30", (-125, self.parent.resolution[1] - 335), self.parent.resolution, lambda: self.setFPS(30.))
 		button.Button("small", self.parent.mediumFont, "60", (0, self.parent.resolution[1] - 335), self.parent.resolution, lambda: self.setFPS(60.))
 		button.Button("small", self.parent.mediumFont, "120", (125, self.parent.resolution[1] - 335), self.parent.resolution, lambda: self.setFPS(120.))
 
-		button.Button("text", self.parent.mediumFont, "Music volume:", (0, self.parent.resolution[1] - 275), self.parent.resolution, None)
+		button.Button("text", self.parent.mediumFont, "Music volume:", (0, self.parent.resolution[1] - 275), self.parent.resolution)
 		button.Button("small", self.parent.mediumFont, "-", (-75, self.parent.resolution[1] - 225), self.parent.resolution, self.lowerVolume)
 		button.Button("small", self.parent.mediumFont, "+", (75, self.parent.resolution[1] - 225), self.parent.resolution, self.raiseVolume)
 
 		button.Button("big", self.parent.mediumFont, "Back", (0, self.parent.resolution[1] - 150), self.parent.resolution, self.parent.mainMenu)
 
-		button.Button("text", self.parent.mediumFont, "Set display:", (0, self.parent.resolution[1] - 495), self.parent.resolution, None)
+		button.Button("text", self.parent.mediumFont, "Set display:", (0, self.parent.resolution[1] - 495), self.parent.resolution)
 		button.Button("big", self.parent.mediumFont, "Windowed" if self.parent.fullscreen else "Fullscreen", (0, self.parent.resolution[1] - 445), self.parent.resolution, self.toggleDisplay)
 
 		for i in xrange(1, 4):
