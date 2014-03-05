@@ -120,6 +120,18 @@ class Menu(object):
 		button.Button("big", self.mediumFont, "Options", (0, self.resolution[1] - 225), self.resolution, lambda: options.Options(self))
 		button.Button("big", self.mediumFont, "Quit", (0, self.resolution[1] - 150), self.resolution, self.leave)
 
+		if int(self.data["displayTip"]):
+			button.Button("text", self.mediumFont, "Menu Haiku:", (self.halfResolution[0] - 250, self.halfResolution[1] - 150), self.resolution)
+			button.Button("medium", self.smallFont, "SPACE does go forward \\ESCAPE will make you go back \\A and D change map", 
+				(self.halfResolution[0] - 250, self.halfResolution[1] - 100), self.resolution, self.hideTip, True)
+			button.Button("text", self.smallFont, "Click to hide", (self.halfResolution[0] - 250, self.halfResolution[1] + 5), self.resolution)
+
+	def hideTip(self):
+		button.Button.group[-3:] = []
+
+		self.data["displayTip"] = 0
+		self.save.save(self.data)
+
 	def leave(self):
 		self.running = False
 		pygame.quit()
