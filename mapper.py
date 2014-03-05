@@ -1,4 +1,5 @@
-import pygame, vector, enemy, item, layer
+import pygame, vector, enemy, item, layer, utils
+util = utils.Utils()
 
 from pytmx import tmxloader
 
@@ -117,29 +118,7 @@ class MapText(object):
 
 		MapText.group[tLayer].append(self)
 
-		words = text.split()
-		line = ""
-		lines = []
-		lineCount = 0
-
-		for word in words:
-			size = game.smallFont.size(line + word)
-
-			if size[0] >= width:
-				lines.append(line.strip())
-
-				line = ""
-				lineCount += 1
-
-			line += word + " "
-
-		lines.append(line.strip())
-		lineCount += 1
-
-		self.surface = pygame.Surface((width, (size[1] + 5) * lineCount), pygame.SRCALPHA | pygame.HWSURFACE)
-
-		for i in xrange(lineCount):
-			self.surface.blit(game.smallFont.render(lines[i], 1, (0, 0, 0)), (0, (size[1] + 5) * i))
+		self.surface = util.boxText(self.text, width, game.smallFont)
 
 	def draw(self, game):
 		game.screen.blit(self.surface, self.pos - game.viewport.rect.topleft)
