@@ -105,6 +105,14 @@ class Mapper(object):
 
 				MapText(game, text, tLayer, vector.Vec2d(obj.x, obj.y), obj.width)
 
+			elif obj.name == "title":
+				tLayer = 0
+
+				if hasattr(obj, "layer"):
+					tLayer = int(obj.layer)
+
+				MapText(game, self.world + " | " + self.mapName, tLayer, vector.Vec2d(obj.x, obj.y), obj.width)
+
 	def drawBackground(self, game):
 		if self.background:
 			game.screen.blit(self.background, self.bgOffset)
