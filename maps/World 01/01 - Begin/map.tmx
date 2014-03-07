@@ -540,10 +540,9 @@
     <property name="layer" value="1"/>
    </properties>
   </object>
-  <object name="text" x="355" y="257" width="180" height="100">
+  <object name="title" x="355" y="257" width="180" height="100">
    <properties>
     <property name="layer" value="0"/>
-    <property name="text" value="World 01 | 01 - Begin"/>
    </properties>
   </object>
  </objectgroup>
