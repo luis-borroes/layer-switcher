@@ -5,8 +5,10 @@ class Timer(object):
 	def __init__(self, game):
 		self.current = 0.
 
-		if game.world + ":" + game.mapName in game.data:
-			self.best = float(game.data[game.world + ":" + game.mapName])
+		worldData = game.save.get(game.world)
+
+		if worldData and game.mapName in worldData:
+			self.best = float(worldData[game.mapName])
 			m, s = divmod(self.best, 60.)
 			self.textBest = str(int(m)) + ":%2.3f" % s
 			self.renderedBest = game.mediumFont.render(self.textBest, 1, (0, 0, 0))
