@@ -15,15 +15,14 @@ class Menu(object):
 		self.menuObj = None
 
 		self.save = save.Save("opt")
-		self.data = self.save.load()
 
-		self.volume = float(self.data["volume"])
-		if 0. <= self.volume <= 1.:
-			pygame.mixer.music.set_volume(self.volume)
+		self.volume = float(self.save.get("volume"))
+		if 0 <= self.volume <= 20:
+			pygame.mixer.music.set_volume(self.volume * 0.05)
 
-		self.fps = int(self.data["fps"])
+		self.fps = int(self.save.get("fps"))
 
-		self.fullscreen = bool(int(self.data["fullscreen"]))
+		self.fullscreen = bool(int(self.save.get("fullscreen")))
 		if self.fullscreen:
 			pygame.display.set_mode(self.resolution, pygame.FULLSCREEN)
 
@@ -78,6 +77,8 @@ class Menu(object):
 								self.menuObj.mapDown()
 							elif self.menuObj.worldIndex > 0:
 								self.menuObj.worldDown()
+								self.menuObj.mapIndex = len(self.menuObj.maps) - 2
+								self.menuObj.mapUp()
 
 						if event.key == pygame.K_d:
 							if self.menuObj.mapIndex < len(self.menuObj.maps) - 1:
@@ -120,17 +121,16 @@ class Menu(object):
 		button.Button("big", self.mediumFont, "Options", (0, self.resolution[1] - 225), self.resolution, lambda: options.Options(self))
 		button.Button("big", self.mediumFont, "Quit", (0, self.resolution[1] - 150), self.resolution, self.leave)
 
-		if int(self.data["displayTip"]):
+		if int(self.save.get("displayTip")):
 			button.Button("text", self.mediumFont, "Menu Haiku:", (self.halfResolution[0] - 250, self.halfResolution[1] - 150), self.resolution)
-			button.Button("medium", self.smallFont, "SPACE does go forward \\ESCAPE will make you go back \\A and D change map", 
+			button.Button("medium", self.smallFont, "SPACE makes you advance \\ESCAPE will help you go back \\A and D change map", 
 				(self.halfResolution[0] - 250, self.halfResolution[1] - 100), self.resolution, self.hideTip, True)
 			button.Button("text", self.smallFont, "Click to hide", (self.halfResolution[0] - 250, self.halfResolution[1] + 5), self.resolution)
 
 	def hideTip(self):
 		button.Button.group[-3:] = []
 
-		self.data["displayTip"] = 0
-		self.save.save(self.data)
+		self.save.set("displayTip", 0)
 
 	def leave(self):
 		self.running = False
