@@ -46,10 +46,10 @@ class Animation(object):
 		self.callback = callback
 
 	def update(self, dt):
-		self.swapTimer = min(self.rate, self.swapTimer + dt)
+		self.swapTimer = self.swapTimer + dt
 
-		if self.swapTimer == self.rate:
-			self.swapTimer = 0
+		if self.swapTimer > self.rate:
+			self.swapTimer -= self.rate
 			self.frame += 1
 
 			if self.frame == self.frameLimit:
