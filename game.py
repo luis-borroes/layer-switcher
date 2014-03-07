@@ -3,7 +3,7 @@ util = utils.Utils()
 
 class Game(object):
 
-	def __init__(self, parent, world, mapName, spec):
+	def __init__(self, parent, world, mapName):
 		self.running = True
 		self.paused = False
 		self.finished = False
@@ -22,7 +22,6 @@ class Game(object):
 		self.mapName = mapName
 
 		self.save = save.Save("save")
-		self.data = self.save.load()
 
 		self.movingTexts = [
 			button.MovingText("Finished!", self.bigFont, (self.halfResolution[0], -100), (self.halfResolution[0], 100)),
@@ -57,10 +56,7 @@ class Game(object):
 						if self.paused:
 							self.leave()
 							if self.finished:
-								if spec:
-									self.returnValue = 4
-								else:
-									self.returnValue = 3
+								self.returnValue = 2
 
 							return
 
@@ -76,10 +72,7 @@ class Game(object):
 					if event.key == pygame.K_SPACE:
 						if self.finished:
 							self.leave()
-							if spec:
-								self.returnValue = 2
-							else:
-								self.returnValue = 1
+							self.returnValue = 1
 
 							return
 
@@ -140,27 +133,7 @@ class Game(object):
 							endTrigger = False
 
 			if endTrigger and self.map.hasKeyHoles and not self.finished:
-				self.paused = True
-				self.finished = True
-
-				if spec:
-					self.data[self.map.world] = "1"
-
-				if self.map.world + ":" + self.map.mapName in self.data:
-					if self.timer.current < float(self.data[self.map.world + ":" + self.map.mapName]):
-						self.data[self.map.world + ":" + self.map.mapName] = self.timer.current
-
-				else:
-					self.data[self.map.world + ":" + self.map.mapName] = self.timer.current
-
-				self.save.save(self.data)
-
-				if self.timer.best == "n/a" or self.timer.current < self.timer.best:
-					self.movingTexts[2].setText("time: %s!" % self.timer.text)
-					self.movingTexts[3].setText("best: %s!" % self.timer.text)
-				else:
-					self.movingTexts[2].setText("time: %s" % self.timer.text)
-					self.movingTexts[3].setText("best: %s" % self.timer.textBest)
+				self.end()
 
 			if self.finished:
 				self.drawFinished()
@@ -177,6 +150,26 @@ class Game(object):
 		for mov in xrange(len(self.movingTexts)):
 			if mov != 4 or (self.timer.best == "n/a" or self.timer.current < self.timer.best):
 				self.movingTexts[mov].updateAndDraw(self)
+
+	def end(self):
+		self.paused = True
+		self.finished = True
+
+		worldData = self.save.get(self.map.world)
+
+		if worldData and self.map.mapName in worldData:
+			if self.timer.current < float(worldData[self.map.mapName]):
+				self.save.add(self.map.world, {self.map.mapName: self.timer.current})
+
+		else:
+			self.save.add(self.map.world, {self.map.mapName: self.timer.current})
+
+		if self.timer.best == "n/a" or self.timer.current < self.timer.best:
+			self.movingTexts[2].setText("time: %s!" % self.timer.text)
+			self.movingTexts[3].setText("best: %s!" % self.timer.text)
+		else:
+			self.movingTexts[2].setText("time: %s" % self.timer.text)
+			self.movingTexts[3].setText("best: %s" % self.timer.textBest)
 
 	def leave(self):
 		self.running = False
