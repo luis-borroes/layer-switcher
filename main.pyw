@@ -5,10 +5,10 @@ import pygame, menu, os
 class Main(object):
 
 	def __init__(self):
-		version = "indev 0.0.2"
+		version = "indev 0.0.3"
 
 		clock = pygame.time.Clock()
-		fps = 120.
+		fps = 120
 		resolution = (1280, 720)
 
 		icon = pygame.image.load("assets/icons/icon.png")
