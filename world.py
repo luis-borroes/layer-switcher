@@ -8,7 +8,6 @@ class World(object):
 		self.parent.menuObj = self
 
 		self.save = save.Save("save")
-		self.data = self.save.load()
 
 		self.genWorlds()
 
@@ -19,7 +18,7 @@ class World(object):
 		self.genMaps()
 
 		self.map = self.unlockedMaps[-1]
-		self.mapIndex = self.maps.index(self.map[self.map.find(":") + 1:]) if self.map and self.maps.count(self.map[self.map.find(":") + 1:]) > 0 else 0
+		self.mapIndex = self.maps.index(self.map) if self.map and self.maps.count(self.map) > 0 else 0
 		self.map = self.maps[self.mapIndex]
 
 		self.locked = not (self.world and self.map)
@@ -56,27 +55,28 @@ class World(object):
 			else:
 				spec = False
 
-			self.parent.game = game.Game(self.parent, self.world, self.map, spec)
+			self.parent.game = game.Game(self.parent, self.world, self.map)
 
 			if self.parent.game.returnValue != 0:
-				self.data = self.save.load()
+				self.save.load()
 				self.genWorlds(False)
 				self.genMaps(False)
 
-			if self.parent.game.returnValue in (1, 3):
-				if self.mapIndex < len(self.maps) - 1:
-					self.mapUp()
-					if self.parent.game.returnValue == 1:
-						self.start()
+				menuTrigger = False
 
-			elif self.parent.game.returnValue in (2, 4):
-				if self.worldIndex < len(self.worlds) - 1:
-					self.worldUp()
-					if self.parent.game.returnValue == 2:
-						self.start()
+				if spec:
+					if self.worldIndex < len(self.worlds) - 1:
+						self.worldUp()
+					else:
+						self.parent.mainMenu()
+						menuTrigger = True
 
 				else:
-					self.parent.mainMenu()
+					if self.mapIndex < len(self.maps) - 1:
+						self.mapUp()
+
+				if self.parent.game.returnValue == 1 and not menuTrigger:
+					self.start()
 
 	def worldUp(self):
 		if self.worldIndex < len(self.worlds) - 1:
@@ -150,7 +150,7 @@ class World(object):
 
 			button.Button.group[5].setText(self.map)
 
-			if not self.world + ":" + self.map in self.unlockedMaps:
+			if not self.map in self.unlockedMaps:
 				button.Button.group[5].locked = True
 				button.Button.group[6].locked = True
 				self.locked = True
@@ -171,7 +171,7 @@ class World(object):
 
 			button.Button.group[5].setText(self.map)
 
-			if (self.worldIndex > 0 or self.mapIndex > 0) and not self.world + ":" + self.map in self.unlockedMaps:
+			if not (not self.worldIndex == 0 or self.mapIndex == 0) and not self.map in self.unlockedMaps:
 				button.Button.group[5].locked = True
 				button.Button.group[6].locked = True
 				self.locked = True
@@ -186,8 +186,21 @@ class World(object):
 
 		previous = None
 		for i in self.worlds:
-			if previous in self.data:
-				self.unlockedWorlds.append(i)
+			current = self.save.get(previous)
+
+			if current:
+				trigger = True
+
+				if not hasattr(self, "world"):
+					self.world = self.worlds[0]
+
+				for m in os.listdir("maps/%s" % self.world):
+					if not m in current:
+						trigger = False
+						break
+
+				if trigger:
+					self.unlockedWorlds.append(i)
 
 			previous = i
 
@@ -202,12 +215,15 @@ class World(object):
 		self.maps = os.listdir("maps/%s" % self.world) or [None]
 		self.unlockedMaps = []
 
-		previous = None
-		for i in self.maps:
-			if previous in self.data:
-				self.unlockedMaps.append(self.world + ":" + i)
+		subMaps = self.save.get(self.world)
 
-			previous = self.world + ":" + i
+		if subMaps:
+			previous = None
+			for i in self.maps:
+				if previous in subMaps:
+					self.unlockedMaps.append(i)
+
+				previous = i
 
 		if len(self.unlockedMaps) == 0:
 			self.unlockedMaps = [None]
