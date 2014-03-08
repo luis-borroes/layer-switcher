@@ -32,11 +32,13 @@ class World(object):
 		button.Button("small", self.parent.mediumFont, "<", (-205, self.parent.resolution[1] - 325), self.parent.resolution, self.mapDown)
 		button.Button("small", self.parent.mediumFont, ">", (205, self.parent.resolution[1] - 325), self.parent.resolution, self.mapUp)
 
-		button.Button("medium", self.parent.mediumFont, self.world, (0, self.parent.resolution[1] - 475), self.parent.resolution, None)
-		button.Button("medium", self.parent.mediumFont, self.map, (0, self.parent.resolution[1] - 350), self.parent.resolution, None)
+		button.Button("medium", self.parent.mediumFont, self.world, (0, self.parent.resolution[1] - 475), self.parent.resolution)
+		button.Button("medium", self.parent.mediumFont, self.map, (0, self.parent.resolution[1] - 350), self.parent.resolution)
 
 		button.Button("big", self.parent.mediumFont, "Start", (0, self.parent.resolution[1] - 225), self.parent.resolution, self.start)
 		button.Button("big", self.parent.mediumFont, "Back", (0, self.parent.resolution[1] - 150), self.parent.resolution, self.parent.mainMenu)
+
+		button.Button("text", self.parent.mediumFont, "best: n/a", (0, self.parent.resolution[1] - 515), self.parent.resolution)
 
 		if self.worldIndex == 0:
 			button.Button.group[0].locked = True
@@ -47,6 +49,8 @@ class World(object):
 			button.Button.group[2].locked = True
 		if self.mapIndex == len(self.maps) - 1:
 			button.Button.group[3].locked = True
+
+		self.updateBest()
 
 	def start(self):
 		if self.world and self.map and not self.locked:
@@ -61,6 +65,7 @@ class World(object):
 				self.save.load()
 				self.genWorlds(False)
 				self.genMaps(False)
+				self.updateBest()
 
 				menuTrigger = False
 
@@ -108,6 +113,8 @@ class World(object):
 			button.Button.group[2].locked = True
 			button.Button.group[3].locked = False
 
+			self.updateBest()
+
 	def worldDown(self):
 		if self.worldIndex > 0:
 			self.worldIndex -= 1
@@ -138,6 +145,8 @@ class World(object):
 			button.Button.group[2].locked = True
 			button.Button.group[3].locked = False
 
+			self.updateBest()
+
 	def mapUp(self):
 		if self.mapIndex < len(self.maps) - 1:
 			self.mapIndex += 1
@@ -159,6 +168,8 @@ class World(object):
 				button.Button.group[6].locked = False
 				self.locked = False
 
+			self.updateBest()
+
 	def mapDown(self):
 		if self.mapIndex > 0:
 			self.mapIndex -= 1
@@ -171,7 +182,7 @@ class World(object):
 
 			button.Button.group[5].setText(self.map)
 
-			if not (not self.worldIndex == 0 or self.mapIndex == 0) and not self.map in self.unlockedMaps:
+			if (self.mapIndex > 0 or (not self.world in self.unlockedWorlds and self.worldIndex > 0)) and not self.map in self.unlockedMaps:
 				button.Button.group[5].locked = True
 				button.Button.group[6].locked = True
 				self.locked = True
@@ -179,6 +190,8 @@ class World(object):
 				button.Button.group[5].locked = False
 				button.Button.group[6].locked = False
 				self.locked = False
+
+			self.updateBest()
 
 	def genWorlds(self, index = True):
 		self.worlds = os.listdir("maps") or [None]
@@ -231,3 +244,12 @@ class World(object):
 		if index:
 			self.mapIndex = 0
 			self.map = self.maps[self.mapIndex]
+
+	def updateBest(self):
+		worldData = self.save.get(self.world)
+
+		if worldData and self.map in worldData:
+			button.Button.group[8].setText("best: " + "%2.3f" % worldData[self.map])
+
+		else:
+			button.Button.group[8].setText("best: n/a")
