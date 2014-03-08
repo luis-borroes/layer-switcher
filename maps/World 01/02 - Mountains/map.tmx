@@ -260,7 +260,7 @@
   </data>
  </layer>
  <objectgroup name="Camada de Objectos 1" width="110" height="30">
-  <object name="spawn" x="70" y="315" width="70" height="35">
+  <object name="spawn" x="70" y="385" width="70" height="35">
    <properties>
     <property name="layer" value="1"/>
    </properties>
