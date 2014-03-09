@@ -1,4 +1,4 @@
-import pygame, sys, os, utils, animation, button, options, world, save
+import pygame, sys, os, utils, animation, button, options, world, save, game
 util = utils.Utils()
 
 class Menu(object):
@@ -117,9 +117,10 @@ class Menu(object):
 
 		button.Button.group = []
 
-		button.Button("big", self.mediumFont, "World", (0, self.resolution[1] - 300), self.resolution, lambda: world.World(self))
-		button.Button("big", self.mediumFont, "Options", (0, self.resolution[1] - 225), self.resolution, lambda: options.Options(self))
-		button.Button("big", self.mediumFont, "Quit", (0, self.resolution[1] - 150), self.resolution, self.leave)
+		button.Button("big", self.mediumFont, "World", (0, self.resolution[1] - 330), self.resolution, lambda: world.World(self))
+		button.Button("big", self.mediumFont, "Tutorial", (0, self.resolution[1] - 255), self.resolution, self.tutorial)
+		button.Button("big", self.mediumFont, "Options", (0, self.resolution[1] - 180), self.resolution, lambda: options.Options(self))
+		button.Button("big", self.mediumFont, "Quit", (0, self.resolution[1] - 105), self.resolution, self.leave)
 
 		if int(self.save.get("displayTip")):
 			button.Button("text", self.mediumFont, "Menu Haiku:", (self.halfResolution[0] - 250, self.halfResolution[1] - 150), self.resolution)
@@ -131,6 +132,9 @@ class Menu(object):
 		button.Button.group[-3:] = []
 
 		self.save.set("displayTip", 0)
+
+	def tutorial(self):
+		game.Game(self, "Game", "Tutorial")
 
 	def leave(self):
 		self.running = False

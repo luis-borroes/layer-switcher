@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="70" height="15" tilewidth="70" tileheight="35">
+ <properties>
+  <property name="bg" value="d:world1"/>
+ </properties>
+ <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
+  <image source="../../../assets/sprites/sheet.png" width="1680" height="840"/>
+  <tile id="26">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="d" value=""/>
+   </properties>
+  </tile>
+  <tile id="165">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="166">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="169">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="170">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="189">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="193">
+   <properties>
+    <property name="dl" value=""/>
+   </properties>
+  </tile>
+  <tile id="194">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="195">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="260">
+   <properties>
+    <property name="c" value=""/>
+    <property name="i" value=""/>
+   </properties>
+  </tile>
+  <tile id="313">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="314">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="315">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="326">
+   <properties>
+    <property name="keyhole" value="yellow"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="327">
+   <properties>
+    <property name="keyhole" value="green"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="328">
+   <properties>
+    <property name="keyhole" value="red"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="329">
+   <properties>
+    <property name="keyhole" value="blue"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="338">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="350">
+   <properties>
+    <property name="d" value=""/>
+    <property name="keyhole" value="yellow"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="351">
+   <properties>
+    <property name="d" value=""/>
+    <property name="keyhole" value="green"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="352">
+   <properties>
+    <property name="d" value=""/>
+    <property name="keyhole" value="red"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="353">
+   <properties>
+    <property name="d" value=""/>
+    <property name="keyhole" value="blue"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="bg" width="70" height="15">
+  <data encoding="base64" compression="zlib">
+   eJztlMEJgDAMANOHi6hTqFu4mTpDP+7gp4upj2KIgcYWbCk5uEcwBDlQgHJoDUCH7M3zbCG7269vlpfh6jAiJ9RlJ7t0rpnZvPU4skvnmjkYPZbs0jkX9/e9RvjlPxDqgu+W0mVPUEqoC75ZSheXoJRQF3xT2qUxcUqxCUoJdYm5q114tAuPduHRLjzahUe78GgXntguJ1CnyAU=
+  </data>
+ </layer>
+ <layer name="bgdec" width="70" height="15">
+  <properties>
+   <property name="decorations" value="0"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJxjYBgFQx2wM0FoDqaBdcdgA/LQ8FAYDZdRQAQYzUfYwWg+GgWjYBSMglEwCkbBKBgeoJqRfnYBAGvPASk=
+  </data>
+ </layer>
+ <layer name="deco" width="70" height="15">
+  <properties>
+   <property name="decorations" value=""/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt0EEKACAIRFGjbtH979lSF1K4GqH/QHA38M0AAEAna/jB0SVHl5yiS9x8nWqXLn26qMzi/4td/HF3AG+cAa8=
+  </data>
+ </layer>
+ <layer name="mid" width="70" height="15">
+  <data encoding="base64" compression="zlib">
+   eJxjYBgagJURE4+C0XDBBUbDBTsYDRfsYDRcsAN6h8vkUQzHU5DCZfUohuM1SOFyeBSjYBhYNorhePkAhAu2chMXpqa95ILhHi5GSPWWIRLbAImtj6Vuo1e4MJOAqWmvFyPCXE8ktgcS252Rtm7Ah6VJwNS0N4kRYW4iEjsBiR3PSFs34MPGJOCBshcZAwASBFJw
+  </data>
+ </layer>
+ <layer name="middec" width="70" height="15">
+  <properties>
+   <property name="decorations" value="1"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt1DEKACAIheFoqU5R9z9ltEk1vEGQ6P/ASUEFMSUAAGC1fIbN7bUAsBTxH1Tnv6H2jdLF+YbzHmrfKOp83Mvdb/fymgkEyAFm
+  </data>
+ </layer>
+ <layer name="front" width="70" height="15">
+  <data encoding="base64" compression="zlib">
+   eJzt0LEJACAQQ9Hbv3UHC3ULF9MBrjKgEP+D34dEAAAAeCpCztquHzRejL1oCjmrQs74Jccvud9+WWBqRPg=
+  </data>
+ </layer>
+ <layer name="frontdec" width="70" height="15">
+  <properties>
+   <property name="decorations" value="2"/>
+  </properties>
+  <data encoding="base64" compression="zlib">
+   eJzt0KERACAQBLEfDHRB/13SwLk3wCR+zVYBAPxnjV4/m/2tfMl8yXzJfMl8ybpf9oNfDkS2AJ4=
+  </data>
+ </layer>
+ <objectgroup name="Camada de Objectos 1" width="70" height="15">
+  <object name="spawn" x="140" y="210" width="70" height="35">
+   <properties>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="title" x="10" y="189" width="126" height="36">
+   <properties>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="text" x="322" y="129" width="198" height="60">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="Welcome! \Use A and D to move, SPACE to jump"/>
+   </properties>
+  </object>
+  <object name="text" x="160" y="-178" width="198" height="60">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="Your current and best time are displayed here \&lt;-----"/>
+   </properties>
+  </object>
+  <object name="text" x="993" y="42" width="198" height="60">
+   <properties>
+    <property name="layer" value="0"/>
+    <property name="text" value="The thing that makes this game different from other 2D platformers is layerswitching"/>
+   </properties>
+  </object>
+  <object name="text" x="1279" y="66" width="198" height="60">
+   <properties>
+    <property name="layer" value="0"/>
+    <property name="text" value="Press W or S to try it out"/>
+   </properties>
+  </object>
+  <object name="text" x="1867" y="81" width="198" height="60">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="There are 3 types of enemies in the game \They all have fast reactiontimes, but will follow you blindly"/>
+   </properties>
+  </object>
+  <object name="enemy" x="1890" y="385" width="70" height="35">
+   <properties>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="text" x="2257" y="355" width="198" height="70">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="Blue are the fastest, but they only pay attention to their layer"/>
+   </properties>
+  </object>
+  <object name="enemy" x="2590" y="-35" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="text" x="2525" y="115" width="198" height="70">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="Yellow are slow, but they can spot and follow you from their layer"/>
+   </properties>
+  </object>
+  <object name="text" x="3015" y="21" width="198" height="70">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="Red, while slow too, have no fear and will layerwitch to get you"/>
+   </properties>
+  </object>
+  <object name="enemy" x="3080" y="105" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+  <object name="text" x="3315" y="71" width="198" height="70">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="We contained him in a barrier for your safety \Don't jump too much here, or he might get you!"/>
+   </properties>
+  </object>
+  <object name="text" x="3699" y="107" width="198" height="70">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="Your main objective is to grab keys and drop them on a similar-colored keyhole"/>
+   </properties>
+  </object>
+  <object name="item" x="3920" y="175" width="70" height="35">
+   <properties>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="item" x="4060" y="175" width="70" height="35">
+   <properties>
+    <property name="color" value="green"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="item" x="4200" y="175" width="70" height="35">
+   <properties>
+    <property name="color" value="red"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="item" x="4340" y="175" width="70" height="35">
+   <properties>
+    <property name="color" value="blue"/>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="text" x="4515" y="128" width="198" height="70">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="Filling all the keyholes finishes a map, and in this case, the tutorial"/>
+   </properties>
+  </object>
+  <object name="text" x="3693" y="437" width="198" height="70">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="It only gets harder now \Good luck!"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

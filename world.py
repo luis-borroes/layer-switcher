@@ -197,6 +197,9 @@ class World(object):
 		self.worlds = os.listdir("maps") or [None]
 		self.unlockedWorlds = []
 
+		if "Game" in self.worlds:
+			self.worlds.remove("Game")
+
 		previous = None
 		for i in self.worlds:
 			current = self.save.get(previous)
