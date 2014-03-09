@@ -6,11 +6,19 @@ class Button(object):
 	imgBig = pygame.image.load("assets/sprites/menuBig.png")
 	imgMedium = pygame.image.load("assets/sprites/menuMedium.png")
 	imgSmall = pygame.image.load("assets/sprites/menuSmall.png")
+	_convertTrigger = False
 
 	def __init__(self, bType, font, text, pos, resolution, callback = None, box = False):
 		self.font = font
 		self.locked = False
 		self.box = box
+
+		if not Button._convertTrigger:
+			Button.imgBig = Button.imgBig.convert_alpha()
+			Button.imgMedium = Button.imgMedium.convert_alpha()
+			Button.imgSmall = Button.imgSmall.convert_alpha()
+
+			Button._convertTrigger = True
 
 		if bType == "text":
 			img = None
