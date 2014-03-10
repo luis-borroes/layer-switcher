@@ -42,6 +42,8 @@ class Character(object):
 		self.jumpSpeed = -750
 		self.jumpTimerLimit = 0.34
 		self.swimSpeed = -400
+		self.slideJumpSpeed = 550
+		self.slideModifier = 0.6
 
 		self.moveAccel = 30
 		self.jumpAccel = 20
@@ -63,6 +65,7 @@ class Character(object):
 		self.swimming = False
 		self.jumpTimer = 0
 		self.holdJump = False
+		self.wallSliding = 0
 		self.layer = self.startLayer
 		self.drawLayer = self.startLayer
 		self.oldLayer = self.startLayer
@@ -81,13 +84,19 @@ class Character(object):
 
 	def die(self, game):
 		self.isDead = True
-		pass
 
 	def jump(self):
-		if not self.layerChanging and not self.jumping and not self.swimming and self.resting:
-			self.jumping = True
-			self.velocity.y = self.jumpSpeed
-			self.resting = False
+		if not self.layerChanging and not self.jumping and not self.swimming:
+			if self.resting:
+				self.jumping = True
+				self.resting = False
+				self.velocity.y = self.jumpSpeed
+
+			elif self.wallSliding != 0:
+				self.jumping = True
+				self.velocity.y = -self.slideJumpSpeed
+				self.velocity.x = self.wallSliding * self.slideJumpSpeed
+				self.wallSliding = 0
 
 			self.setStatus("jumping" + self.direction, lambda: self.setStatus("falling" + self.direction))
 
@@ -219,6 +228,7 @@ class Character(object):
 
 		self.resting = False
 		self.swimming = False
+		self.wallSliding = 0
 
 		if self.layerChanging:
 			if self.layer > self.oldLayer:
@@ -252,10 +262,18 @@ class Character(object):
 							if self.velocity.x > 0:
 								self.velocity.x = 0
 
+							if not self.resting and not "n" in block.prop and self.velocity.y > 0:
+								self.wallSliding = -1
+								self.speedModifier = self.slideModifier
+
 						if "r" in block.prop and self.position.left <= cell.right and last.left >= cell.right:
 							self.position.left = cell.right
 							if self.velocity.x < 0:
 								self.velocity.x = 0
+
+							if not self.resting and not "n" in block.prop and self.velocity.y > 0:
+								self.wallSliding = 1
+								self.speedModifier = self.slideModifier
 
 					if self.position.left < cell.right and self.position.right > cell.left:
 						if "u" in block.prop and self.position.bottom >= cell.top and last.bottom <= cell.top:
