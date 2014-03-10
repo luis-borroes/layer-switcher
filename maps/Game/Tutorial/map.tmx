@@ -171,7 +171,7 @@
  </tileset>
  <layer name="bg" width="70" height="15">
   <data encoding="base64" compression="zlib">
-   eJztlMEJgDAMANOHi6hTqFu4mTpDP+7gp4upj2KIgcYWbCk5uEcwBDlQgHJoDUCH7M3zbCG7269vlpfh6jAiJ9RlJ7t0rpnZvPU4skvnmjkYPZbs0jkX9/e9RvjlPxDqgu+W0mVPUEqoC75ZSheXoJRQF3xT2qUxcUqxCUoJdYm5q114tAuPduHRLjzahUe78GgXntguJ1CnyAU=
+   eJztlMEJgDAMRZODi6hTqFu4mTpDL+7gxcXspRjqh8Z6aME8eIdSCeVBJKqHlok6Yc/33eJdhVuZJxZh8B1G4SS67MC/MPPTwAn8Cwcw4KJv43Mp4v3W+uY/kOoi59bSBe23Vi2pLnJmLV3QfmvVkuoiZ2q7NJynFvdBLakuOXOtC8a6YKwLxrpgrAvGumCsCya3ywWkIM4I
   </data>
  </layer>
  <layer name="bgdec" width="70" height="15">
@@ -179,7 +179,7 @@
    <property name="decorations" value="0"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJxjYBgFQx2wM0FoDqaBdcdgA/LQ8FAYDZdRQAQYzUfYwWg+GgWjYBSMglEwCkbBKBgeoJqRfnYBAGvPASk=
+   eJzt0LkNACAQAzC4BraAPVmeAmbgkewmZaKkBECJlTXu7nhN2390vwAAfG3kc10TyxwA0w==
   </data>
  </layer>
  <layer name="deco" width="70" height="15">
@@ -192,7 +192,7 @@
  </layer>
  <layer name="mid" width="70" height="15">
   <data encoding="base64" compression="zlib">
-   eJxjYBgagJURE4+C0XDBBUbDBTsYDRfsYDRcsAN6h8vkUQzHU5DCZfUohuM1SOFyeBSjYBhYNorhePkAhAu2chMXpqa95ILhHi5GSPWWIRLbAImtj6Vuo1e4MJOAqWmvFyPCXE8ktgcS252Rtm7Ah6VJwNS0N4kRYW4iEjsBiR3PSFs34MPGJOCBshcZAwASBFJw
+   eJxjYBgFo2AUjIJRwMqIwKMAAegZLpOHMMYGJlFg3hQkc1YPUbwGR7isopKZh4cwxgaoZeayIYyxAUrMWz4A4YJcZhLC1AwXcsFwDxcjpLrLEIltgMTWx1K/0StcmEnAxJqJrU5BV+PFiDDXE4ntgcR2ZyTfDZRiaRIwsWZiq1PQ1SQxIsxNRGInILHjGcl3A6XYmARMrJnY6hNK7EXGABDRPms=
   </data>
  </layer>
  <layer name="middec" width="70" height="15">
@@ -200,7 +200,7 @@
    <property name="decorations" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1DEKACAIheFoqU5R9z9ltEk1vEGQ6P/ASUEFMSUAAGC1fIbN7bUAsBTxH1Tnv6H2jdLF+YbzHmrfKOp83Mvdb/fymgkEyAFm
+   eJzt1EEKABAQhWHZ4BTc/5Sy07B4SiH/V1aMGfXiHAAA6CU/rn7PngWAJoj/Qdz8b6h9T8nifGXzO9S+p6jzreTFZmFW+2Ne7J2z2tvz8poKk8ABvA==
   </data>
  </layer>
  <layer name="front" width="70" height="15">
@@ -280,7 +280,7 @@
     <property name="text" value="Yellow are slow, but they can spot and follow you from their layer"/>
    </properties>
   </object>
-  <object name="text" x="3015" y="21" width="198" height="70">
+  <object name="text" x="3015" y="3" width="198" height="70">
    <properties>
     <property name="layer" value="1"/>
     <property name="text" value="Red, while slow too, have no fear and will layerwitch to get you"/>
@@ -295,7 +295,7 @@
   <object name="text" x="3315" y="71" width="198" height="70">
    <properties>
     <property name="layer" value="1"/>
-    <property name="text" value="We contained him in a barrier for your safety \Don't jump too much here, or he might get you!"/>
+    <property name="text" value="We contained him in a barrier for your safety"/>
    </properties>
   </object>
   <object name="text" x="3699" y="107" width="198" height="70">
@@ -337,6 +337,12 @@
    <properties>
     <property name="layer" value="1"/>
     <property name="text" value="It only gets harder now \Good luck!"/>
+   </properties>
+  </object>
+  <object name="text" x="3369" y="323" width="198" height="70">
+   <properties>
+    <property name="layer" value="1"/>
+    <property name="text" value="There is also walljumping!"/>
    </properties>
   </object>
  </objectgroup>
