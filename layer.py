@@ -50,7 +50,7 @@ class Layer(object):
 							if (x, y - 1) in self.blocks and "keyhole" in self.blocks[(x, y - 1)].prop:
 								self.keyHoles.remove(self.blocks[(x, y - 1)])
 
-						if nextGround and rawBlock.collidable or (rawBlock.liquid and not self.blocks[(x, y - 1)].liquid):
+						if nextGround and (rawBlock.collidable and not "c" in rawBlock.prop) or (rawBlock.liquid and not self.blocks[(x, y - 1)].liquid):
 							self.grounds[-1].append(rawBlock)
 
 							if rawBlock.liquid:
