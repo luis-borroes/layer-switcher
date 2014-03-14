@@ -10,7 +10,7 @@ class Save(object):
 
 		if not os.path.isfile(self.filename) or os.path.getsize(self.filename) == 0:
 			with open(self.filename, "w+") as f:
-				json.dump({"volume": 1, "fps": 120, "fullscreen": 0, "displayTip": 1} if saveType == "opt" else {}, f)
+				json.dump({"volume": 1, "fps": 120, "fullscreen": 0, "displayTip": 1} if saveType == "opt" else {}, f, indent = 4)
 				f.close()
 
 		self.data = {}
@@ -18,7 +18,7 @@ class Save(object):
 
 	def save(self):
 		with open(self.filename, "w+") as f:
-			json.dump(self.data, f)
+			json.dump(self.data, f, indent = 4)
 			f.close()
 
 	def load(self):
