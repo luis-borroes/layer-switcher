@@ -42,7 +42,7 @@ class Character(object):
 		self.jumpSpeed = -750
 		self.jumpTimerLimit = 0.34
 		self.swimSpeed = -400
-		self.slideJumpSpeed = 550
+		self.slideJumpSpeed = (550, -450)
 		self.slideModifier = 0.6
 
 		self.moveAccel = 30
@@ -94,8 +94,8 @@ class Character(object):
 
 			elif self.wallSliding != 0:
 				self.jumping = True
-				self.velocity.y = -self.slideJumpSpeed
-				self.velocity.x = self.wallSliding * self.slideJumpSpeed
+				self.velocity.y = self.slideJumpSpeed[1]
+				self.velocity.x = self.wallSliding * self.slideJumpSpeed[0]
 				self.wallSliding = 0
 
 			self.setStatus("jumping" + self.direction, lambda: self.setStatus("falling" + self.direction))
@@ -262,7 +262,7 @@ class Character(object):
 							if self.velocity.x > 0:
 								self.velocity.x = 0
 
-							if not self.resting and not "n" in block.prop and self.velocity.y > 0:
+							if not self.resting and not "n" in block.prop:
 								self.wallSliding = -1
 								self.speedModifier = self.slideModifier
 
@@ -271,7 +271,7 @@ class Character(object):
 							if self.velocity.x < 0:
 								self.velocity.x = 0
 
-							if not self.resting and not "n" in block.prop and self.velocity.y > 0:
+							if not self.resting and not "n" in block.prop:
 								self.wallSliding = 1
 								self.speedModifier = self.slideModifier
 
