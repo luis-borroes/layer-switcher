@@ -98,4 +98,4 @@ os.system("winrar a -r layerswitcher.rar layerswitcher")
 
 if os.path.isfile("c:\\dropbox\\public\\layerswitcher.rar"):
 	os.unlink("c:\\dropbox\\public\\layerswitcher.rar")
-shutil.move("layerswitcher.rar", "c:\\dropbox\\public")
+shutil.copy("layerswitcher.rar", "c:\\dropbox\\public")
