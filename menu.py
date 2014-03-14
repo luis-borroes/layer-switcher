@@ -107,8 +107,8 @@ class Menu(object):
 				self.logo.update(dt * 0.001)
 				self.screen.blit(self.splice, (self.halfResolution[0] - self.splice.get_width() // 2, 270))
 
-			for opt in button.Button.group:
-				opt.updateAndDraw(self.screen, mPos, mouseTrigger)
+			for butt in button.Button.group:
+				butt.updateAndDraw(self.screen, mPos, mouseTrigger)
 
 			pygame.display.flip()
 
