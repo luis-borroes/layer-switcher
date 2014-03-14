@@ -5,7 +5,13 @@ import pygame, menu, os
 class Main(object):
 
 	def __init__(self):
-		version = "indev 0.0.3"
+		version = "indev 0.0.4"
+
+		with open("version.dat") as f:
+			fVersion = f.readline().rstrip()
+
+			if version != fVersion:
+				version += " (f: %s)" % fVersion
 
 		clock = pygame.time.Clock()
 		fps = 120
