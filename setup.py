@@ -2,8 +2,19 @@ from distutils.core import setup
 import os, shutil, glob, fnmatch, py2exe, sys, json, hashlib
 
 f = open("metadata", "w")
-v = open("version.dat", "r")
-metadata = {"version": v.readline().rstrip(), "files": {}}
+
+new = raw_input("version: ")
+
+if new != "":
+	v = open("version.dat", "w")
+	v.write(new)
+
+else:
+	v = open("version.dat", "r")
+	new = v.readline().rstrip()
+	print new
+
+metadata = {"version": new, "files": {}}
 v.close()
 
 def hashfile(fn):
@@ -81,6 +92,12 @@ for fname in data:
 		os.makedirs(os.path.dirname(dname))
 	if not os.path.isdir(fname):
 		shutil.copy(fname, dname)
+
+metadata["files"]["layerswitcher"] = {}
+
+for fn in os.listdir("layerswitcher"):
+	if os.path.isfile(os.path.join("layerswitcher", fn)) and fn in ["layerswitcher.exe", "lwupdater.exe"]:
+		metadata["files"]["layerswitcher"][fn] = hashfile(open(os.path.join("layerswitcher", fn), "rb"))
 
 json.dump(metadata, f, indent = 4)
 

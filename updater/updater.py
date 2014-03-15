@@ -9,6 +9,8 @@ class Updater(object):
 		self.resolution = resolution
 		self.version = version
 		self.latest = "searching..."
+		self.latestTrigger = True
+		self.triggerSwap = False
 
 		self.small = pygame.font.Font("assets/ARLRDBD.ttf", 14)
 		self.font = pygame.font.Font("assets/ARLRDBD.ttf", 30)
@@ -22,8 +24,7 @@ class Updater(object):
 		button.Button("big", self.font, "Update", (0, self.resolution[1] - 150), self.resolution, self.update)
 		button.Button("big", self.font, "Play", (0, self.resolution[1] - 75), self.resolution, self.play)
 
-		if self.version == self.latest:
-			button.Button.group[3].locked = True
+		button.Button.group[3].locked = True
 
 		while self.running:
 			dt = self.clock.tick(self.fps)
@@ -58,10 +59,11 @@ class Updater(object):
 
 			pygame.display.flip()
 
-			if self.latest == "searching...":
+			if self.latestTrigger:
 				self.getLink()
 				self.checkUpdates()
 				button.Button.group[1].setText("Latest version: %s" % self.latest)
+				self.latestTrigger = False
 
 	def getLink(self):
 		self.link = ""
@@ -77,17 +79,28 @@ class Updater(object):
 		if len(self.metadata) > 0:
 			self.latest = self.metadata["version"]
 
+			if self.version == self.latest:
+				button.Button.group[3].locked = True
+			else:
+				button.Button.group[3].locked = False
+
 	def update(self):
 		self.downloading = True
-		self.toDownload = ["layerswitcher.exe", "version.dat", "updater.dat"]
+		self.toDownload = ["version.dat", "updater.dat"]
 
 		for folder in self.metadata["files"]:
-			if not os.path.isdir(folder):
-				os.makedirs(folder)
+			if folder != "layerswitcher":
+				if not os.path.isdir(folder):
+					os.makedirs(folder)
 
-			for fn in self.metadata["files"][folder]:
-				if not os.path.isfile(os.path.join(folder, fn)) or self.hashfile(open(os.path.join(folder, fn), "rb")) != self.metadata["files"][folder][fn]:
-					self.toDownload.append(os.path.join(folder, fn))
+				for fn in self.metadata["files"][folder]:
+					if not os.path.isfile(os.path.join(folder, fn)) or self.hashfile(open(os.path.join(folder, fn), "rb")) != self.metadata["files"][folder][fn]:
+						self.toDownload.append(os.path.join(folder, fn))
+
+			else:
+				for fn in self.metadata["files"][folder]:
+					if not os.path.isfile(fn) or self.hashfile(open(fn, "rb")) != self.metadata["files"][folder][fn]:
+						self.toDownload.append(fn)
 
 		for dirpath, dirnames, filenames in os.walk("assets"):
 			if not dirpath in self.metadata["files"]:
@@ -108,19 +121,34 @@ class Updater(object):
 					os.unlink(os.path.join(dirpath, fn))
 
 		button.Button.group[2].setText(self.toDownload[-1])
+		self.toDownload.append(False)
 
 	def downloadNext(self):
+		if len(self.toDownload) > 0 and self.toDownload[-1] == False:
+			self.toDownload.pop()
+			return
+
 		if len(self.toDownload) > 0:
 			fn = self.toDownload.pop()
 
 			request = urllib2.urlopen(self.link + "layerswitcher/" + fn.replace("\\", "/").replace(" ", "%20"))
 
-			with open(fn, "wb") as out:
-				buf = request.read(8192)
-				while len(buf) > 0:
-					out.write(buf)
+			if fn != "lwupdater.exe":
+				with open(fn, "wb") as out:
 					buf = request.read(8192)
-					
+					while len(buf) > 0:
+						out.write(buf)
+						buf = request.read(8192)
+
+			else:
+				with open(fn + ".new", "wb") as out:
+					buf = request.read(8192)
+					while len(buf) > 0:
+						out.write(buf)
+						buf = request.read(8192)
+
+				self.triggerSwap = True
+
 			if len(self.toDownload) > 0:
 				button.Button.group[2].setText(self.toDownload[-1])
 
@@ -131,7 +159,8 @@ class Updater(object):
 			button.Button.group[3].locked = True
 
 	def play(self):
-		subprocess.Popen("layerswitcher.exe")
+		subprocess.Popen(["layerswitcher.exe"])
+
 		self.leave()
 
 	def hashfile(self, fn):
@@ -144,6 +173,9 @@ class Updater(object):
 		return hasher.hexdigest()
 
 	def leave(self):
+		if self.triggerSwap:
+			subprocess.Popen(["layerswitcher.exe", "-k"])
+
 		self.running = False
 		pygame.quit()
 		sys.exit(0)

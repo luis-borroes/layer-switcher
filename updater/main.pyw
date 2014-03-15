@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import pygame, os, sys, updater
+import pygame, os, shutil, sys, updater
 
 if os.path.basename(sys.argv[0]) == "main.pyw": #running from source, chdir up (__file__ isn't defined in the compiled version)
 	os.chdir("..")

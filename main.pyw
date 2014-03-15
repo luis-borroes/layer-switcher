@@ -1,6 +1,16 @@
 #!/usr/bin/env python
 
-import pygame, menu, os
+import pygame, menu, os, sys, shutil, time
+
+if os.path.isfile("lwupdater.exe.new"): #trigger updater rename
+	time.sleep(2)
+	try:
+		shutil.move("lwupdater.exe.new", "lwupdater.exe")
+	except:
+		pass #usually it works even though it spits out an error, so lets supress that
+
+if len(sys.argv) > 1 and sys.argv[1] == "-k": #used by the updater to trigger the rename but not run the game (when the updater is closed)
+	sys.exit(0)
 
 class Main(object):
 
