@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="90" height="70" tilewidth="70" tileheight="35">
+ <properties>
+  <property name="bg" value="d:world1"/>
+ </properties>
+ <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
+  <image source="../../../assets/sprites/sheet.png" width="1680" height="840"/>
+  <tile id="26">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="50">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="98">
+   <properties>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="122">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="165">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="189">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="bg" width="90" height="70">
+  <data encoding="base64" compression="zlib">
+   eJzt0EENgEAAxMD6OxnIwBvacMCPfc0kNdBTnZ+jrkHUPYh6BuHzis8bPm/4vOHzhs8AAAAAAAAAAAAAAAAAAAAAAAAAAADfXg1RnuQ=
+  </data>
+ </layer>
+ <layer name="mid" width="90" height="70">
+  <data encoding="base64" compression="zlib">
+   eJzt0IEJwlAAxcCCYziGOzunSzya4r9AFrjrkiRJkqRn9brp03vf9Ol9bvr0vg/8H6tNOXNeVpty5rysNuXMeVltypnzstqUM+dltSlnzstqU86cl9WmnDkvq005c15Wm3LmvKw25cx5WW3KmfOy2pQz52W1KWfOy2pTzpyX1aacOS+rTTlzXlabcua8rDblzHlZbcqZ87LalDPnZbUpZ87LalPOnJfVppw5L6tNOXNeVpty5rysNuXMeVltypnzstr0FOcfZsl4Eg==
+  </data>
+ </layer>
+ <objectgroup name="Camada de Objectos 1" width="90" height="70">
+  <object name="spawn" x="70" y="315" width="70" height="35">
+   <properties>
+    <property name="layer" value="1"/>
+   </properties>
+  </object>
+  <object name="enemy" x="70" y="-35" width="70" height="35">
+   <properties>
+    <property name="color" value="yellow"/>
+    <property name="layer" value="0"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>
