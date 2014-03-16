@@ -44,7 +44,9 @@ class Mapper(object):
 			tmp = self.tilemap.bg.split(":")
 			if tmp[0] == "d":
 				self.background = pygame.image.load("assets/sprites/backgrounds/%s.png" % (tmp[1])).convert_alpha()
-			elif tmp[0] == "c":
+			elif tmp[0] == "w":
+				self.background = pygame.image.load("maps/%s/%s.png" % (self.world, tmp[1])).convert_alpha()
+			elif tmp[0] == "m":
 				self.background = pygame.image.load("maps/%s/%s/%s.png" % (self.world, self.mapName, tmp[1])).convert_alpha()
 
 			self.bgSize = self.background.get_size()
