@@ -78,6 +78,7 @@ class Character(object):
 		self._oldNearbyPos = None
 		self._oldGround = self.getClosestGround(self.layer, self.position)
 		self._oldNearby = []
+		self._oldOff = 0
 		self.shadowPos = None
 		self.shadowLooking = True
 		self.isDead = False
