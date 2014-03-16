@@ -22,15 +22,19 @@ class Viewport(object):
 
 		if self.rect.x < 0:
 			self.rect.x = 0
+			self.position.x = self.rect.x + self.halfResolution.x
 
-		if self.rect.x > game.map.width - self.resolution.x:
-			self.rect.x = game.map.width - self.resolution.x
+		if self.rect.right > game.map.width:
+			self.rect.right = game.map.width
+			self.position.x = self.rect.x + self.halfResolution.x
 
 		if self.rect.y < 0:
 			self.rect.y = 0
+			self.position.y = self.rect.y + self.halfResolution.y
 
-		if self.rect.y > game.map.height - self.resolution.y:
-			self.rect.y = game.map.height - self.resolution.y
+		if self.rect.bottom > game.map.height:
+			self.rect.bottom = game.map.height
+			self.position.y = self.rect.y + self.halfResolution.y
 
 		game.player.rect.x = game.player.position.x - self.rect.x
 		game.player.rect.y = game.player.position.y - self.rect.y
