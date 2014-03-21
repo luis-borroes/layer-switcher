@@ -77,6 +77,7 @@ class Updater(object):
 					button.Button.group[3].locked = False
 
 			button.Button.group[1].setText("Latest version: %s" % self.latest)
+
 		except urllib2.HTTPError, e:
 			button.Button.group[1].setText("Latest version: not found (%s)" % e.code)
 
@@ -124,6 +125,7 @@ class Updater(object):
 		while len(self.toDownload) > 0:
 			try:
 				self.downloadNext()
+
 			except urllib2.HTTPError, e:
 				button.Button.group[2].setText("error - try again later")
 				sys.exit(1)
@@ -142,6 +144,7 @@ class Updater(object):
 		raw = fn
 		if fn == "lwupdater.exe":
 			fn += ".new"
+			self.triggerSwap = True
 
 		with open(fn, "wb") as out:
 			buf = request.read(8192)
@@ -152,8 +155,6 @@ class Updater(object):
 				button.Button.group[2].setText(raw + " - %d%%" % int((float(written) / total) * 100))
 
 				buf = request.read(8192)
-
-			self.triggerSwap = True
 
 	def play(self):
 		subprocess.Popen(["layerswitcher.exe"])
