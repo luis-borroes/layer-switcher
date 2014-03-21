@@ -1,4 +1,4 @@
-import pygame, subprocess, os, sys, shutil, button, urllib2, json, hashlib
+import pygame, subprocess, os, sys, shutil, button, urllib2, json, hashlib, threading
 
 class Updater(object):
 
@@ -9,7 +9,6 @@ class Updater(object):
 		self.resolution = resolution
 		self.version = version
 		self.latest = "searching..."
-		self.latestTrigger = True
 		self.triggerSwap = False
 
 		self.small = pygame.font.Font("assets/ARLRDBD.ttf", 14)
@@ -25,6 +24,9 @@ class Updater(object):
 		button.Button("big", self.font, "Play", (0, self.resolution[1] - 75), self.resolution, self.play)
 
 		button.Button.group[3].locked = True
+
+		self.getLink()
+		self.run(self.checkUpdates)
 
 		while self.running:
 			dt = self.clock.tick(self.fps)
@@ -49,9 +51,6 @@ class Updater(object):
 
 			self.screen.fill((82, 246, 255))
 
-			if self.downloading:
-				self.downloadNext()
-
 			mPos = pygame.mouse.get_pos()
 
 			for butt in button.Button.group:
@@ -59,33 +58,30 @@ class Updater(object):
 
 			pygame.display.flip()
 
-			if self.latestTrigger:
-				self.getLink()
-				self.checkUpdates()
-				button.Button.group[1].setText("Latest version: %s" % self.latest)
-				self.latestTrigger = False
-
 	def getLink(self):
 		self.link = ""
 		with open("updater.dat") as f:
 			self.link = f.readline().rstrip()
 
 	def checkUpdates(self):
-		self.latest = "n/a"
+		try:
+			buf = urllib2.urlopen(self.link + "metadata")
+			self.metadata = json.load(buf)
 
-		buf = urllib2.urlopen(self.link + "metadata")
-		self.metadata = json.load(buf)
+			if len(self.metadata) > 0:
+				self.latest = self.metadata["version"]
 
-		if len(self.metadata) > 0:
-			self.latest = self.metadata["version"]
+				if self.version == self.latest:
+					button.Button.group[3].locked = True
+				else:
+					button.Button.group[3].locked = False
 
-			if self.version == self.latest:
-				button.Button.group[3].locked = True
-			else:
-				button.Button.group[3].locked = False
+			button.Button.group[1].setText("Latest version: %s" % self.latest)
+		except urllib2.HTTPError, e:
+			button.Button.group[1].setText("Latest version: not found (%s)" % e.code)
 
 	def update(self):
-		self.downloading = True
+		button.Button.group[3].locked = True
 		self.toDownload = ["version.dat", "updater.dat"]
 
 		for folder in self.metadata["files"]:
@@ -121,47 +117,52 @@ class Updater(object):
 					os.unlink(os.path.join(dirpath, fn))
 
 		button.Button.group[2].setText(self.toDownload[-1])
-		self.toDownload.append(False)
+
+		self.run(self.downloadManager)
+
+	def downloadManager(self):
+		while len(self.toDownload) > 0:
+			try:
+				self.downloadNext()
+			except urllib2.HTTPError, e:
+				button.Button.group[2].setText("error - try again later")
+				sys.exit(1)
+
+		button.Button.group[0].setText("Current version: %s" % self.latest)
+		button.Button.group[2].setText("Done!")
 
 	def downloadNext(self):
-		if len(self.toDownload) > 0 and self.toDownload[-1] == False:
-			self.toDownload.pop()
-			return
+		fn = self.toDownload.pop()
+		button.Button.group[2].setText(fn)
 
-		if len(self.toDownload) > 0:
-			fn = self.toDownload.pop()
+		request = urllib2.urlopen(self.link + "layerswitcher/" + fn.replace("\\", "/").replace(" ", "%20"))
+		total = int(request.info().getheader('Content-Length').strip())
+		written = 0
 
-			request = urllib2.urlopen(self.link + "layerswitcher/" + fn.replace("\\", "/").replace(" ", "%20"))
+		raw = fn
+		if fn == "lwupdater.exe":
+			fn += ".new"
 
-			if fn != "lwupdater.exe":
-				with open(fn, "wb") as out:
-					buf = request.read(8192)
-					while len(buf) > 0:
-						out.write(buf)
-						buf = request.read(8192)
+		with open(fn, "wb") as out:
+			buf = request.read(8192)
 
-			else:
-				with open(fn + ".new", "wb") as out:
-					buf = request.read(8192)
-					while len(buf) > 0:
-						out.write(buf)
-						buf = request.read(8192)
+			while len(buf) > 0:
+				out.write(buf)
+				written += len(buf)
+				button.Button.group[2].setText(raw + " - %d%%" % int((float(written) / total) * 100))
 
-				self.triggerSwap = True
+				buf = request.read(8192)
 
-			if len(self.toDownload) > 0:
-				button.Button.group[2].setText(self.toDownload[-1])
-
-		else:
-			self.downloading = False
-			button.Button.group[0].setText("Current version: %s" % self.latest)
-			button.Button.group[2].setText("Done!")
-			button.Button.group[3].locked = True
+			self.triggerSwap = True
 
 	def play(self):
 		subprocess.Popen(["layerswitcher.exe"])
-
 		self.leave()
+
+	def run(self, call):
+		t = threading.Thread(target = call)
+		t.daemon = True
+		t.start()
 
 	def hashfile(self, fn):
 		hasher = hashlib.md5()
