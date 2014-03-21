@@ -29,9 +29,9 @@ class Options(object):
 			else:
 				button.Button.group[i].locked = False
 
-		if self.parent.volume == 0.:
+		if self.parent.volume == 0:
 			button.Button.group[5].locked = True
-		elif self.parent.volume == 1.:
+		elif self.parent.volume == 20:
 			button.Button.group[6].locked = True
 
 	def setFPS(self, fps):
