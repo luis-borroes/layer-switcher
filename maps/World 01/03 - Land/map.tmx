@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="90" height="25" tilewidth="70" tileheight="35">
+ <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
+  <image source="../../../assets/sprites/sheet.png" width="1680" height="840"/>
+  <tile id="169">
+   <properties>
+    <property name="l" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="170">
+   <properties>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="171">
+   <properties>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="193">
+   <properties>
+    <property name="d" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="194">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+   </properties>
+  </tile>
+  <tile id="195">
+   <properties>
+    <property name="d" value=""/>
+    <property name="l" value=""/>
+   </properties>
+  </tile>
+  <tile id="256">
+   <properties>
+    <property name="m" value=""/>
+   </properties>
+  </tile>
+  <tile id="280">
+   <properties>
+    <property name="k" value=""/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer name="front" width="90" height="25">
+  <data encoding="base64" compression="zlib">
+   eJzt0LENgDAMBdF4DNYmzECRsEWmYQvcRHITZNFExPeka78spwQAAAAAAAAAAAD8y65l7Zh9yOKKVrVr9iGLayZ8kx2dpvslz1a0uurI/llknGcrWl1zZP+8yTjPVrQejh6vSw==
+  </data>
+ </layer>
+</map>
