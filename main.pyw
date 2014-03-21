@@ -15,7 +15,7 @@ if len(sys.argv) > 1 and sys.argv[1] == "-k": #used by the updater to trigger th
 class Main(object):
 
 	def __init__(self):
-		version = "indev 0.0.4"
+		version = "indev 0.1.0"
 
 		with open("version.dat") as f:
 			fVersion = f.readline().rstrip()
