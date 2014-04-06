@@ -11,8 +11,8 @@ class Updater(object):
 		self.latest = "searching..."
 		self.triggerSwap = False
 
-		self.small = pygame.font.Font("assets/ARLRDBD.ttf", 14)
-		self.font = pygame.font.Font("assets/ARLRDBD.ttf", 30)
+		self.small = pygame.font.Font("assets/fonts/OpenSans-Semibold.ttf", 14)
+		self.font = pygame.font.Font("assets/fonts/OpenSans-Semibold.ttf", 30)
 
 		self.running = True
 		self.downloading = False
@@ -80,6 +80,8 @@ class Updater(object):
 
 		except urllib2.HTTPError, e:
 			button.Button.group[1].setText("Latest version: not found (%s)" % e.code)
+		except urllib2.URLError, e:
+			button.Button.group[1].setText("Latest version: not found (%s)" % e.code)
 
 	def update(self):
 		button.Button.group[3].locked = True
@@ -127,8 +129,9 @@ class Updater(object):
 				self.downloadNext()
 
 			except urllib2.HTTPError, e:
-				button.Button.group[2].setText("error - try again later")
-				sys.exit(1)
+				button.Button.group[2].setText("error - try again later (%s)" % e.code)
+			except urllib2.URLError, e:
+				button.Button.group[2].setText("error - try again later (%s)" % e.code)
 
 		button.Button.group[0].setText("Current version: %s" % self.latest)
 		button.Button.group[2].setText("Done!")

@@ -37,9 +37,9 @@ class Menu(object):
 		self.background = pygame.image.load("assets/sprites/backgrounds/world1.png").convert_alpha()
 		self.bgPos = (0, 0)
 
-		self.smallFont = pygame.font.Font("assets/ARLRDBD.ttf", 14)
-		self.mediumFont = pygame.font.Font("assets/ARLRDBD.ttf", 30)
-		self.bigFont = pygame.font.Font("assets/ARLRDBD.ttf", 72)
+		self.smallFont = pygame.font.Font("assets/fonts/OpenSans-Semibold.ttf", 14)
+		self.mediumFont = pygame.font.Font("assets/fonts/OpenSans-Semibold.ttf", 30)
+		self.bigFont = pygame.font.Font("assets/fonts/OpenSans-Semibold.ttf", 72)
 
 		self.mainText = self.bigFont.render("Layer Switcher", 1, (0, 0, 0))
 		self.versionText = self.mediumFont.render(self.version, 1, (0, 0, 0))
@@ -130,7 +130,6 @@ class Menu(object):
 
 	def hideTip(self):
 		button.Button.group[-3:] = []
-
 		self.save.set("displayTip", 0)
 
 	def tutorial(self):
