@@ -63,6 +63,7 @@ class Character(object):
 		self.movingRight = False
 		self.jumping = False
 		self.swimming = False
+		self.sloping = False
 		self.jumpTimer = 0
 		self.holdJump = False
 		self.wallSliding = 0
@@ -229,6 +230,7 @@ class Character(object):
 
 		self.resting = False
 		self.swimming = False
+		self.sloping = False
 		self.wallSliding = 0
 
 		if self.layerChanging:
@@ -254,39 +256,62 @@ class Character(object):
 
 		for block in self.getNearbyBlocks(self.layer, self.position, 1):
 			if util.collide(self.position, block.position):
-				cell = block.position
+				limit = block.position
 
 				if block.collidable:
-					if self.position.top < cell.bottom and self.position.bottom > cell.top:
-						if "l" in block.prop and self.position.right >= cell.left and last.right <= cell.left:
-							self.position.right = cell.left
+					if self.position.top < limit.bottom and self.position.bottom > limit.top:
+						if "l" in block.prop and self.position.right >= limit.left and last.right <= limit.left:
+							self.position.right = limit.left
 							if self.velocity.x > 0:
 								self.velocity.x = 0
 
 							if not self.resting and not "n" in block.prop:
 								self.wallSliding = -1
-								self.speedModifier = self.slideModifier
+								if self.velocity.y > 0:
+									self.speedModifier = self.slideModifier
 
-						if "r" in block.prop and self.position.left <= cell.right and last.left >= cell.right:
-							self.position.left = cell.right
+						if "r" in block.prop and self.position.left <= limit.right and last.left >= limit.right:
+							self.position.left = limit.right
 							if self.velocity.x < 0:
 								self.velocity.x = 0
 
 							if not self.resting and not "n" in block.prop:
 								self.wallSliding = 1
-								self.speedModifier = self.slideModifier
+								if self.velocity.y > 0:
+									self.speedModifier = self.slideModifier
 
-					if self.position.left < cell.right and self.position.right > cell.left:
-						if "u" in block.prop and self.position.bottom >= cell.top and last.bottom <= cell.top:
-							self.position.bottom = cell.top
+					if self.position.left < limit.right and self.position.right > limit.left:
+						if "u" in block.prop and self.position.bottom >= limit.top and last.bottom <= limit.top:
+							self.position.bottom = limit.top
 							self.resting = True
 							if self.velocity.y > 0:
 								self.velocity.y = 0
 
-						if "d" in block.prop and self.position.top <= cell.bottom and last.top >= cell.bottom:
-							self.position.top = cell.bottom
+						if "d" in block.prop and self.position.top <= limit.bottom and last.top >= limit.bottom:
+							self.position.top = limit.bottom
 							if self.velocity.y < 0:
 								self.velocity.y = 0
+
+					if limit.left - 3 <= self.position.centerx <= limit.right + 3:
+						if block.slope == "r":
+							sloped = int(util.remap(self.position.centerx, float(limit.left), float(limit.right), limit.bottom, limit.top))
+
+							if self.position.bottom >= sloped:
+								self.position.bottom = sloped
+								self.sloping = True
+								self.resting = True
+								if self.velocity.y > 0:
+									self.velocity.y = 0
+
+						elif block.slope == "l":
+							sloped = int(util.remap(self.position.centerx, float(limit.right), float(limit.left), limit.bottom, limit.top)) - 1
+							
+							if self.position.bottom >= sloped:
+								self.position.bottom = sloped
+								self.sloping = True
+								self.resting = True
+								if self.velocity.y > 0:
+									self.velocity.y = 0
 
 				if self.type == "player" and "keyhole" in block.prop and not block.hooked:
 					if (block.tilex, block.tiley + 1) in self.map.layers[self.layer].blocks and "keyhole" in self.map.layers[self.layer].blocks[(block.tilex, block.tiley + 1)].prop:
@@ -351,42 +376,55 @@ class Character(object):
 				self.image = self.animation.getSplice()
 
 	def genShadow(self, game):
-		ground = self.getClosestGround(self.layer, self.position)
-
-		if ground:
-			if self.shadowPos:
-				self.shadowPos.x = self.rect.centerx - self.shadow.get_width() * 0.5
-
-				target = ground.position.top - game.viewport.rect.top - self.map.tilemap.tileheight * 0.5
-				stepToggle = False
-
-				if self.layerChanging:
-					if ground.position.top < self._oldGround.position.top and self.oldLayer < self.layer and self.shadowLooking:
-						self.shadowPos.y = ground.position.top - game.viewport.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
-						self.shadowLooking = False
-
-					if ground.position.top > self._oldGround.position.top and self.oldLayer > self.layer and self.shadowLooking:
-						target = self._oldGround.position.top - game.viewport.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
-						stepToggle = True
-						
-				else:
-					self._oldGround = ground
-					self.shadowLooking = True
-
-				if stepToggle:
-					step = 2.5
-				else:
-					step = abs(target - self.shadowPos.y) * 0.3
-					if step < 7:
-						step = 7
-
-				self.shadowPos.y = util.approach(game.dt * 0.001, self.shadowPos.y, target, step)
-
-			else:
-				self.shadowPos = Vector(self.rect.centerx - self.shadow.get_width() * 0.5, ground.position.top - game.viewport.rect.top - self.shadow.get_height() * 0.5)
+		if self.resting and self.shadowPos and not hasattr(self, "hook"):
+			self.shadowPos.x = self.rect.centerx - self.shadow.get_width() * 0.5
+			self.shadowPos.y = self.rect.bottom - self.shadow.get_height() * 0.5
 
 		else:
-			self.shadowPos = None
+			ground = self.getClosestGround(self.layer, self.position)
+
+			if ground:
+				if self.shadowPos:
+					self.shadowPos.x = self.rect.centerx - self.shadow.get_width() * 0.5
+
+					target = ground.position.top - game.viewport.rect.top - self.map.tilemap.tileheight * 0.5
+					stepToggle = False
+
+					if self.layerChanging:
+						if ground.position.top < self._oldGround.position.top and self.oldLayer < self.layer and self.shadowLooking:
+							self.shadowPos.y = ground.position.top - game.viewport.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
+							self.shadowLooking = False
+
+						if ground.position.top > self._oldGround.position.top and self.oldLayer > self.layer and self.shadowLooking:
+							target = self._oldGround.position.top - game.viewport.rect.top - self.map.tilemap.tileheight - self.map.tilemap.tileheight * 0.5
+							stepToggle = True
+							
+					else:
+						self._oldGround = ground
+						self.shadowLooking = True
+
+						if ground.slope == "r":
+							if ground.position.left <= self.position.centerx <= ground.position.right:
+								target = util.remap(self.position.centerx, float(ground.position.left), float(ground.position.right), ground.position.bottom, ground.position.top) - game.viewport.rect.top - self.map.tilemap.tileheight * 0.5
+
+						if ground.slope == "l":
+							if ground.position.left <= self.position.centerx <= ground.position.right:
+								target = util.remap(self.position.centerx, float(ground.position.right), float(ground.position.left), ground.position.bottom, ground.position.top) - game.viewport.rect.top - self.map.tilemap.tileheight * 0.5
+
+					if stepToggle:
+						step = 2.5
+					else:
+						step = abs(target - self.shadowPos.y) * 0.3
+						if step < 7:
+							step = 7
+
+					self.shadowPos.y = util.approach(game.dt * 0.001, self.shadowPos.y, target, step)
+
+				else:
+					self.shadowPos = Vector(self.rect.centerx - self.shadow.get_width() * 0.5, ground.position.top - game.viewport.rect.top - self.shadow.get_height() * 0.5)
+
+			else:
+				self.shadowPos = None
 
 	def getClosestGround(self, layer, position):
 		if (position.centerx / self.map.tilemap.tilewidth, position.centery / self.map.tilemap.tileheight) == self._oldPos and layer == self.oldLayer:

@@ -19,6 +19,7 @@ class Block(object):
 		self.liquid = "w" in self.prop or "m" in self.prop
 		self.hooked = False
 		self.done = False
+		self.slope = False
 
 		if "o" in self.prop and self.prop["o"] != "":
 			key = (0, 255, 255)
@@ -32,3 +33,6 @@ class Block(object):
 
 		if "i" in self.prop:
 			self.image = pygame.Surface(self.image.get_size(), pygame.SRCALPHA | pygame.HWSURFACE)
+
+		if "p" in self.prop:
+			self.slope = self.prop["p"]
