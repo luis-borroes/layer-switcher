@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" width="90" height="25" tilewidth="70" tileheight="35">
+ <properties>
+  <property name="bg" value="d:world1"/>
+ </properties>
  <tileset firstgid="1" name="sheet" tilewidth="70" tileheight="35">
   <image source="../../../assets/sprites/sheet.png" width="1680" height="840"/>
   <tile id="26">
@@ -160,6 +163,14 @@
     <property name="u" value=""/>
    </properties>
   </tile>
+  <tile id="327">
+   <properties>
+    <property name="keyhole" value="green"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
+    <property name="u" value=""/>
+   </properties>
+  </tile>
   <tile id="337">
    <properties>
     <property name="d" value=""/>
@@ -179,6 +190,14 @@
     <property name="l" value=""/>
     <property name="r" value=""/>
     <property name="u" value=""/>
+   </properties>
+  </tile>
+  <tile id="351">
+   <properties>
+    <property name="d" value=""/>
+    <property name="keyhole" value="green"/>
+    <property name="l" value=""/>
+    <property name="r" value=""/>
    </properties>
   </tile>
  </tileset>
@@ -229,12 +248,12 @@
    <property name="decorations" value="1"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt1bEJACAQBMHHzP4bFgMrkEPRGfj82eSqAAAA7tHb6Q/eNduuI0PbPI3zNM7TOMfWAcAfbD0AOwb5EACF
+   eJzt1bsJwDAQREHhzPWrDDcpHKiE5fSZgcuXl1xrAAAA63if6gXn+tvOI0PbPI3zNM7TOMevA4A7+PXsolcPuMRXPYDtDIScAcM=
   </data>
  </layer>
  <layer name="front" width="90" height="25">
   <data encoding="base64" compression="zlib">
-   eJztk0EKwjAQRZNjeG3rpqJbF9aV4Am6U/Qe3sIJpTiURBzTpkXeg7ecZPLJdw4AAAAAAAAAAAAAAEpyEyvlY951/pKQ8VasxUbciXtH1mPSZ3wWW+XFlcl67br+bDLOWGIXhzv1GV/Fg/Lu3llXRi0cXdehU8Z7ltbF4U7BWMbDrGujFnSHfn3PXF207JTKWGfdGrX8fX3X84Ox2Sm6mGtqpylsDOo579PGZr/pomWXMSyVcdDy9/XcyqeNzU7RxVxLZRx8AcTwA64=
+   eJztk0EKwjAQRSfH8BYew2N4JuumolsXtqtCT9CdovfwFk4oxSEk4iRpLPIfvOUkk08+EQAAAAAAAAAAAAAAAAAASnJjK+Hjt+v8JTbjA1uzDXtkT4SsczJl3LGDsKcyWe9o7M8+4YwldtHdacr4yp6Fd3pnXSnVcKGxQ23Ce5bWRXcnqy9jN+taqQbZodj3aLq4NhEXZdgplLHMelCq+fvyrucHfbMxXdwYfT81hnaaw0ahnDMmrG/2my66M9vAWbkslbFV8/fl3MqE9c3O0cVUS2VsfQEMkQNL
   </data>
  </layer>
  <layer name="frontdec" width="90" height="25">
@@ -242,7 +261,7 @@
    <property name="decorations" value="2"/>
   </properties>
   <data encoding="base64" compression="zlib">
-   eJzt0zkKACAMBECx0l/4/1damk608piBLQMJZFMCAAAAAACAP9U8crN4xyzwotmvl43fX+3Nbv9W507ucjt0L4g6a3sB+w==
+   eJzt0zEKACEMBECx0l/4/1daaiGoV+k5A1sngWwIAAAAAAAA8KYcW27W3zEL/PEPZr+ePty825vR/JX+7fb25C6XQ/eCXgV68wH7
   </data>
  </layer>
  <objectgroup name="Camada de Objectos 1" width="90" height="25">
@@ -377,10 +396,10 @@
     <property name="layer" value="0"/>
    </properties>
   </object>
-  <object name="enemy" x="5600" y="455" width="70" height="35">
+  <object name="enemy" x="5810" y="630" width="70" height="35">
    <properties>
     <property name="color" value="blue"/>
-    <property name="layer" value="1"/>
+    <property name="layer" value="2"/>
    </properties>
   </object>
   <object name="enemy" x="5810" y="70" width="70" height="35">
