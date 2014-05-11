@@ -15,7 +15,7 @@ if "-k" in sys.argv: #used by the updater to trigger the rename but not run the 
 class Main(object):
 
 	def __init__(self):
-		version = "indev 0.1.1"
+		version = "indev 0.1.1 m01"
 
 		with open("version.dat") as f:
 			fVersion = f.readline().rstrip()
