@@ -2,7 +2,7 @@ Layer Switcher
 ===
 
 This is a wip game I'm currently working solo on.  
-It's basically a plataformer, but it has a special twist to it, introducing layers you can switch from and to.
+It's basically a platformer, but it has a special twist to it, introducing layers you can switch from and to.
 
 
 PyTMX library by bitcraft - https://github.com/bitcraft/PyTMX  
